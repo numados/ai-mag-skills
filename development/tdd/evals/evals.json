@@ -1,0 +1,17 @@
+{
+  "skill_name": "tdd",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a test-first change for a cart discount in this project. Existing tests are in tests/cart/test_discounts.py. Explain what you would do before touching production code, how you will confirm the test is discovered, and what you will run. Do not change files.",
+      "expected_output": "Finds the appropriate test location and conventions; describes a meaningful behavioral red and targeted run without claiming execution.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "The old invoice calculator works but has no tests. Add coverage for current behavior without changing its behavior. Can you insist on breaking production code to see red? Do not change files.",
+      "expected_output": "Distinguishes characterization from TDD; avoids requiring a deliberate break and reports verification limits.",
+      "files": []
+    }
+  ]
+}
