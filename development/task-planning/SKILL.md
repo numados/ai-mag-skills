@@ -11,7 +11,7 @@ Produce a plan that someone can execute and verify, without implementing it. Pla
 
 - Identify the desired outcome, authorized scope, constraints and supplied sources. A written task is enough to start; a research handoff is optional. Distinguish requirements and user decisions from observed facts, proposals and assumptions. Repository conventions inform implementation but do not authorize new product behavior.
 - Resolve a tracker URL or ID with suitable available read-only capabilities, without assuming a provider or access. If an ID is ambiguous, ask which source it identifies. If a decision-relevant source is inaccessible, report the gap and request the smallest useful excerpt or clarification. Do not install tools, authenticate or change state without authorization.
-- Inspect relevant current repository instructions, code, contracts, configuration, tests and consumers as needed. Reuse evidenced research when current; check missing, stale or consequential claims against available sources. Cite useful paths or source references, and distinguish an unsuccessful search from proof that something does not exist.
+- Inspect relevant current repository instructions, code, contracts, configuration, tests and consumers as needed. When current source is accessible, inspect it instead of assuming an older excerpt or handoff still applies. When it is unavailable, distinguish supplied excerpts from verified current behavior and give a useful preliminary plan where possible. Before implementation, verify the actual source; if it differs materially, stop and revise the affected plan before proceeding. Cite useful paths or source references, and distinguish an unsuccessful search from proof that something does not exist.
 
 ## Shape the plan
 
