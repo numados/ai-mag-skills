@@ -23,3 +23,5 @@ Establish what is known, what is requested and what remains undecided. Scale the
 ## Report
 
 Summarize the task and its evidenced scope, relevant current behavior and affected areas, constraints or risks, and material open questions. Cite evidence beside claims, distinguish proposals from decisions, and disclose inaccessible sources and investigation limits. Do not imply a complete understanding or guarantee correctness beyond the evidence.
+
+When the user or surrounding workflow expects task tracking, prepare a research handoff with task identity, evidence and sources, decisions, unresolved questions and next action. Save it locally only when the destination and write are authorized; otherwise provide it in chat for the surrounding workflow. Do not invent a destination or write to remote state. If persistence is expected but no suitable destination is known, ask; report any failed write.

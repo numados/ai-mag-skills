@@ -23,3 +23,5 @@ Produce a plan that someone can execute and verify, without implementing it. Pla
 ## Report
 
 Right-size the response to the task: state the outcome and scope, relevant evidence and current integration, ordered steps, acceptance criteria and verification, and material risks or open decisions. Separate authorized requirements from proposed choices and note inaccessible sources and unverified assumptions. For a small change, a compact list may be sufficient; for a blocked decision, provide the useful partial plan and focused question rather than false precision.
+
+When the user or surrounding workflow expects task tracking, prepare a plan handoff with task identity, scope and approval status, evidence, phases and dependencies, checks, open decisions and next action. Save it locally only when the destination and write are authorized; otherwise provide it in chat for the surrounding workflow. Do not invent a destination or write to remote state. If persistence is expected but no suitable destination is known, ask; report any failed write. A saved plan does not authorize implementation.
