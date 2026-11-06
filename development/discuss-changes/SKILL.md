@@ -14,7 +14,7 @@ Use the supplied task, code, diff, plan and conversation. If the subject is uncl
 ## Discuss at the user's pace
 
 - Explain one idea per reply, then stop. Start with the problem and a small before/after example when useful; introduce technical details only as needed.
-- Treat `+`, “next” or “дальше” as a request for the next idea, not authorization to modify anything.
+- Treat `+`, “next”, or an equivalent continuation signal as a request for the next idea, not authorization to modify anything.
 - Answer interruptions directly. Resume the prior thread only on a later continuation signal. If the user is confused, explain more simply or use a different concrete example.
 - Define necessary unfamiliar terms in context. Use a short real, cited excerpt or clearly labelled hypothetical example only when it helps this idea. Explain what the excerpt means, not every line of syntax.
 - Avoid repeated agendas, quizzes, forced headings and unnecessary jargon. If the user asks for a complete explanation, provide it rather than imposing pauses.
