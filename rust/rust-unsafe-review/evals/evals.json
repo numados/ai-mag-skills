@@ -1,0 +1,35 @@
+{
+  "skill_name": "rust-unsafe-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit an unsafe read_unaligned function whose contract only guarantees len bytes. Read-only; give a concrete failure path.",
+      "expected_output": "Checks complete type size, initialization, pointer validity and contract.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/read.rs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review an unsafe impl Send for a type containing a raw pointer and interior mutability.",
+      "expected_output": "Traces all reachable state and required Send/Sync obligations.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Miri passes the unsafe test suite. Can I call the abstraction sound?",
+      "expected_output": "Explains coverage and tool limitations; no proof claim.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "should_trigger": false,
+      "prompt": "Explain what this safe Rust iterator does. Do not assess unsafe code or safety contracts.",
+      "expected_output": "This is an explanation request without an unsafe-review scope.",
+      "files": []
+    }
+  ]
+}

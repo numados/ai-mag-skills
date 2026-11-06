@@ -1,0 +1,35 @@
+{
+  "skill_name": "rust-refactor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can I replace an eager collect().first() flow with iterator.next() as a mechanical cleanup?",
+      "expected_output": "Explains changed evaluation and side effects; classifies semantic-risk.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/eager.rs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Change a public function returning Box<dyn Iterator> to impl Iterator while preserving behavior.",
+      "expected_output": "Identifies public API compatibility and requests separate confirmation.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this dirty working tree. Some files are unrelated and unstaged.",
+      "expected_output": "Preserves unrelated work and avoids destructive rollback.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "should_trigger": false,
+      "prompt": "Add a new Rust behavior that changes the business rule for expired sessions. Implement it with tests.",
+      "expected_output": "This is a behavior change, not behavior-preserving refactoring.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "skill_name": "rust-project",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have an existing Rust CLI with Cargo.toml, edition 2021 and rust-version 1.70. Where should I put a testable helper? The lockfile resolves a dependency to 1.43 but the manifest allows 1.x. Planning only; do not edit or build.",
+      "expected_output": "Distinguishes existing layout, lockfile, manifest range and MSRV; recommends a location from precedent and states verification limits.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/Cargo.toml"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I have this existing Cargo.toml and src/main.rs. Planning only: where should a testable helper go, and what must be checked for edition, MSRV and dependency range? Do not edit or build.",
+      "expected_output": "Read-only project orientation and a bounded proposed layout.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/Cargo.toml"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a cargo-fuzz target as a normal member of my parent workspace because that is cleaner.",
+      "expected_output": "Checks existing convention and warns that cargo-fuzz commonly has a separate workspace root.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "should_trigger": false,
+      "prompt": "Explain why this Rust function returns an Option. Do not discuss project layout, Cargo, workspaces, or dependencies.",
+      "expected_output": "This is an explanation request, not a project-structure request.",
+      "files": []
+    }
+  ]
+}
