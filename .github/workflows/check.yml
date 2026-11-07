@@ -1,0 +1,31 @@
+name: Check skills
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  check:
+    name: Validate skills and installer discovery
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate catalog and manifests
+        run: ./scripts/check-skills.sh
+
+      - name: List skills
+        run: ./scripts/list-skills.sh
+
+      - name: Smoke test skills CLI discovery
+        run: npx skills@latest add ./ --list

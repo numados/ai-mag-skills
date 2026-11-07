@@ -1,0 +1,22 @@
+{
+  "name": "numados",
+  "owner": {
+    "name": "Numados",
+    "url": "https://github.com/numados"
+  },
+  "description": "Numados agent skills for communication, development, reasoning, and Rust engineering.",
+  "plugins": [
+    {
+      "name": "numados-skills",
+      "source": "./",
+      "description": "Numados skills for development workflows, communication, reasoning, and Rust.",
+      "category": "engineering",
+      "keywords": [
+        "skills",
+        "development",
+        "rust",
+        "code-review"
+      ]
+    }
+  ]
+}

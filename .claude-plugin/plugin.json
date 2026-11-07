@@ -1,0 +1,43 @@
+{
+  "name": "numados-skills",
+  "version": "0.1.0",
+  "description": "Numados agent skills for communication, development, reasoning, and Rust engineering.",
+  "author": {
+    "name": "Numados",
+    "url": "https://github.com/numados"
+  },
+  "homepage": "https://github.com/numados/skills",
+  "repository": "https://github.com/numados/skills",
+  "keywords": [
+    "skills",
+    "development",
+    "rust",
+    "code-review",
+    "communication"
+  ],
+  "skills": [
+    "./skills/communication/ai-writing",
+    "./skills/communication/clear-report",
+    "./skills/communication/minto-pyramid",
+    "./skills/development/code-construction",
+    "./skills/development/code-design",
+    "./skills/development/code-review",
+    "./skills/development/discuss-changes",
+    "./skills/development/pr-replies",
+    "./skills/development/task-execution",
+    "./skills/development/task-gap-drill",
+    "./skills/development/task-history",
+    "./skills/development/task-planning",
+    "./skills/development/task-research",
+    "./skills/development/tdd",
+    "./skills/reasoning/jev-assist",
+    "./skills/rust/rust-async-reliability",
+    "./skills/rust/rust-explain",
+    "./skills/rust/rust-implementation",
+    "./skills/rust/rust-project",
+    "./skills/rust/rust-refactor",
+    "./skills/rust/rust-review",
+    "./skills/rust/rust-testing-quality",
+    "./skills/rust/rust-unsafe-review"
+  ]
+}
