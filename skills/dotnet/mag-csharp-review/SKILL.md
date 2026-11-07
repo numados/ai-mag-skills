@@ -16,7 +16,7 @@ Route to `mag-dotnet-async-reliability` when async/concurrency design or shutdow
 ## Establish scope and contract
 
 1. Establish the exact target and revision: diff base/head, commit range, branch, files, or pasted code. Do not silently substitute a merge-base or `HEAD`. For pasted code there is no base: review the supplied scope without inventing change attribution. If the prompt references a snippet or diff that is not actually in scope, list it as missing context and review nothing rather than inventing it.
-2. Read repository instructions (AGENTS, CONTRIBUTING, Directory.Build.props, `.editorconfig`, `.globalconfig`) and the relevant project files. The repository contract wins over generic API or book assumptions.
+2. Read repository instructions (AGENTS, CONTRIBUTING, Directory.Build.props, `.editorconfig`, `.globalconfig`) and the relevant project files. The repository contract wins over generic API assumptions.
 3. Detect the toolchain separately; do not collapse them into "the .NET version":
    - SDK: `global.json`, `dotnet --version`/`--list-sdks` (read-only commands are safe).
    - Language version: `<LangVersion>` (explicit or `latest`/`preview`) versus the TFM-defaulted version.
@@ -41,6 +41,7 @@ Investigate the risk surface in this order and trace each suspicion through call
 - **Concurrency:** shared/static state without synchronization, lock scope and ordering, sync-over-async (`.Result`, `.Wait()`, `.GetAwaiter().GetResult()`) and deadlock/thread-pool starvation, `async void` outside event handlers, races, `volatile`/`Interlocked`/`ConcurrentDictionary` misuse.
 - **Performance:** flag only reachable, material costs — hot-path allocations, deferred/multiple LINQ enumeration, string concatenation in loops, boxing, unbounded collections — and only when scale or evidence makes it consequential. Route measured optimization to `mag-dotnet-performance`.
 - **Maintainability:** actionable only — a violated repository rule, or a concrete coupling/co-change consequence across named locations. Never report formatting or naming taste as a defect.
+- **Design / anti-patterns:** flag a God Object, premature abstraction, pattern overuse, or a DRY violation only with a concrete co-change consequence, and only against the file's own maintainability standard (verification checklists: `skills/development/mag-code-design/references/principles.md`). In existing code, report only when the reviewed change activates or worsens it — follow the attribution rules under Findings.
 
 ## Verify each candidate
 

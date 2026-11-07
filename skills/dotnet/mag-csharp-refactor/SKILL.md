@@ -40,6 +40,7 @@ The C# traps that turn a "mechanical-looking" edit into a semantic-risk change l
 4. On failure, diagnose and revert only your own edits from the saved patch. Do not destroy user work.
 5. Performance claims must be measured or argued from generated behavior — a "same result, fewer allocations" claim needs a benchmark or a documented runtime guarantee, not vibes.
 6. Request confirmation before any public API, serialization, dependency, TFM, persistence, or concurrency change, and before a semantic-risk move without a proving test.
+7. When a move introduces a pattern or removes an anti-pattern, follow [pattern refactoring](references/pattern-refactoring.md): small, behavior-preserving steps toward the pattern, verified at each step. Do not reformat or restructure code beyond the authorized change unless the user asks; keep the diff confined to the change.
 
 ## Output
 

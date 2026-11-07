@@ -38,7 +38,7 @@ The default C# language version follows the target framework, not a universal "l
 
 ## Implement
 
-Prefer the smallest change that fits established boundaries. Preserve layering, dependency injection, naming, namespace, error, async, serialization, and test patterns.
+Prefer the smallest change that fits established boundaries. Preserve layering, dependency injection, naming, namespace, error, async, serialization, and test patterns. Do not reformat or restructure untouched code; keep the diff confined to the authorized change and preserve the existing style.
 
 Own these C# semantics rather than deferring them:
 

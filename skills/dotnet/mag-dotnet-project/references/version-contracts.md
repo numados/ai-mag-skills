@@ -47,7 +47,7 @@ Framework-dependent (the default) requires the runtime on the target machine. Se
 
 Direct versions live on `PackageReference Version`. Central Package Management uses `Directory.Packages.props` with `ManagePackageVersionsCentrally=true`; projects then reference packages without a version and the version is resolved from a `<PackageVersion>` entry. `CentralPackageTransitivePinningEnabled` pins transitive versions. Lock files (`RestorePackagesWithLockFile`, `packages.lock.json`) and `NuGet.config` (sources, credentials, `globalPackagesFolder`) shape restore.
 
-A package's supported TFMs and its resolved version come from NuGet metadata and the restore/lock graph, not from a book or a remembered table.
+A package's supported TFMs and its resolved version come from NuGet metadata and the restore/lock graph, not from a remembered table.
 
 ## Analyzers
 
