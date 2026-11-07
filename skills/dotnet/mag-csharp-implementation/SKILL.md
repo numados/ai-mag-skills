@@ -32,7 +32,7 @@ Do not silently broaden a behavior change into a refactor, modernization, depend
    - **packages** — central versions in `Directory.Packages.props` or direct `PackageReference`; resolved versions come from restore/assets;
    - **analyzers and style** — `.editorconfig`, `AnalysisLevel`, and analyzer packages.
 4. Trace the entry point, direct callers, downstream consumers, and the affected tests.
-5. State the intended behavior, affected files, non-goals, and the verification plan.
+5. State the intended behavior, affected files, non-goals, and the verification plan. When an edit-producing request has no source file in scope, ask for it or synthesize a clearly labeled representative file and state the assumption.
 
 The default C# language version follows the target framework, not a universal "latest". Do not assume C# 12/13 or .NET 8/9; read the project. For an uncertain requirement, ask the smallest question that changes the implementation.
 
@@ -71,14 +71,15 @@ Before running `dotnet restore`/`build`/`test`, assess trust and authorization: 
 
 ## Version-sensitive rules
 
-When the change uses an unfamiliar or version-sensitive API, syntax, compiler option, or analyzer, verify it against current official Microsoft/.NET documentation for the effective versions (see `references/version-and-docs.md`). Build the smallest affected target soon after introducing the construct; treat compiler and analyzer diagnostics as evidence and investigate version/configuration mismatch rather than guessing syntax. If authoritative documentation is unavailable, reuse a verified repository precedent or report the uncertainty — never invent an API.
+When the change uses an unfamiliar or version-sensitive API, syntax, compiler option, or analyzer, verify it against current official Microsoft/.NET documentation for the effective versions (see `references/version-and-docs.md`). When the requested API does not exist on the detected TFM, do not emit non-compiling code: state the mismatch, propose a compatible alternative, and ask the smallest question. Build the smallest affected target soon after introducing the construct; treat compiler and analyzer diagnostics as evidence and investigate version/configuration mismatch rather than guessing syntax. If authoritative documentation is unavailable, reuse a verified repository precedent or report the uncertainty — never invent an API.
 
 ## Output
 
 Report:
 
-- changed behavior and non-goals;
+- the detected SDK, language version, TFM(s), runtime, package, and analyzer facts as separate items — state `not detected` when absent rather than assuming a default;
+- changed behavior and non-goals, with every claim anchored to `path:line` or the exact contract it changes;
 - files and contracts changed;
 - tests added or updated;
 - commands run and actual results;
-- compatibility, resource, and remaining-risk notes, with unverified items stated explicitly.
+- compatibility, resource, and remaining-risk notes, with a `not run / not verified` subsection naming every command not executed and every unconfirmed fact.

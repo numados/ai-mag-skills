@@ -1,0 +1,52 @@
+{
+  "skill_name": "mag-csharp-implementation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement EnqueueAsync in fixtures/BoundedQueue.cs so it honors the documented contract, and add xunit tests in the same project. Report every dotnet command you actually ran.",
+      "expected_output": "Implements a bounded channel enqueue with Wait backpressure, threads the caller's CancellationToken through the write, throws OperationCanceledException promptly on cancel, refuses enqueue after Complete, adds xunit tests for full/empty/cancel/complete cases, and reports exact dotnet test output instead of claiming an unrun check.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/BoundedQueue.cs",
+        "fixtures/BoundedQueue.csproj"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add an UpsertCustomerAsync method to CustomerRepository that uses the injected DbContext, saves with SaveChangesAsync, propagates the CancellationToken, and disposes whatever the method itself creates.",
+      "expected_output": "Implements the method, threads the token into SaveChangesAsync, scopes any owned IDisposable/IAsyncDisposable with using/await using, does not dispose the injected DbContext it does not own, and adds a test.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Add a helper to our net48 class library that parses an ISO date into a DateOnly and formats it back. The project targets net48 only.",
+      "expected_output": "Detects that DateOnly does not exist on net48 (added in .NET 6) and either reports the version mismatch and asks, or proposes a net48-compatible alternative such as DateTime/DateTimeOffset, rather than emitting code that cannot compile.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Review src/PaymentService.cs read-only and list only confirmed bugs. Do not edit anything.",
+      "expected_output": "This is a read-only review request, so it routes to the review skill rather than the implementation skill.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Fix the NullReferenceException in OrderParser.Parse and while you are at it, check whether the .csproj Nullable setting is right for this repo.",
+      "expected_output": "Implements the NullReferenceException fix as the primary authorized change, and treats the Nullable project check as a secondary project concern it flags rather than silently editing project files.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/OrderParser.cs"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Change PriceCalculator.Round to use MidpointRounding.ToEven and keep everything else as is.",
+      "expected_output": "Applies only the requested rounding change, preserves the public signature and surrounding behavior, and does not modernize or refactor unrelated code.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}

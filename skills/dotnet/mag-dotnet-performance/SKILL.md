@@ -20,7 +20,7 @@ Do not replace the generic diagnosis skill for functional bugs, and do not turn 
 
 ## Mode governs what you may change
 
-Establish the mode from the request. **Review / diagnose / design / "investigate" is read-only**: measure, read, plan, and report, but do not edit code or project files. **Fix / optimize** permits editing only the files and behavior the user authorized, and only after the bottleneck is proven. A measurement plan is always allowed; running benchmarks, profiling, or builds is a separate, effect-bearing step (see below).
+Establish the mode from the request. **Review / diagnose / design / "investigate" is read-only**: measure, read, plan, and report, but do not edit code or project files. **Fix / optimize** permits editing only the files and behavior the user authorized, and only after the bottleneck is proven. If no baseline exists and measurement is not authorized, stay in plan mode: output a measurement plan with labeled hypotheses and change nothing — never claim an improvement. A measurement plan is always allowed; running benchmarks, profiling, or builds is a separate, effect-bearing step (see below).
 
 ## Establish the problem and the measurement contract
 
@@ -95,4 +95,4 @@ Report:
 - the change made (if any), why it addresses the measured cost, and the safety/lifetime/behavior arguments for it;
 - limitations and tradeoffs, and any checks you did not run and why.
 
-If no measurements were taken, say so explicitly and present a measurement plan instead of an optimization — do not claim an improvement from unrun benchmarks or unsupported reasoning. State unverified version-sensitive claims as unverified rather than asserting them.
+If no measurements were taken, say so explicitly and present a measurement plan instead of an optimization — do not claim an improvement from unrun benchmarks or unsupported reasoning. Use the report format in `references/measurement.md` (§6). When the case resolves to a boundary — async-correctness-dominant slowness or a project/toolchain cause — the deliverable is the routing decision with the criteria that produced it, not findings or fixes. State unverified version-sensitive claims as unverified rather than asserting them.

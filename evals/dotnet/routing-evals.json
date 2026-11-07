@@ -1,0 +1,110 @@
+{
+  "skill_name": "dotnet-bundle-routing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement the missing SaveAsync on OrderRepository, propagate the CancellationToken, and add a test.",
+      "expected_skill": "mag-csharp-implementation",
+      "should_trigger": true,
+      "notes": "Authorized implementation with async propagation and a test; the primary outcome is a behavior change."
+    },
+    {
+      "id": 2,
+      "prompt": "Review this PR read-only and report only confirmed C# defects with line anchors.",
+      "expected_skill": "mag-csharp-review",
+      "should_trigger": true,
+      "notes": "Explicit read-only review of a change; no edit authority."
+    },
+    {
+      "id": 3,
+      "prompt": "My net9.0 build fails at restore. Diagnose the .csproj, global.json, and NuGet.config causes.",
+      "expected_skill": "mag-dotnet-project",
+      "should_trigger": true,
+      "notes": "Build/restore failure diagnosis is the project skill's core scope."
+    },
+    {
+      "id": 4,
+      "prompt": "Design graceful shutdown for a BackgroundService that must stop admitting work and await its workers.",
+      "expected_skill": "mag-dotnet-async-reliability",
+      "should_trigger": true,
+      "notes": "Shutdown and task ownership are the dominant concern."
+    },
+    {
+      "id": 5,
+      "prompt": "Our endpoint p99 is 900ms and we need it under 250ms; profile and give a gated fix.",
+      "expected_skill": "mag-dotnet-performance",
+      "should_trigger": true,
+      "notes": "A measured latency target is stated; the work is diagnosis plus a gated optimization."
+    },
+    {
+      "id": 6,
+      "prompt": "Before I merge, double-check this method's null handling and tell me if it is safe. Do not change anything.",
+      "expected_skill": "mag-csharp-review",
+      "should_trigger": true,
+      "notes": "Near-miss for implementation: it mentions code but is read-only verification, so the review skill is the sibling target."
+    },
+    {
+      "id": 7,
+      "prompt": "The review flagged the GetHashCode bug; go fix it and add a test.",
+      "expected_skill": "mag-csharp-implementation",
+      "should_trigger": true,
+      "notes": "Near-miss for review: it references a review but asks for an edit, so implementation is the sibling target."
+    },
+    {
+      "id": 8,
+      "prompt": "Add the missing method body to this class in the existing project. Do not restructure anything.",
+      "expected_skill": "mag-csharp-implementation",
+      "should_trigger": true,
+      "notes": "Near-miss for project: a project is present but the primary outcome is C# logic, not structure."
+    },
+    {
+      "id": 9,
+      "prompt": "My parallel loop is too slow at high volume; make it process more messages per second.",
+      "expected_skill": "mag-dotnet-performance",
+      "should_trigger": true,
+      "notes": "Near-miss for async: throughput is the stated goal, so measured performance is the sibling target."
+    },
+    {
+      "id": 10,
+      "prompt": "My worker hangs on shutdown and never cancels; find the bug.",
+      "expected_skill": "mag-dotnet-async-reliability",
+      "should_trigger": true,
+      "notes": "Near-miss for performance: it sounds like a hang, but shutdown and cancellation correctness is the async sibling target."
+    },
+    {
+      "id": 11,
+      "prompt": "Fix the NullReferenceException in the parser and also check whether the .csproj Nullable setting is correct.",
+      "expected_skill": "mag-csharp-implementation",
+      "should_trigger": true,
+      "notes": "Mixed intent: the bug fix is the primary authorized change; the project-config check is secondary."
+    },
+    {
+      "id": 12,
+      "prompt": "Our BackgroundService both leaks tasks on shutdown and is slow to drain; fix the shutdown and measure the drain.",
+      "expected_skill": "mag-dotnet-async-reliability",
+      "should_trigger": true,
+      "notes": "Mixed intent: shutdown correctness dominates; the drain measurement is deferred to the performance skill."
+    },
+    {
+      "id": 13,
+      "prompt": "Write a one-off bash script that rotates old logs in /var/log.",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Out of domain: no .NET content, so no dotnet bundle skill applies."
+    },
+    {
+      "id": 14,
+      "prompt": "Review this Python function for a bug.",
+      "expected_skill": "mag-code-review",
+      "should_trigger": false,
+      "notes": "Out of domain for the dotnet bundle: the generic non-dotnet code review skill applies instead."
+    },
+    {
+      "id": 15,
+      "prompt": "Investigate our checkout endpoint: it is slow under load and occasionally reports a task was cancelled.",
+      "expected_skill": "mag-dotnet-performance",
+      "should_trigger": true,
+      "notes": "Deliberately ambiguous; the stated primary is the slowness investigation, but if unbounded concurrency or cancellation turns out to be the cause, the async specialist takes over."
+    }
+  ]
+}

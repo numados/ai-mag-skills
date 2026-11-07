@@ -1,0 +1,47 @@
+{
+  "skill_name": "mag-dotnet-project",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The build/restore for fixtures/project is broken. Diagnose the root causes read-only: look at fixtures/project/Acme.csproj, fixtures/project/global.json, fixtures/project/Directory.Build.props, and fixtures/project/NuGet.config. Do not edit or install anything.",
+      "expected_output": "Reports each independent cause: (1) global.json pins SDK 7.0.100 with rollForward disable, too old to build net9.0; (2) Acme.csproj sets LangVersion latest, which is machine-dependent and unreliable; (3) PackageReference Newtonsoft.Json 13.0.9999 does not exist in the only configured feed (corp-feed in NuGet.config); (4) Directory.Build.props sets Nullable disable, overriding the intended policy. Proposes a binlog capture and states which commands were not run.",
+      "should_trigger": true,
+      "files": ["fixtures/project/Acme.csproj", "fixtures/project/global.json", "fixtures/project/Directory.Build.props", "fixtures/project/NuGet.config"]
+    },
+    {
+      "id": 2,
+      "prompt": "I am adding a unit test project to this net8.0 solution. Where should it go, and should I multi-target? Planning only, do not edit.",
+      "expected_output": "Recommends a separate test project referencing the library based on the existing repo layout, and advises against multi-targeting without a real second consumer; states verification limits.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Can I add Newtonsoft.Json 13.0.3 to my netstandard2.0 library and my net8.0 app from one Directory.Packages.props?",
+      "expected_output": "Checks the package's supported TFMs against both projects and central package management, and reports the compatibility consequence instead of assuming.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Write the OrderService method that calculates discounts. Do not touch any .csproj or .sln files.",
+      "expected_output": "This is a C# logic implementation request, not project structure or build diagnosis.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Add a new worker project to the solution and also write its Main loop. Which parts are mine to decide?",
+      "expected_output": "Treats project creation and structure as the primary authorized change and defers the C# logic to the implementation skill; separates the structural decision from the code-writing decision.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "dotnet new sln produces .slnx on my machine now. Is that safe to check in for the whole team? What SDK do we actually have?",
+      "expected_output": "Checks dotnet --version / --list-sdks and the repo toolchain before recommending; reports that .slnx support depends on the SDK version and only recommends .slnx if the detected SDK and IDE support it.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}

@@ -14,7 +14,7 @@ Do not treat parallelism as automatically beneficial, and do not optimize for th
 ## Mode and scope govern what you may do
 
 1. Establish the mode from the request: **review/diagnose/design** is read-only; **fix/implement** permits editing only the files and behavior the user authorized. Do not broaden a fix into a refactor, dependency change, or shutdown redesign.
-2. Read repository instructions and the relevant `.csproj`/`.sln`, then detect the contract separately: **SDK version, LangVersion, target framework (TFM), runtime, and package/analyzer versions** are independent facts and must not be conflated. Gate every version-sensitive API against the actual TFM, not the newest you know.
+2. Read repository instructions and the relevant `.csproj`/`.sln`, then detect the contract separately: **SDK version, LangVersion, target framework (TFM), runtime, and package/analyzer versions** are independent facts and must not be conflated. Gate every version-sensitive API against the actual TFM, not the newest you know. A user-asserted TFM with no project file in scope is an unverified claim: answer conditionally and say what a confirming project file would change.
 3. Read `references/lifecycle.md` when you need the verified API-version matrix, the full lifecycle model template, or the ownership/cancellation decision paths.
 
 ## Model the lifecycle first
@@ -105,4 +105,4 @@ State the actual checks run and their real results — the command or harness us
 
 ## Output
 
-Report a lifecycle map, concrete failure paths, findings by category (ownership, cancellation, linked-token lifetime, exception observation, WhenAll/WhenAny/WaitAsync, shutdown, channel/backpressure, shared state, ValueTask), recovery ownership, tests needed, and verification limits. Distinguish proven bugs from design questions, and name the exact lines or smallest causal anchor for each finding.
+Report a lifecycle map, concrete failure paths, findings by category (ownership, cancellation, linked-token lifetime, exception observation, WhenAll/WhenAny/WaitAsync, shutdown, channel/backpressure, shared state, ValueTask), recovery ownership, tests needed, and verification limits. Anchor findings to exact lines or the smallest causal anchor; when no source is supplied, deliver the lifecycle map plus design recommendations with verification limits in place of line-anchored findings. Distinguish proven bugs from design questions.

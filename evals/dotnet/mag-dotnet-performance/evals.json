@@ -1,0 +1,47 @@
+{
+  "skill_name": "mag-dotnet-performance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "fixtures/ReportBuilder.cs is our p95-latency-critical path. Make it faster.",
+      "expected_output": "Because no measurements are provided, produces a measurement plan (BenchmarkDotNet harness, Release baseline, percentiles and allocations) and labels the string-concat-in-loop and LINQ re-enumeration as hypotheses to verify, not as applied optimizations. Does not claim an improvement.",
+      "should_trigger": true,
+      "files": ["fixtures/ReportBuilder.cs"]
+    },
+    {
+      "id": 2,
+      "prompt": "Our settle endpoint is at p95 800ms and we need p95 under 200ms. The baseline says 40% is GC in one method. Diagnose and propose a gated fix.",
+      "expected_output": "Establishes the metric and target, attributes the 40% GC to a category and code path, and proposes a measured change with before/after verification rather than a speculative rewrite.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "My BenchmarkDotNet run shows 5% faster after my LINQ change. Is that enough to merge?",
+      "expected_output": "Explains microbenchmark limits (isolated versus end-to-end, variance, Debug versus Release, warm-up) and requires realistic evidence before claiming the workload improved.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Our worker never stops on Ctrl+C and leaks tasks. Find the ownership and cancellation bug.",
+      "expected_output": "This is async/concurrency correctness (ownership, cancellation, shutdown), so it routes to the async-reliability skill rather than performance.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "The endpoint is slow at p99 and I suspect the async code is blocking on .Result. Investigate and tell me if the slowness is an async bug or a perf problem.",
+      "expected_output": "Separates the sync-over-async blocking cause from measured latency; attributes before optimizing and hands the dominant async cause to the async specialist.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "I want to use Span<T> in a hot loop but our library targets netstandard2.0. What is the constraint?",
+      "expected_output": "Checks the TFM and reports that Span<T>/Memory<T> on netstandard2.0 requires the System.Memory package and the appropriate C# version, instead of assuming the runtime supports it.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}

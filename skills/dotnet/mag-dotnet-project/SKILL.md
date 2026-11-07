@@ -36,7 +36,7 @@ Read `references/version-contracts.md` when any of these is version-sensitive, o
 ## Structure decisions
 
 - A library keeps public API in the project's root namespace and concept folders; an executable stays a thin argument/IO/error boundary. Unit tests live in a separate test project that references the library, or beside private logic when the repo already does that.
-- Prefer a solution to group related projects; add projects with `dotnet sln <file> add`. Choose `.sln` vs `.slnx` from the installed SDK (below).
+- Prefer a solution to group related projects; add projects with `dotnet sln <file> add`. If `dotnet sln` is blocked (for example, a broken `global.json` or missing SDK), fall back to a manual `.sln` edit and verify the result with `dotnet sln <file> list` once a working SDK is available. A `Microsoft.NET.Sdk.Worker` project needs the `Microsoft.Extensions.Hosting` packages the Worker template pulls in — resolve exact versions from the configured feed/TFM, not from memory. Choose `.sln` vs `.slnx` from the installed SDK (below).
 - Multi-target only when there is a real consumer on each TFM; otherwise a single `TargetFramework` is simpler and cheaper to verify.
 - Keep dependency direction acyclic and public exports deliberate.
 
@@ -44,8 +44,8 @@ Read `references/version-contracts.md` when any of these is version-sensitive, o
 
 Choose the solution format from the installed SDK, not from habit:
 
-- `.sln` is the long-standing format and is the `dotnet new sln` default through .NET 9; `.slnx` is the newer XML format. `dotnet new sln` output and `dotnet sln migrate` availability depend on the SDK version, so check `dotnet --version`/`--list-sdks` first.
-- Only emit or rely on `.slnx` when the selected SDK (and any IDE/toolchain the repo uses) is known to support it. Do not assume `dotnet new sln` produces `.slnx`, and do not migrate an existing `.sln` to `.slnx` without authorization.
+- `.sln` is the long-standing format and the `dotnet new sln` default through the .NET 9 SDK; from the .NET 10 SDK the default output is `.slnx`, and `dotnet sln migrate` converts an existing `.sln` to `.slnx`.
+- Only emit or rely on `.slnx` when the selected SDK **and** the team's IDE/toolchain are known to read it; IDE support floor is a docs lookup, so require the team's minimum toolchain before recommending it. Do not migrate an existing `.sln` to `.slnx` without authorization.
 - Report what the toolchain supports rather than asserting a default.
 
 ## Package and project surface checks
@@ -64,7 +64,7 @@ Keep image creation local and reversible. `dotnet publish /t:PublishContainer` b
 
 ## Build diagnosis with a binlog
 
-1. Reproduce with `dotnet build`/`msbuild -bl` (or `-bl:<name>.binlog`) to capture a structured binary log; add `-v:diag` only when text-level detail is needed.
+1. Reproduce with `dotnet build`/`msbuild -bl` (or `-bl:<name>.binlog`) to capture a structured binary log; add `-v:diag` only when text-level detail is needed. When builds cannot run (no authorized SDK, effect-bearing restriction), label every conclusion as static inference from project files and say which build step would confirm it. As a static rule: an SDK can build TFMs up to and including its own major, so a newer TFM requires an SDK of at least that major; .NET Framework targets additionally need targeting packs (or the `Microsoft.NETFramework.ReferenceAssemblies` package) on machines without the framework.
 2. Open the binlog locally (MSBuild Structured Log Viewer or the `msbuild` structured-log tooling); inspect the failing target/task, properties, items, and imported files.
 3. A binlog records full command lines, environment, and imported file contents, so it can contain secrets (tokens, passwords, keys). Keep it local, redact before sharing, and never auto-upload it to a remote service.
 4. Report the failing target/task and the smallest repro; do not claim a fix until a build that failed now passes.

@@ -1,0 +1,47 @@
+{
+  "skill_name": "mag-dotnet-async-reliability",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review fixtures/worker.cs for async reliability. Read-only: name every ownership, cancellation, and backpressure problem.",
+      "expected_output": "Names the seeded defects: unbounded Channel with no backpressure; fire-and-forget Task.Run dropping tasks with unobserved exceptions; the stopping token never threaded into Process so shutdown does not stop running work; Task.WhenAll over unbounded fan-out with no concurrency limit. Produces a lifecycle map and makes no edits.",
+      "should_trigger": true,
+      "files": ["fixtures/worker.cs"]
+    },
+    {
+      "id": 2,
+      "prompt": "Design graceful shutdown for a worker pool: stop admitting work, signal workers, drain or discard, and await within a grace period.",
+      "expected_output": "Admission stop, token signaling, a stated drain/discard policy, a bounded grace period, and reporting of what did not finish.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Does Task.WaitAsync(timeout, token) cancel the underlying work when it times out? What must I check before claiming the work stopped?",
+      "expected_output": "Explains WaitAsync throws TimeoutException but does not cancel the underlying task, and that a token not threaded into the work means the work keeps running.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Our channel consumer is too slow at 40k messages/sec. Optimize the allocations and throughput and give me before/after numbers.",
+      "expected_output": "This is a measured throughput/allocation optimization, so it routes to the performance skill rather than async reliability.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Our BackgroundService takes minutes to shut down and also pegs CPU during drain. Is that an async bug or a perf problem?",
+      "expected_output": "Separates the shutdown-correctness concern from the CPU cost; fixes or designs the shutdown path and defers measured CPU optimization to the performance skill.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Can I use Task.WaitAsync with a TimeProvider overload in our net6.0 worker?",
+      "expected_output": "Gates the API on the actual TFM: WaitAsync exists in .NET 6 but the TimeProvider overload is .NET 8 or later; reports the mismatch instead of assuming.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}

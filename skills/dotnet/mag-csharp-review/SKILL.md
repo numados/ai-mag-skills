@@ -15,7 +15,7 @@ Route to `mag-dotnet-async-reliability` when async/concurrency design or shutdow
 
 ## Establish scope and contract
 
-1. Establish the exact target and revision: diff base/head, commit range, branch, files, or pasted code. Do not silently substitute a merge-base or `HEAD`. For pasted code there is no base: review the supplied scope without inventing change attribution.
+1. Establish the exact target and revision: diff base/head, commit range, branch, files, or pasted code. Do not silently substitute a merge-base or `HEAD`. For pasted code there is no base: review the supplied scope without inventing change attribution. If the prompt references a snippet or diff that is not actually in scope, list it as missing context and review nothing rather than inventing it.
 2. Read repository instructions (AGENTS, CONTRIBUTING, Directory.Build.props, `.editorconfig`, `.globalconfig`) and the relevant project files. The repository contract wins over generic API or book assumptions.
 3. Detect the toolchain separately; do not collapse them into "the .NET version":
    - SDK: `global.json`, `dotnet --version`/`--list-sdks` (read-only commands are safe).
@@ -61,7 +61,7 @@ Distinguish attribution: for a diff/commit review, a problem is a change regress
 ~~~markdown
 # C# review — <scope>
 Revision: <branch/commit/status>
-Detected: SDK, LangVersion, TFM(s), runtime, key packages/analyzers
+Detected: SDK, LangVersion, TFM(s), runtime, key packages/analyzers — each as a separate item; state `not detected` when no project file is in scope instead of assuming a default
 Verdict: SOUND | ISSUES | BLOCKERS
 
 ## Blockers

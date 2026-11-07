@@ -1,0 +1,49 @@
+{
+  "skill_name": "mag-csharp-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review fixtures/PaymentService.cs read-only and report only confirmed issues with file:line anchors.",
+      "expected_output": "Finds and names: (1) Money overrides Equals but not GetHashCode, breaking hash-based collections; (2) PaymentClient.GetReceipt uses .Result sync-over-async on a request path; (3) ReceiptRepository reuses a disposed StreamReader. Reports them with anchors and makes no edits.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/PaymentService.cs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this pasted C# snippet without its .csproj or callers. Do not compile or edit.\n\n```csharp\npublic static string BuildName(string first, string? last)\n{\n    return $\"{first} {last.ToUpperInvariant()}\".Trim();\n}\n```",
+      "expected_output": "Bounded review that lists missing context as unverified instead of inventing callers or version assumptions.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Review the diff between main and feat/payments for regressions. Do not fix or format anything.",
+      "expected_output": "Distinguishes change-introduced regressions from pre-existing defects and reports only reachable issues with evidence.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Fix the Equals/GetHashCode bug in Money.cs and add a test. Do not give me a review report.",
+      "expected_output": "This is an implementation/fix request, not a read-only review.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "A reviewer said our Money.Equals is broken because GetHashCode is missing. Verify that finding against the code and tell me if it is real, but do not change anything.",
+      "expected_output": "Confirms or refutes the Equals/GetHashCode finding against the actual code, classifies it, and makes no edits.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Review this method that uses DateOnly and init-only setters in a repo where I think the class library targets netstandard2.0. Check the contract before you claim anything.",
+      "expected_output": "Detects the actual TFM before asserting; flags that DateOnly and init-only setters require .NET 6 / C# 9 or later and would not be valid on netstandard2.0 without package or feature evidence, and reports the claim as unverified if the project file is absent.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}
