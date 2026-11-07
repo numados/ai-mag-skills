@@ -1,0 +1,51 @@
+{
+  "skill_name": "mag-csharp-explain",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Why is this method `async` and why does it use `await using`?\n\n```csharp\npublic async Task<string> ReadAsync(string path)\n{\n    await using var reader = new StreamReader(path);\n    return await reader.ReadToEndAsync();\n}\n```",
+      "expected_output": "Explains the async control flow (await unwraps the Task and yields without blocking) and the await using/IAsyncDisposable disposal guarantee on exception and early-return paths, in plain language, without turning the answer into a review or fix.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Walk me through this method and list everything that is wrong with it.",
+      "expected_output": "This is a read-only review request (find and report defects), not an explanation request, so it routes to the mag-csharp-review skill rather than the explain skill.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Explain this LINQ pipeline and tell me whether it is a performance problem.",
+      "expected_output": "Explains the pipeline first (deferred execution, enumeration points, captured variables), then clearly labels any performance commentary as an observation and routes a measured performance question to the mag-dotnet-performance skill instead of asserting a speedup or a defect.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Explain what fixtures/order-pipeline/OrderPipeline.cs does and when the query actually runs.",
+      "expected_output": "Explains deferred execution (the query is a description re-enumerated at each enumeration and reads captured variables at enumeration time), names the concrete enumeration points, and explains the await using disposal timing. Separates code-proven facts from inferred intent and stays an explanation rather than review or implementation.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/order-pipeline/OrderPipeline.cs"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Explain this `Task.WhenEach` usage and how the cancellation token propagates. Our project targets net6.0.",
+      "expected_output": "Names the API's TFM floor: Task.WhenEach is .NET 9 or later, so it is a version mismatch on net6.0. Reports that the API is unavailable on the stated TFM rather than silently assuming it exists, and explains the token-propagation behavior conditionally on the actual version.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Explain fixtures/worker/Worker.cs, but only what is proven from this file. Do not invent callers, and do not fix the blocking call.",
+      "expected_output": "Explains the sync-over-async blocking call and that the CancellationToken is forwarded to the delegate (without claiming the delegate honors it), lists untraced context (no callers available) as limits, does not invent callers, author intent, or performance claims, and stays an explanation without fixing or reviewing the code.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/worker/Worker.cs"
+      ]
+    }
+  ]
+}

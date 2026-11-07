@@ -1,0 +1,53 @@
+{
+  "skill_name": "mag-dotnet-testing-quality",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We have fixtures/webapi/. Our integration tests must exercise the full request path. Should we use WebApplicationFactory/TestServer or spin up a real host? What does each cover and miss?",
+      "expected_output": "Explains that WebApplicationFactory bootstraps an in-memory TestServer (no real socket, network, TLS, or hosting) and is fast but does not exercise real networking, while a real host exercises real networking/TLS/hosting at higher cost. Names the Program visibility requirement for TEntryPoint (public partial class Program) and the service-replacement point in ConfigureWebHost, and leaves the choice to the caller's goal rather than mandating one.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/webapi/WebApi.csproj",
+        "fixtures/webapi/Program.cs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Rewrite our EF Core queries so they run faster. The tests already pass but the suite is slow.",
+      "expected_output": "This is not a test-strategy or test-boundary request, so it routes away from the testing-quality skill to the EF Core or performance skill rather than being treated as test design.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Our integration tests are flaky and slow. Tell me whether the fixture shares state across tests or the app is just slow, and what to do about each.",
+      "expected_output": "Separates the two diagnoses: fixture lifetime, shared state, disposal ordering, and parallel-test isolation are this skill's scope and are diagnosed first; a genuinely slow app is a measured performance problem routed to the mag-dotnet-performance skill. Gives a way to tell them apart (e.g., timing the test-boundary setup versus the app call) without speculatively rewriting either.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Add deterministic tests for fixtures/time-service/TimeService.cs. The tests must not depend on wall-clock time.",
+      "expected_output": "Keeps the TimeProvider injection seam, proposes FakeTimeProvider with Advance/SetUtcNow (never sleep-based time travel), and gates the Microsoft.Extensions.TimeProvider.Testing package on the net8.0+ TFM. Adds tests that exercise both sides of the expiry boundary deterministically.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/time-service/TimeService.cs",
+        "fixtures/time-service/TimeService.Tests.csproj"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Use FakeTimeProvider in our net6.0 test project so we can fast-forward time.",
+      "expected_output": "Reports that Microsoft.Extensions.TimeProvider.Testing has no net6.0 asset (net8.0+/net462 only), so FakeTimeProvider is a version mismatch on net6.0. Proposes either a net8.0 bump or a manual clock abstraction, and does not emit code that cannot compile.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Run our TUnit test suite with `dotnet test --logger trx` and tell me the coverage.",
+      "expected_output": "Identifies TUnit as Microsoft.Testing.Platform-based, notes that --logger is a VSTest option silently ignored in MTP mode, and gives the correct forms (`dotnet run -c Release` or `dotnet test -- --report-trx` with the TRX extension registered), flags the no-Microsoft.NET.Test.Sdk/coverlet rule, and reports the command was not actually run rather than claiming coverage.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}

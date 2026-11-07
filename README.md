@@ -115,6 +115,11 @@ npx skills@latest add ./ --list
 | [`mag-dotnet-project`](skills/dotnet/mag-dotnet-project/SKILL.md) | Create or extend .NET projects and diagnose toolchain/build compatibility. |
 | [`mag-dotnet-async-reliability`](skills/dotnet/mag-dotnet-async-reliability/SKILL.md) | Design, review, or fix async lifecycles, concurrency, and shutdown. |
 | [`mag-dotnet-performance`](skills/dotnet/mag-dotnet-performance/SKILL.md) | Diagnose .NET performance and verify measured optimizations. |
+| [`mag-aspnet-core`](skills/dotnet/mag-aspnet-core/SKILL.md) | Design, review, or fix ASP.NET Core request, security, resilience, and observability behavior. |
+| [`mag-ef-core`](skills/dotnet/mag-ef-core/SKILL.md) | Design, review, or fix EF Core query, persistence, transaction, and provider behavior. |
+| [`mag-dotnet-testing-quality`](skills/dotnet/mag-dotnet-testing-quality/SKILL.md) | Design realistic .NET test seams, fixtures, runners, and quality gates. |
+| [`mag-csharp-refactor`](skills/dotnet/mag-csharp-refactor/SKILL.md) | Refactor C# while preserving observable and compatibility contracts. |
+| [`mag-csharp-explain`](skills/dotnet/mag-csharp-explain/SKILL.md) | Explain concrete C#/.NET code and runtime behavior. |
 
 See the [bundle guide](skills/dotnet/README.md) for selection boundaries.
 

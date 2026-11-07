@@ -105,6 +105,111 @@
       "expected_skill": "mag-dotnet-performance",
       "should_trigger": true,
       "notes": "Deliberately ambiguous; the stated primary is the slowness investigation, but if unbounded concurrency or cancellation turns out to be the cause, the async specialist takes over."
+    },
+    {
+      "id": 16,
+      "prompt": "Our multi-tenant API caches tenant-specific data in IMemoryCache under a tenant-agnostic key, so tenants see each other's data. Scope the cache keys by tenant and fix the leak.",
+      "expected_skill": "mag-aspnet-core",
+      "should_trigger": true,
+      "notes": "Caching with tenant isolation is core ASP.NET Core scope."
+    },
+    {
+      "id": 17,
+      "prompt": "Our ASP.NET Core background worker hangs on shutdown and never stops admitting work or awaiting its tasks. Find and fix the shutdown bug.",
+      "expected_skill": "mag-dotnet-async-reliability",
+      "should_trigger": true,
+      "notes": "Near-miss for ASP.NET: it names the web app, but graceful shutdown, task ownership, and cancellation are the dominant concern, so the async specialist is the sibling target."
+    },
+    {
+      "id": 18,
+      "prompt": "Our endpoint's response cache does not vary by tenant AND its repository does an N+1 on order items. Fix the tenant cache scoping first, then the query.",
+      "expected_skill": "mag-aspnet-core",
+      "should_trigger": true,
+      "notes": "Mixed intent: the tenant-agnostic cache scoping is the primary ASP.NET defect; the N+1 query is secondary and defers to mag-ef-core."
+    },
+    {
+      "id": 19,
+      "prompt": "Our WebApplicationFactory integration tests are flaky because parallel tests mutate a shared fixture. Redesign the fixture lifetime and disposal so each test is isolated.",
+      "expected_skill": "mag-dotnet-testing-quality",
+      "should_trigger": true,
+      "notes": "Fixture lifetime, disposal, and concurrency isolation are the testing-quality skill's core scope."
+    },
+    {
+      "id": 20,
+      "prompt": "Our test fails intermittently because the BackgroundService under test leaks tasks and races on shutdown. The flake is in the app, not the fixture; find the race.",
+      "expected_skill": "mag-dotnet-async-reliability",
+      "should_trigger": true,
+      "notes": "Near-miss for testing: it is a flaky test, but the cause is an application-side async race, which the testing-quality skill routes to the async specialist."
+    },
+    {
+      "id": 21,
+      "prompt": "Our integration tests pass on SQLite in-memory but we ship SQL Server. Choose the right test seam and fixture, and judge whether the coverage is meaningful.",
+      "expected_skill": "mag-dotnet-testing-quality",
+      "should_trigger": true,
+      "notes": "Mixed intent: the seam and fixture decision plus coverage assessment is testing-quality's primary scope; the provider-realism hierarchy defers to mag-ef-core guidance."
+    },
+    {
+      "id": 22,
+      "prompt": "Modernize this method by converting the if-chain to a switch expression, preserving evaluation order and short-circuiting, without changing behavior.",
+      "expected_skill": "mag-csharp-refactor",
+      "should_trigger": true,
+      "notes": "Behavior-preserving restructuring is the refactor skill's core scope."
+    },
+    {
+      "id": 23,
+      "prompt": "Clean up this method and, while you are in there, fix the off-by-one so it stops returning the wrong count.",
+      "expected_skill": "mag-csharp-implementation",
+      "should_trigger": true,
+      "notes": "Near-miss for refactor: it says 'clean up' but the off-by-one is a behavior change, so implementation is the sibling target."
+    },
+    {
+      "id": 24,
+      "prompt": "Split this class into two and change the public return type from Task<Result> to ValueTask<Result> at the same time.",
+      "expected_skill": "mag-csharp-refactor",
+      "should_trigger": true,
+      "notes": "Mixed intent: the structural split is the primary refactor; the public return-type change is a semantic-risk behavior change that must be split out and routed to implementation with its own authorization."
+    },
+    {
+      "id": 25,
+      "prompt": "Explain what this method does, why it is async, where the await resumes, and when the resource is disposed.",
+      "expected_skill": "mag-csharp-explain",
+      "should_trigger": true,
+      "notes": "A pure explanation request about async and disposal mechanics is the explain skill's core scope."
+    },
+    {
+      "id": 26,
+      "prompt": "Walk me through this method and list everything that is wrong with it.",
+      "expected_skill": "mag-csharp-review",
+      "should_trigger": true,
+      "notes": "Near-miss for explain: 'walk me through' sounds like explanation, but the ask is to find defects, so read-only review is the sibling target."
+    },
+    {
+      "id": 27,
+      "prompt": "Explain what this method does, then fix the bug you find in it.",
+      "expected_skill": "mag-csharp-explain",
+      "should_trigger": true,
+      "notes": "Mixed intent: explain first, then the fix is a separate authorization routed to mag-csharp-implementation; the explanation remains the primary deliverable."
+    },
+    {
+      "id": 28,
+      "prompt": "Our listing query does an N+1 on order items. Fix the loading strategy so each request loads the items once.",
+      "expected_skill": "mag-ef-core",
+      "should_trigger": true,
+      "notes": "Loading strategy and N+1 are core EF Core scope."
+    },
+    {
+      "id": 29,
+      "prompt": "Our WebApplicationFactory tests run against a real PostgreSQL schema. Design the fixture so migrations and container disposal are deterministic.",
+      "expected_skill": "mag-dotnet-testing-quality",
+      "should_trigger": true,
+      "notes": "Near-miss for EF: it names a real database, but test-host and fixture mechanics are routed to the testing-quality skill."
+    },
+    {
+      "id": 30,
+      "prompt": "Design a stored procedure and a raw SQL script for the monthly rollup, independent of any EF model or DbContext.",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Out of domain: pure SQL/stored-procedure design is routed away from the EF model, and no SQL skill exists in the dotnet bundle, so no dotnet skill triggers."
     }
   ]
 }

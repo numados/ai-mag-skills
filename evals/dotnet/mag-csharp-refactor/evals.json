@@ -1,0 +1,51 @@
+{
+  "skill_name": "mag-csharp-refactor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Is replacing the eager List pipeline in fixtures/query-pipeline/QueryPipeline.cs with a lazy LINQ query a safe mechanical cleanup?",
+      "expected_output": "Classifies it as semantic-risk, not mechanical: a lazy query defers work to enumeration time and re-runs it on every enumeration, which can change when and how often side effects and exceptions are observed. Requires a test or invariant proof, or an explicit user decision, before proceeding.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/query-pipeline/QueryPipeline.cs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a new rule that discounts expired sessions and apply it in the checkout path. Implement it with tests.",
+      "expected_output": "This is a behavior change, not behavior-preserving refactoring, so it routes to the implementation skill rather than the refactor skill.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor the report builder for readability AND make it return only the top 10 rows so we can drop the rest.",
+      "expected_output": "Separates the behavior-preserving refactor (readability, deduplicating enumeration) from the behavior change (top-10 filtering), and treats the latter as an explicitly authorized change that needs separate confirmation rather than silently folding it into the refactor.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Refactor fixtures/report-builder/ReportBuilder.cs to remove the duplicated enumeration without changing the output.",
+      "expected_output": "Materializes the deferred query once (e.g., ToList/ToArray) or otherwise proves single enumeration, preserves the exact output and side-effect order, and verifies the change against existing tests rather than claiming behavior preservation without evidence.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/report-builder/ReportBuilder.cs"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Convert these `using` blocks to `await using` for consistency:\n\n```csharp\nusing (var reader = new StreamReader(path))\n{\n    return reader.ReadToEnd();\n}\n```\n\nThe StreamReader here implements IDisposable but not IAsyncDisposable.",
+      "expected_output": "Rejects the conversion unless the type gains IAsyncDisposable: `await using` requires IAsyncDisposable, so converting a plain IDisposable would not compile. Explains the disposal-path consequence and proposes either keeping `using` or introducing IAsyncDisposable with explicit authorization.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Refactor the target file, but the working tree has unrelated unstaged changes. Only touch what is needed and report honestly if there is no safe change to make.",
+      "expected_output": "Preserves the unrelated dirty working tree, makes only the targeted behavior-preserving change, gates any public API, evaluation-order, or disposal change on confirmation, and states honestly when no justified safe change exists instead of forcing a rewrite.",
+      "should_trigger": true,
+      "files": []
+    }
+  ]
+}

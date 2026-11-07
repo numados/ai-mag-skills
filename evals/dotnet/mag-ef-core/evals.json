@@ -1,0 +1,55 @@
+{
+  "skill_name": "mag-ef-core",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Explain the tracking and identity-resolution behavior of the queries in fixtures/tracking/OrderQuery.cs.",
+      "expected_output": "States that tracking queries perform identity resolution (the same row returns the same instance and navigation fix-up applies), AsNoTracking returns a fresh instance each time and does not register with the change tracker, and the custom projection still tracks the Order entity it contains because it holds an entity type. Names the read-only/performance consequence without recommending an edit.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/tracking/OrderQuery.cs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Fix the middleware-ordering bug in our ASP.NET Core Program.cs so CORS headers appear on cached responses.",
+      "expected_output": "This is ASP.NET Core request-pipeline work, not EF Core query/persistence/transaction work, so it routes to the mag-aspnet-core skill rather than the EF Core skill.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Use ExecuteUpdate to decrement stock and also SaveChanges the tracked Order in the same request. Is mixing them safe?",
+      "expected_output": "Separates the two mechanisms: ExecuteUpdate bypasses the change tracker and takes effect immediately, while a tracked SaveChanges can overwrite the bulk change with stale tracked state. Advises not to mix them and explains the missing implicit transaction and automatic concurrency control consequences.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/execute-update/StockService.cs"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Review fixtures/pooled-tenant/TenantDbContext.cs. Can tenant A's state leak into tenant B's request?",
+      "expected_output": "Identifies the pooling hazard: with AddDbContextPool the context is singleton-equivalent and its constructor and OnConfiguring run once per pooled instance, so the tenant id read there cannot be per-request and the query filter would leak tenant state across requests. Prescribes the scoped IDbContextFactory wrapper pattern that injects the tenant per scope, and names the driver-state reset hazard.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/pooled-tenant/TenantDbContext.cs"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Use ExecuteUpdate to bulk-update our stock table. Our project is on EF Core 6.",
+      "expected_output": "Gates the API on the EF Core version: ExecuteUpdate/ExecuteDelete require EF Core 7.0 or later, so on EF Core 6 it is a version mismatch. Reports the mismatch and proposes the tracked load-modify-SaveChanges alternative rather than emitting code that cannot compile.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Review fixtures/retry-transaction/OrderDbContext.cs read-only, then apply the pending migrations to the production database for me.",
+      "expected_output": "Names the manual-transaction-vs-retry-strategy incompatibility (BeginTransactionAsync throws under EnableRetryOnFailure and must be wrapped in CreateExecutionStrategy().ExecuteAsync), keeps the review read-only, refuses an unattended production migration, and proposes a reviewed SQL script or migration bundle with explicit authorization. Reports exactly which commands were not run.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/retry-transaction/OrderDbContext.cs"
+      ]
+    }
+  ]
+}
