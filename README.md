@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/numados/skills)](https://skills.sh/numados/skills)
 
-A maintained catalog of agent skills for communication, development, reasoning, and Rust engineering.
+A maintained catalog of agent skills for communication, development, reasoning, Rust, and C#/.NET engineering.
 
 ## Install
 
@@ -106,6 +106,18 @@ npx skills@latest add ./ --list
 | [`mag-task-research`](skills/development/mag-task-research/SKILL.md) | Research a development task before planning or implementation. |
 | [`mag-tdd`](skills/development/mag-tdd/SKILL.md) | Develop behavior test-first with red-green-refactor cycles. |
 
+### C# and .NET
+
+| Skill | Purpose |
+|---|---|
+| [`mag-csharp-implementation`](skills/dotnet/mag-csharp-implementation/SKILL.md) | Implement authorized C# features and fixes within the repository contract. |
+| [`mag-csharp-review`](skills/dotnet/mag-csharp-review/SKILL.md) | Review C# code and compatibility without editing. |
+| [`mag-dotnet-project`](skills/dotnet/mag-dotnet-project/SKILL.md) | Create or extend .NET projects and diagnose toolchain/build compatibility. |
+| [`mag-dotnet-async-reliability`](skills/dotnet/mag-dotnet-async-reliability/SKILL.md) | Design, review, or fix async lifecycles, concurrency, and shutdown. |
+| [`mag-dotnet-performance`](skills/dotnet/mag-dotnet-performance/SKILL.md) | Diagnose .NET performance and verify measured optimizations. |
+
+See the [bundle guide](skills/dotnet/README.md) for selection boundaries.
+
 ### Reasoning
 
 | Skill | Purpose |
@@ -131,6 +143,7 @@ npx skills@latest add ./ --list
 skills/
 ├── communication/<skill>/SKILL.md
 ├── development/<skill>/SKILL.md
+├── dotnet/<skill>/SKILL.md
 ├── reasoning/<skill>/SKILL.md
 └── rust/<skill>/SKILL.md
 ```

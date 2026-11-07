@@ -4,12 +4,12 @@
     "name": "Numados",
     "url": "https://github.com/numados"
   },
-  "description": "Numados agent skills for communication, development, reasoning, and Rust engineering.",
+  "description": "Numados agent skills for communication, development, reasoning, Rust, and C#/.NET engineering.",
   "plugins": [
     {
       "name": "numados-skills",
       "source": "./",
-      "description": "Numados skills for development workflows, communication, reasoning, and Rust.",
+      "description": "Numados skills for development workflows, communication, reasoning, Rust, and C#/.NET.",
       "category": "engineering",
       "keywords": [
         "skills",

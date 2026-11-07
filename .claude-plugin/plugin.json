@@ -1,7 +1,7 @@
 {
   "name": "numados-skills",
   "version": "0.1.0",
-  "description": "Numados agent skills for communication, development, reasoning, and Rust engineering.",
+  "description": "Numados agent skills for communication, development, reasoning, Rust, and C#/.NET engineering.",
   "author": {
     "name": "Numados",
     "url": "https://github.com/numados"
@@ -30,6 +30,11 @@
     "./skills/development/mag-task-planning",
     "./skills/development/mag-task-research",
     "./skills/development/mag-tdd",
+    "./skills/dotnet/mag-csharp-implementation",
+    "./skills/dotnet/mag-csharp-review",
+    "./skills/dotnet/mag-dotnet-async-reliability",
+    "./skills/dotnet/mag-dotnet-performance",
+    "./skills/dotnet/mag-dotnet-project",
     "./skills/reasoning/mag-jev-assist",
     "./skills/rust/mag-rust-async-reliability",
     "./skills/rust/mag-rust-explain",
