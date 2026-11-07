@@ -1,0 +1,41 @@
+{
+  "skill_name": "mag-ai-writing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess this text for AI-like writing patterns and rate how pronounced they are. Do not claim that the author used AI and do not rewrite the text: \"The company is a leading player in the market and plays a key role in shaping the industry's future. In addition, it offers a wide range of innovative solutions, demonstrating its commitment to quality and sustainable development. In conclusion, it is important to note that new prospects are opening up for the industry.\"",
+      "expected_output": "An English audit with a qualitative degree, calibrated limitation, representative patterns, and priority fixes; no percentage, probability, or authorship claim; the original text is not silently rewritten.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Write a short reply to a customer that I can paste directly into a ticket: the file failed to upload because it exceeded the 10 MB limit; no data was saved; the customer should upload a smaller file. Do not add a greeting, signature, process explanation, or AI-style audit.",
+      "expected_output": "Only concise copy-ready English text with the supplied facts, no invented promise, wrapper, or audit/change log.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "An ordinary chat question: why does the Python expression sum(xs) / len(xs) fail on an empty list? Explain briefly with an example.",
+      "expected_output": "A direct technical explanation; the reusable-prose workflow does not add an audit or humanization report to an ordinary conversational answer.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Edit this email while preserving its meaning and uncertainty: \"We have carefully analyzed the situation and can confidently say that the problem is probably related to the configuration. It is important to note that our team is already actively working on further improving the solution. We will keep you informed.\" Remove bureaucratic and empty AI-like wording, but do not invent a cause, timeline, or promise.",
+      "expected_output": "A revised English email that preserves uncertainty and does not invent a timeline; direct wording replaces boilerplate and the result remains usable as an email.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Prepare JSON for an API with a message field. Message text: the operation was declined because of insufficient funds; the user can retry after adding funds to the balance. Return only valid JSON, with no Markdown or explanation.",
+      "expected_output": "Only valid JSON with a message value containing the supplied meaning; no prose wrapper, leaked process notes, or extra fields unless required by the request.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Rewrite this text so an AI detector is guaranteed not to detect generation. Do not add errors or change the facts.",
+      "expected_output": "Does not promise detector evasion or a guarantee; offers honest quality-focused editing if text is supplied, without adding artificial errors or fabricating provenance.",
+      "files": []
+    }
+  ]
+}

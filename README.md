@@ -37,13 +37,22 @@ npx skills@latest add numados/skills -a '*' -g -y
 Install one skill:
 
 ```bash
-npx skills@latest add numados/skills -s code-review -a pi -g -y
+npx skills@latest add numados/skills -s mag-code-review -a pi -g -y
 ```
 
 Update installed skills:
 
 ```bash
 npx skills@latest update
+```
+
+### Migration from unprefixed names
+
+The catalog uses the `mag-` prefix to avoid collisions with skills from other repositories. Existing installations keep the old directories; remove each old skill name you installed, then install the catalog again.
+
+```bash
+npx skills@latest remove rust-review --global --agent '*'
+npx skills@latest add numados/skills -a pi -g -y
 ```
 
 Pin an installation to a stable Git tag:
@@ -77,44 +86,44 @@ npx skills@latest add ./ --list
 
 | Skill | Purpose |
 |---|---|
-| [`ai-writing`](skills/communication/ai-writing/SKILL.md) | Audit and improve prose for factual, evidentiary, structural, and stylistic quality. |
-| [`clear-report`](skills/communication/clear-report/SKILL.md) | Produce a clear, structured report for a named reader. |
-| [`minto-pyramid`](skills/communication/minto-pyramid/SKILL.md) | Structure answers with the conclusion first and grouped supporting points. |
+| [`mag-ai-writing`](skills/communication/mag-ai-writing/SKILL.md) | Audit and improve prose for factual, evidentiary, structural, and stylistic quality. |
+| [`mag-clear-report`](skills/communication/mag-clear-report/SKILL.md) | Produce a clear, structured report for a named reader. |
+| [`mag-minto-pyramid`](skills/communication/mag-minto-pyramid/SKILL.md) | Structure answers with the conclusion first and grouped supporting points. |
 
 ### Development
 
 | Skill | Purpose |
 |---|---|
-| [`code-construction`](skills/development/code-construction/SKILL.md) | Design and construct code that fits the project. |
-| [`code-design`](skills/development/code-design/SKILL.md) | Design internal code structure and interfaces. |
-| [`code-review`](skills/development/code-review/SKILL.md) | Review changes and verify review findings. |
-| [`discuss-changes`](skills/development/discuss-changes/SKILL.md) | Explain changes interactively, one idea at a time. |
-| [`pr-replies`](skills/development/pr-replies/SKILL.md) | Prepare evidence-based replies to review comments. |
-| [`task-execution`](skills/development/task-execution/SKILL.md) | Execute an authorized development plan and verify it. |
-| [`task-gap-drill`](skills/development/task-gap-drill/SKILL.md) | Investigate a consequential uncertainty in a task. |
-| [`task-history`](skills/development/task-history/SKILL.md) | Recover task state, decisions, and remaining work. |
-| [`task-planning`](skills/development/task-planning/SKILL.md) | Create an actionable implementation plan. |
-| [`task-research`](skills/development/task-research/SKILL.md) | Research a development task before planning or implementation. |
-| [`tdd`](skills/development/tdd/SKILL.md) | Develop behavior test-first with red-green-refactor cycles. |
+| [`mag-code-construction`](skills/development/mag-code-construction/SKILL.md) | Design and construct code that fits the project. |
+| [`mag-code-design`](skills/development/mag-code-design/SKILL.md) | Design internal code structure and interfaces. |
+| [`mag-code-review`](skills/development/mag-code-review/SKILL.md) | Review changes and verify review findings. |
+| [`mag-discuss-changes`](skills/development/mag-discuss-changes/SKILL.md) | Explain changes interactively, one idea at a time. |
+| [`mag-pr-replies`](skills/development/mag-pr-replies/SKILL.md) | Prepare evidence-based replies to review comments. |
+| [`mag-task-execution`](skills/development/mag-task-execution/SKILL.md) | Execute an authorized development plan and verify it. |
+| [`mag-task-gap-drill`](skills/development/mag-task-gap-drill/SKILL.md) | Investigate a consequential uncertainty in a task. |
+| [`mag-task-history`](skills/development/mag-task-history/SKILL.md) | Recover task state, decisions, and remaining work. |
+| [`mag-task-planning`](skills/development/mag-task-planning/SKILL.md) | Create an actionable implementation plan. |
+| [`mag-task-research`](skills/development/mag-task-research/SKILL.md) | Research a development task before planning or implementation. |
+| [`mag-tdd`](skills/development/mag-tdd/SKILL.md) | Develop behavior test-first with red-green-refactor cycles. |
 
 ### Reasoning
 
 | Skill | Purpose |
 |---|---|
-| [`jev-assist`](skills/reasoning/jev-assist/SKILL.md) | Use Jev for bounded classification and decision support. |
+| [`mag-jev-assist`](skills/reasoning/mag-jev-assist/SKILL.md) | Use Jev for bounded classification and decision support. |
 
 ### Rust
 
 | Skill | Purpose |
 |---|---|
-| [`rust-async-reliability`](skills/rust/rust-async-reliability/SKILL.md) | Design and review async and concurrent Rust systems. |
-| [`rust-explain`](skills/rust/rust-explain/SKILL.md) | Explain concrete Rust code and its data flow. |
-| [`rust-implementation`](skills/rust/rust-implementation/SKILL.md) | Implement authorized Rust features and fixes. |
-| [`rust-project`](skills/rust/rust-project/SKILL.md) | Structure Rust packages, crates, and workspaces. |
-| [`rust-refactor`](skills/rust/rust-refactor/SKILL.md) | Refactor Rust while preserving observable behavior. |
-| [`rust-review`](skills/rust/rust-review/SKILL.md) | Perform a verified multi-category Rust review. |
-| [`rust-testing-quality`](skills/rust/rust-testing-quality/SKILL.md) | Design Rust tests and quality gates. |
-| [`rust-unsafe-review`](skills/rust/rust-unsafe-review/SKILL.md) | Review unsafe Rust and safety obligations. |
+| [`mag-rust-async-reliability`](skills/rust/mag-rust-async-reliability/SKILL.md) | Design and review async and concurrent Rust systems. |
+| [`mag-rust-explain`](skills/rust/mag-rust-explain/SKILL.md) | Explain concrete Rust code and its data flow. |
+| [`mag-rust-implementation`](skills/rust/mag-rust-implementation/SKILL.md) | Implement authorized Rust features and fixes. |
+| [`mag-rust-project`](skills/rust/mag-rust-project/SKILL.md) | Structure Rust packages, crates, and workspaces. |
+| [`mag-rust-refactor`](skills/rust/mag-rust-refactor/SKILL.md) | Refactor Rust while preserving observable behavior. |
+| [`mag-rust-review`](skills/rust/mag-rust-review/SKILL.md) | Perform a verified multi-category Rust review. |
+| [`mag-rust-testing-quality`](skills/rust/mag-rust-testing-quality/SKILL.md) | Design Rust tests and quality gates. |
+| [`mag-rust-unsafe-review`](skills/rust/mag-rust-unsafe-review/SKILL.md) | Review unsafe Rust and safety obligations. |
 
 ## Repository layout
 

@@ -1,0 +1,44 @@
+---
+name: mag-code-review
+description: Review code changes, pull or merge requests, commits, local diffs, files or pasted code for actionable defects, or verify whether a proposed code-review finding or comment is valid. Use for explicit code review, independent review of implemented changes, and fact-checking review feedback. Trace evidence and challenge each finding before reporting it; do not modify code or post comments as part of a review.
+---
+
+# Code review
+
+Find consequential problems, not a quota of comments. Treat every potential finding, including one supplied by the user, as a hypothesis until checked. A review is read-only: do not edit files, post comments, approve, merge, or change remote state without separate authorization.
+
+## Establish the target
+
+- Identify what the user wants reviewed or verified: PR/MR, commit or range, staged or unstaged work, branch, file, pasted code, or a specific claim.
+- For changes, establish the intended base and head and which local changes are included; do not silently substitute a merge-base, a checkout, or `HEAD` for the requested scope. For a PR, use its actual base and head and note if the local checkout is stale or differs. For source-only or pasted code there may be no base: review the supplied scope without inventing change attribution.
+- Use available read-only tools suited to the source and provider; inspect repository instructions, the complete relevant diff or code, and requirements or existing contracts when available. Treat the implementer's report, test claims, and rationale as claims to verify, not proof. Reuse verified context while it remains current.
+- If a patch is truncated or a target or essential context is inaccessible, recover the exact material if possible, otherwise disclose the boundary and ask for the smallest missing input. Do not assume a provider, install tools, authenticate, fetch, or change checkout state without the necessary authorization. Never expose credentials or unnecessary sensitive details.
+
+## Investigate risk
+
+- Map the changed behavior or supplied claim to relevant entry points, callers, implementations, contracts, configuration, state, tests and downstream consumers. Read unchanged context where it determines behavior.
+- When requirements are available, check for missing, partial and incorrect requested behavior as well as defects in the code present; unchanged code may already satisfy a requirement. Extra behavior is a lead, not automatically a defect. Continue through the full requested scope after the first finding.
+- Check applicable correctness, security, data integrity, compatibility, concurrency, failure handling, meaningful performance, test coverage and maintainability risks; prioritize those the code can actually introduce. Use [review lenses](references/review-lenses.md) when a risk needs a deeper check, not as a list of automatic defects. Inspect dependent repositories only within authorized scope.
+- For a change review, distinguish a newly introduced problem from a pre-existing one. An old defect can be in scope if the change makes it reachable, exposes it to a new case, or worsens it; identify both the changed activation and the underlying behavior. For a whole-file review, a real issue may be reportable without a diff; say when its history or attribution is unknown.
+
+## Verify each candidate
+
+1. Identify the expected behavior and its evidence: requirement, contract, invariant, established behavior, or documented repository rule. Do not treat a reviewer preference as a contract.
+2. Trace a concrete trigger and inputs through the actual code, relevant guards, configuration, state and consumers to the claimed consequence. Check whether it is reachable and whether the reviewed change causes, activates or worsens it when change attribution applies.
+3. Actively seek counter-evidence: tests covering the path, validation, caller guarantees, error handling and actual framework or serializer behavior. Check version-sensitive facts against the implementation or authoritative version-appropriate documentation; do not infer a guarantee from a generic default. An undocumented or unverified guarantee is unknown, not proof that a capability is absent: preserve that distinction in both findings and summaries.
+4. When safe, authorized and useful, run a focused existing test or minimal reproduction. A test proves only the scenario it exercises. Do not mutate product or remote state merely to prove a finding, install dependencies, or claim a check ran when it did not.
+5. Classify the result as **confirmed**, **refuted**, **outside the requested scope**, or **needs evidence**. Missing evidence is not a refutation. If a material risk remains plausible but unresolved, name the specific missing fact and the smallest way to check it; do not present it as a confirmed defect.
+
+- For a standalone verification request, give a verdict for each supplied claim, including refuted or out-of-scope claims and the evidence.
+- For a requested re-review of fixes, verify each prior finding against the new revision and inspect the fix changes for new defects; disclose any unverified item and do not imply a full fresh review unless requested and performed.
+- Verification is an evidence-based counter-check; a second agent may help with a difficult or high-risk review but is not required. Independently check any delegated finding against source before reporting it.
+
+## Report
+
+- For a review, lead with confirmed, actionable findings ordered by impact. For each, include a short title, priority proportional to demonstrated impact and reach, the smallest causal file and line or changed range (including a deletion or activation point), the triggering conditions, and the concrete consequence.
+- For an omitted requirement with no changed line, cite the requirement and the nearest relevant implementation boundary; do not assert an omission without sufficient scope. For any finding, if an exact line number is unavailable, cite the known function, hunk or code excerpt instead of guessing a line number.
+- By default, report the defect and its evidence without prescribing a fix. If the user requests a fix or fix direction, check that it addresses the actual failure path and preserves relevant contracts.
+  - For external effects, trace the exact ordering and crash or lost-response windows; a local transaction, lock, retry, or atomic claim alone does not establish what happened at the external provider.
+  - If those guarantees or recovery semantics are unknown, do not call a mechanism a correct or sufficient fix: omit it or explicitly identify it as an unverified option and state what remains unresolved.
+- Avoid duplicate comments, formatting preferences, speculative cleanup, and generic missing-test claims. A maintainability issue is actionable when the changed code violates an applicable rule or creates a concrete coupling or co-change consequence; cite the affected locations and why it matters. Observe repository-specific review policies.
+- Separate material unresolved risks from confirmed findings. State the reviewed scope and any meaningful limitations, including inaccessible requirements, incomplete diffs, unverified runtime assumptions, or checks not run. If no confirmed findings remain, say so without implying the code is defect-free. Use tables or paste-ready comments only when useful or requested; never post them without approval.

@@ -1,0 +1,29 @@
+{
+  "skill_name": "mag-discuss-changes",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Explain this change step by step: previously an order could be canceled only in the new status; now it can also be canceled in the paid status. Use simple language and wait for my '+'.",
+      "expected_output": "Explains one idea in accessible language and stops; does not invent payment handling.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We are discussing a change. You already explained that an order can be canceled. I interrupt: 'Will the money be refunded?' The supplied policy does not state the refund behavior.",
+      "expected_output": "Answers directly that this is unknown, does not invent a refund, and does not move to the next step.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Explain this fully in one answer: previously the list was sorted by name; now it is sorted by creation date.",
+      "expected_output": "Gives a complete concise explanation without forcing a pause.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "We are discussing a change step by step. Known facts: previously an order could be canceled only in new; now also in paid; cancellation is still available only before shipment. You already explained which statuses allow cancellation. I reply '+'.",
+      "expected_output": "Continues with one new confirmed idea, does not repeat the previous idea or invent a refund, and does not change files.",
+      "files": []
+    }
+  ]
+}

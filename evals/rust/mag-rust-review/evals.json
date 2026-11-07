@@ -1,0 +1,35 @@
+{
+  "skill_name": "mag-rust-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this Rust unsafe snippet read-only. The pointer contract says len readable bytes but the code reads a u64. Also review a tokio mutex held across write_all().await.",
+      "expected_output": "Finds the size contract defect and does not call the async mutex automatically wrong.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/unsafe.rs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a pasted Rust function without its Cargo.toml or callers. Do not edit or compile.",
+      "expected_output": "Bounded review with explicit unverified context.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Review a clean Rust diff and report only confirmed issues, not formatting preferences.",
+      "expected_output": "Short evidence-based report with no speculative findings.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "should_trigger": false,
+      "prompt": "Implement this Rust feature and add tests. Do not produce a review report.",
+      "expected_output": "This is an implementation request, not a read-only review.",
+      "files": []
+    }
+  ]
+}

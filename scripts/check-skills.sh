@@ -42,6 +42,8 @@ for path in skills:
         errors.append(f'{path}: missing frontmatter name')
     elif not re.fullmatch(r'[a-z0-9][a-z0-9-]*', name):
         errors.append(f'{path}: invalid skill name {name!r}')
+    elif not name.startswith('mag-'):
+        errors.append(f'{path}: public skill name must start with mag-: {name!r}')
     elif name in names:
         errors.append(f'{path}: duplicate skill name {name!r}')
     else:

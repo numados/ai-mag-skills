@@ -6,14 +6,14 @@ Independent Rust skills for reliable project structure, implementation, review, 
 
 | Skill | Use when |
 |---|---|
-| [rust-project](rust-project/SKILL.md) | Starting or extending a Rust package, crate, or workspace |
-| [rust-implementation](rust-implementation/SKILL.md) | Implementing a Rust feature or fix with tests and verification |
-| [rust-review](rust-review/SKILL.md) | Auditing Rust code, a diff, crate, or repository without editing |
-| [rust-refactor](rust-refactor/SKILL.md) | Refactoring Rust while preserving observable behavior |
-| [rust-unsafe-review](rust-unsafe-review/SKILL.md) | Reviewing unsafe Rust, FFI, raw pointers, or unsafe trait implementations |
-| [rust-async-reliability](rust-async-reliability/SKILL.md) | Designing or reviewing async, concurrent, or shutdown behavior |
-| [rust-testing-quality](rust-testing-quality/SKILL.md) | Designing tests, property tests, fuzzing, feature matrices, or quality gates |
-| [rust-explain](rust-explain/SKILL.md) | Explaining concrete Rust code and its surrounding data flow |
+| [mag-rust-project](mag-rust-project/SKILL.md) | Starting or extending a Rust package, crate, or workspace |
+| [mag-rust-implementation](mag-rust-implementation/SKILL.md) | Implementing a Rust feature or fix with tests and verification |
+| [mag-rust-review](mag-rust-review/SKILL.md) | Auditing Rust code, a diff, crate, or repository without editing |
+| [mag-rust-refactor](mag-rust-refactor/SKILL.md) | Refactoring Rust while preserving observable behavior |
+| [mag-rust-unsafe-review](mag-rust-unsafe-review/SKILL.md) | Reviewing unsafe Rust, FFI, raw pointers, or unsafe trait implementations |
+| [mag-rust-async-reliability](mag-rust-async-reliability/SKILL.md) | Designing or reviewing async, concurrent, or shutdown behavior |
+| [mag-rust-testing-quality](mag-rust-testing-quality/SKILL.md) | Designing tests, property tests, fuzzing, feature matrices, or quality gates |
+| [mag-rust-explain](mag-rust-explain/SKILL.md) | Explaining concrete Rust code and its surrounding data flow |
 
 These skills are independent. Use only the skill matching the request. Tool execution, dependency installation, commits, and destructive repository operations still require explicit authorization.
 

@@ -1,7 +1,0 @@
-{
-  "skill_name": "code-construction",
-  "evals": [
-    {"id": 1, "prompt": "Design how to add an invoice exporter to this existing project. Do not implement it. Explain where the code and tests belong, how it is integrated and what project context you need.", "expected_output": "Read-only design, based on actual project evidence, with placement, integration and tests; no invented paths or code changes.", "files": []},
-    {"id": 2, "prompt": "Implement a new endpoint using a framework API you haven't encountered, and ensure it matches this project's dependency version. How would you verify it?", "expected_output": "Identifies the project version and seeks a suitable available documentation tool before consulting version-appropriate authoritative documentation; avoids fabricated API behavior.", "files": []}
-  ]
-}
