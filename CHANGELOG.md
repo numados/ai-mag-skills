@@ -9,6 +9,11 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `scripts/check_discovery.py` and a CI gate that fails when a client skips a skill or lists a different set than the repository publishes.
+- `docs/authoring.md` with the supported frontmatter profile, progressive-disclosure rules, and when to add `references/`, `scripts/`, or `assets/`.
+- Optional `license`, `compatibility`, and flat `metadata` frontmatter in the catalog validator, with the specification's length limits and YAML-ambiguity rejection.
+- One-line `compatibility` metadata for `mag-jev-assist`, `mag-task-storage`, and `mag-parallel-orchestration`.
+
 - `mag-commit-message`: repository-aligned commit-message drafting with scope detection, format precedence, a body decision gate, and artifact hygiene; it never stages, commits, or pushes.
 - MIT license, included in each independently installable skill directory.
 - First-use examples, invocation guidance, and runtime requirements in the README.

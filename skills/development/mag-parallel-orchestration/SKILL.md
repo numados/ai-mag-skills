@@ -1,6 +1,7 @@
 ---
 name: mag-parallel-orchestration
 description: Coordinate native subagents for useful independent workstreams, and discover or repair their model/effort setup in the same skill. Use for orchestration, parallel delegation or agent-setup requests, and proactively when an authorized task has bounded independent work that benefits from concurrency or independent checking. Not for trivial edits, sequential work, ordinary application concurrency, explanations of agents, or requests forbidding delegation. External agent MCP execution requires explicit user direction.
+compatibility: Requires a host-provided native subagent launcher. External-agent execution remains optional and separately authorized.
 ---
 
 # Parallel orchestration

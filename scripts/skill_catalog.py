@@ -10,8 +10,11 @@ description).
 
 Supported frontmatter subset
 ----------------------------
-The catalog only needs two string fields, ``name`` and ``description``.  This
-module intentionally does *not* implement a YAML parser.  It supports exactly:
+The catalog requires two string fields, ``name`` and ``description``.  It
+also supports the official optional string fields ``license`` and
+``compatibility`` and a flat ``metadata`` mapping whose values are strings.
+This module intentionally does *not* implement a general YAML parser.  It
+supports exactly:
 
 * Plain single-line scalars (``description: some text``), trimmed.
 * Single-line quoted scalars (``'...'`` with ``''`` as an escaped quote, and
@@ -19,12 +22,16 @@ module intentionally does *not* implement a YAML parser.  It supports exactly:
   escapes).
 * Folded (``>``) and literal (``|``) block scalars, with the ``-`` (strip) and
   ``+`` (keep) chomping indicators.  No indentation indicators (``>2``).
+* A flat metadata map, for example ``metadata:\n  stability: stable``.
 
 Anything else that could make the value ambiguous is rejected rather than
 silently accepted: flow collections (``[ ]``/``{ }``), block sequences
 (``- item``), anchors/aliases/tags, multi-line plain or quoted scalars,
-duplicate keys, unknown top-level keys, YAML ``null``/boolean keywords, and
-malformed or unclosed frontmatter.
+duplicate keys, unknown top-level keys, nested metadata, unquoted numeric or
+empty metadata values, tab indentation, plain scalars containing ``: `` (which
+YAML reads as a nested mapping), YAML ``null``/boolean keywords, and malformed
+or unclosed frontmatter.  Rejecting these locally matters because a real client
+parses the same file as YAML and would silently skip a malformed skill.
 
 Block-scalar notes: content lines are dedented to the first content line's
 indentation.  Folded scalars join single line breaks into spaces and turn blank
@@ -46,6 +53,7 @@ _NAME_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]*\Z")
 _DELIMITER = re.compile(r"---[ \t]*\Z")
 _KEY_LINE = re.compile(r"([A-Za-z][A-Za-z0-9_-]*):(?:[ \t]*(.*))?\Z")
 _BLOCK_HEADER = re.compile(r"([|>])([+-])?[ \t]*\Z")
+_FRONTMATTER_FIELDS = {"name", "description", "license", "compatibility", "metadata"}
 
 # A plain scalar may not start with any of these YAML indicator characters.
 _UNSUPPORTED_START = set("-?:,[]{}#&*!|>'\"%@`")
@@ -60,6 +68,19 @@ _DOUBLE_QUOTE_ESCAPES = {
 }
 
 _CHOMP = {"-": "strip", "+": "keep"}
+
+# An unquoted scalar matching one of these patterns is a number, timestamp, or
+# boolean to a YAML parser, so accepting it as a string here would give
+# consumers a different type than this module reports.
+_YAML_INT = re.compile(r"[-+]?(?:0b[01_]+|0o[0-7_]+|0x[0-9a-fA-F_]+|[0-9][0-9_]*)\Z")
+_YAML_FLOAT = re.compile(
+    r"[-+]?(?:(?:[0-9][0-9_]*)?\.[0-9_]+(?:[eE][-+]?[0-9]+)?"
+    r"|[0-9][0-9_]*[eE][-+]?[0-9]+"
+    r"|\.(?:inf|Inf|INF|nan|NaN|NAN))\Z"
+)
+_YAML_TIMESTAMP = re.compile(
+    r"[0-9]{4}-[0-9]{2}-[0-9]{2}(?:[Tt ].*)?\Z"
+)
 
 
 class CatalogError(ValueError):
@@ -92,6 +113,10 @@ def _indent_width(line):
 
 def _strip_block_indent(content, source):
     """Dedent block-scalar content lines to the first content line's indent."""
+    for line in content:
+        prefix = line[: _indent_width(line)]
+        if "\t" in prefix:
+            raise CatalogError(f"{source}: tab indentation is not valid YAML")
     base = None
     for line in content:
         if line.strip() != "":
@@ -175,6 +200,59 @@ def _block_value(style, chomp, content, source):
     return _apply_chomp(lines, chomp)
 
 
+def _reject_plain_ambiguity(value, source):
+    """Reject a plain scalar that YAML would read differently from this reader.
+
+    A real client parses the same file as YAML, so a value that YAML turns into
+    a number, a comment, or a nested mapping would be silently skipped or
+    altered at install time instead of failing here.
+    """
+    if ": " in value or value.endswith(":"):
+        raise CatalogError(
+            f"{source}: plain scalar {value!r} contains ': ', which YAML reads as a nested mapping; quote the value"
+        )
+    if " #" in value:
+        raise CatalogError(
+            f"{source}: plain scalar {value!r} contains ' #', which starts a YAML comment; quote the value"
+        )
+    for pattern in (_YAML_INT, _YAML_FLOAT, _YAML_TIMESTAMP):
+        if pattern.fullmatch(value):
+            raise CatalogError(
+                f"{source}: plain scalar {value!r} is not a YAML string; quote the value"
+            )
+
+
+def _parse_metadata(content, source):
+    """Parse the supported flat string-to-string metadata mapping."""
+    if not content or not any(line.strip() for line in content):
+        return {}
+
+    stripped = _strip_block_indent(content, source)
+    metadata = {}
+    for line in stripped:
+        if line.strip() == "":
+            continue
+        if line[:1] in (" ", "\t"):
+            raise CatalogError(f"{source}: metadata must be a flat mapping")
+        match = _KEY_LINE.match(line)
+        if not match:
+            raise CatalogError(f"{source}: unsupported metadata line: {line!r}")
+        key = match.group(1)
+        if key in metadata:
+            raise CatalogError(f"{source}: duplicate metadata key {key!r}")
+        rest = match.group(2) or ""
+        if _BLOCK_HEADER.match(rest) or rest.startswith(("[", "{")):
+            raise CatalogError(f"{source}: metadata values must be scalar strings")
+        if rest.strip() == "":
+            raise CatalogError(
+                f"{source}: metadata value for {key!r} is empty, which YAML reads as null; quote an empty string"
+            )
+        if not rest.startswith(("'", '"')):
+            _reject_plain_ambiguity(rest.strip(), source)
+        metadata[key] = _parse_inline_scalar(rest, source)
+    return metadata
+
+
 def _parse_double_quoted(text, source):
     if not text.startswith('"'):
         raise CatalogError(f"{source}: malformed double-quoted scalar")
@@ -241,15 +319,18 @@ def _parse_inline_scalar(rest, source):
         raise CatalogError(f"{source}: unsupported non-string scalar {rest!r}")
     if rest[0] in _UNSUPPORTED_START:
         raise CatalogError(f"{source}: unsupported scalar value {rest!r}")
-    return rest.strip()
+    value = rest.strip()
+    _reject_plain_ambiguity(value, source)
+    return value
 
 
 def parse_frontmatter(text, source="<skill>"):
-    """Parse ``name`` and ``description`` from YAML frontmatter.
+    """Parse the supported frontmatter fields.
 
-    Returns ``{"name": str, "description": str}``.  Raises :class:`CatalogError`
-    for malformed or unsupported frontmatter.  The description may be empty; the
-    catalog-level emptiness policy is applied by :func:`read_skill_metadata`.
+    Returns required fields plus any supported optional fields.  Raises
+    :class:`CatalogError` for malformed or unsupported frontmatter.  The
+    description may be empty; the catalog-level emptiness policy is applied by
+    :func:`read_skill_metadata`.
     """
     if not text:
         raise CatalogError(f"{source}: empty file")
@@ -284,10 +365,33 @@ def parse_frontmatter(text, source="<skill>"):
             raise CatalogError(f"{source}: unsupported frontmatter line: {line!r}")
         key = match.group(1)
         rest = match.group(2) or ""
-        if key not in ("name", "description"):
+        if key not in _FRONTMATTER_FIELDS:
             raise CatalogError(f"{source}: unsupported frontmatter key {key!r}")
         if key in fields:
             raise CatalogError(f"{source}: duplicate frontmatter key {key!r}")
+
+        if key == "metadata":
+            if rest == "{}":
+                fields[key] = {}
+                index += 1
+                continue
+            if rest != "":
+                raise CatalogError(f"{source}: metadata must be a flat mapping")
+            content = []
+            index += 1
+            while index < len(body):
+                candidate = body[index]
+                if candidate.strip() == "" or candidate[:1] in (" ", "\t"):
+                    content.append(candidate)
+                    index += 1
+                else:
+                    break
+            if not any(line.strip() for line in content):
+                raise CatalogError(
+                    f"{source}: empty metadata is null in YAML; write 'metadata: {{}}' or a flat mapping"
+                )
+            fields[key] = _parse_metadata(content, source)
+            continue
 
         block = _BLOCK_HEADER.match(rest)
         if block:
@@ -319,6 +423,8 @@ def validate_name(name):
     """Return an error string, or ``None`` if the name is acceptable."""
     if not name:
         return "missing frontmatter name"
+    if len(name) > 64:
+        return f"skill name exceeds the 64-character limit: {name!r}"
     if not _NAME_PATTERN.fullmatch(name):
         return f"invalid skill name {name!r}"
     if not name.startswith("mag-"):
@@ -338,9 +444,23 @@ def read_skill_metadata(path, root):
     error = validate_name(name)
     if error:
         raise CatalogError(f"{rel}: {error}")
-    if not normalize_whitespace(fields.get("description", "")):
+    description = fields.get("description", "")
+    if not normalize_whitespace(description):
         raise CatalogError(f"{rel}: missing or empty frontmatter description")
-    return name, fields["description"]
+    for field, limit in (("description", 1024), ("compatibility", 500)):
+        # Measure the parsed value, not a stripped copy: the limit applies to
+        # what a client actually stores and shows.
+        value = fields.get(field, "")
+        if len(value) > limit:
+            raise CatalogError(
+                f"{rel}: frontmatter {field} exceeds the {limit}-character limit"
+            )
+    for field in ("license", "compatibility"):
+        if field in fields and not normalize_whitespace(fields[field]):
+            raise CatalogError(
+                f"{rel}: frontmatter {field} must not be empty when present"
+            )
+    return name, description
 
 
 def catalog_rows(root):

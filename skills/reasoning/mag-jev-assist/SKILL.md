@@ -1,6 +1,7 @@
 ---
 name: mag-jev-assist
 description: Use Jev selectively to help classify information, assess relevance, or choose among bounded alternatives, including suitable connected tools. Use when an agent has a concrete semantic judgment and Jev could help; do not require it for straightforward facts, exact computations, open-ended reasoning, or every tool call.
+compatibility: Jev is optional; a configured classifier provider or the Pi codemode adapter enables it, and the skill stays usable without either.
 ---
 
 # Jev assist

@@ -117,6 +117,238 @@ class FrontmatterParsingTests(unittest.TestCase):
                 self.write_skill("name: foo\ndescription: text\n"), self.root
             )
 
+    def test_optional_scalar_fields(self):
+        fm = self.parse(
+            "---\n"
+            "name: mag-foo\n"
+            "description: Do the thing.\n"
+            "license: Complete terms in LICENSE.txt\n"
+            "compatibility: Requires a host with filesystem access.\n"
+            "---\n"
+        )
+        self.assertEqual("Complete terms in LICENSE.txt", fm["license"])
+        self.assertEqual("Requires a host with filesystem access.", fm["compatibility"])
+
+    def test_flat_metadata_mapping(self):
+        fm = self.parse(
+            "---\n"
+            "name: mag-foo\n"
+            "description: Do the thing.\n"
+            "metadata:\n"
+            "  stability: stable\n"
+            "  supported-harnesses: pi, codex\n"
+            "---\n"
+        )
+        self.assertEqual(
+            {"stability": "stable", "supported-harnesses": "pi, codex"},
+            fm["metadata"],
+        )
+
+    def test_empty_metadata_mapping(self):
+        self.assertEqual(
+            {},
+            self.parse(
+                "---\nname: mag-foo\ndescription: Do the thing.\nmetadata: {}\n---\n"
+            )["metadata"],
+        )
+
+    def test_nested_metadata_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata:\n"
+                "  limits:\n"
+                "    tokens: 100\n"
+                "---\n"
+            )
+
+    def test_metadata_collection_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata:\n"
+                "  tags: [one, two]\n"
+                "---\n"
+            )
+
+    def test_duplicate_metadata_key_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata:\n"
+                "  stability: stable\n"
+                "  stability: experimental\n"
+                "---\n"
+            )
+
+    def test_plain_scalar_with_mapping_colon_fails(self):
+        # YAML reads "Optional: needs a host" as a nested mapping; the client
+        # then skips the skill instead of failing the build.
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "compatibility: Optional: needs a host\n"
+                "---\n"
+            )
+
+    def test_quoted_scalar_with_mapping_colon_is_allowed(self):
+        fm = self.parse(
+            "---\n"
+            "name: mag-foo\n"
+            "description: Do the thing.\n"
+            'compatibility: "Optional: needs a host"\n'
+            "---\n"
+        )
+        self.assertEqual("Optional: needs a host", fm["compatibility"])
+
+    def test_metadata_after_flow_empty_map_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata: {}\n"
+                "  stability: stable\n"
+                "---\n"
+            )
+
+    def test_tab_indented_metadata_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata:\n"
+                "\tstability: stable\n"
+                "---\n"
+            )
+
+    def test_tab_indented_block_scalar_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: >\n"
+                "\tline one\n"
+                "---\n"
+            )
+
+    def test_empty_metadata_value_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata:\n"
+                "  stability:\n"
+                "---\n"
+            )
+
+    def test_bare_metadata_key_fails(self):
+        # YAML reads a bare ``metadata:`` as null, not as an empty mapping.
+        with self.assertRaises(catalog.CatalogError):
+            self.parse("---\nname: mag-foo\ndescription: Do the thing.\nmetadata:\n---\n")
+
+    def test_quoted_empty_metadata_value_is_allowed(self):
+        fm = self.parse(
+            "---\n"
+            "name: mag-foo\n"
+            "description: Do the thing.\n"
+            "metadata:\n"
+            "  note: ''\n"
+            "---\n"
+        )
+        self.assertEqual({"note": ""}, fm["metadata"])
+
+    def test_unquoted_numeric_metadata_value_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\n"
+                "name: mag-foo\n"
+                "description: Do the thing.\n"
+                "metadata:\n"
+                "  priority: 1\n"
+                "---\n"
+            )
+
+    def test_quoted_numeric_metadata_value_is_allowed(self):
+        fm = self.parse(
+            "---\n"
+            "name: mag-foo\n"
+            "description: Do the thing.\n"
+            "metadata:\n"
+            "  priority: '1'\n"
+            "---\n"
+        )
+        self.assertEqual({"priority": "1"}, fm["metadata"])
+
+    def test_empty_compatibility_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            catalog.read_skill_metadata(
+                self.write_skill(
+                    "name: mag-foo\ndescription: A test skill.\ncompatibility: ''\n"
+                ),
+                self.root,
+            )
+
+    def test_empty_license_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            catalog.read_skill_metadata(
+                self.write_skill(
+                    "name: mag-foo\ndescription: A test skill.\nlicense:\n"
+                ),
+                self.root,
+            )
+
+    def test_yaml_non_string_scalars_fail(self):
+        for value in ("0x10", "1e3", "0b1010", "1_000", "2026-11-08", "+1.5"):
+            with self.subTest(value=value):
+                with self.assertRaises(catalog.CatalogError):
+                    self.parse(
+                        "---\nname: mag-foo\ndescription: " + value + "\n---\n"
+                    )
+
+    def test_plain_scalar_with_comment_indicator_fails(self):
+        # YAML would truncate the value at the comment.
+        with self.assertRaises(catalog.CatalogError):
+            self.parse(
+                "---\nname: mag-foo\ndescription: Fixes the bug #123 tracked upstream.\n---\n"
+            )
+
+    def test_quoted_comment_indicator_is_allowed(self):
+        fm = self.parse(
+            "---\nname: mag-foo\ndescription: 'Fixes the bug #123 tracked upstream.'\n---\n"
+        )
+        self.assertEqual("Fixes the bug #123 tracked upstream.", fm["description"])
+
+    def test_description_length_limit_applies_to_parsed_value(self):
+        # Quoted whitespace counts: a client stores it.
+        with self.assertRaises(catalog.CatalogError):
+            catalog.read_skill_metadata(
+                self.write_skill(
+                    "name: mag-foo\ndescription: 'x" + ("y" * 1024) + "'\n"
+                ),
+                self.root,
+            )
+
+    def test_clip_chomped_description_counts_its_newline(self):
+        exact = "d" * 1024
+        ok = self.write_skill("name: mag-foo\ndescription: >-\n  " + exact + "\n")
+        catalog.read_skill_metadata(ok, self.root)
+        overflow = self.write_skill(
+            "name: mag-foo\ndescription: >\n  " + exact + "\n", name="mag-bar"
+        )
+        with self.assertRaises(catalog.CatalogError):
+            catalog.read_skill_metadata(overflow, self.root)
+
     def test_duplicate_name_key_fails(self):
         with self.assertRaises(catalog.CatalogError):
             self.parse("---\nname: mag-foo\nname: mag-bar\ndescription: x\n---\n")
@@ -136,6 +368,26 @@ class FrontmatterParsingTests(unittest.TestCase):
     def test_unsupported_key_fails(self):
         with self.assertRaises(catalog.CatalogError):
             self.parse("---\nname: mag-foo\ndescription: x\nversion: 1\n---\n")
+
+    def test_description_length_limit_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            catalog.read_skill_metadata(
+                self.write_skill(
+                    "name: mag-foo\ndescription: " + ("x" * 1025) + "\n"
+                ),
+                self.root,
+            )
+
+    def test_compatibility_length_limit_fails(self):
+        with self.assertRaises(catalog.CatalogError):
+            catalog.read_skill_metadata(
+                self.write_skill(
+                    "name: mag-foo\n"
+                    "description: A test skill.\n"
+                    "compatibility: " + ("x" * 501) + "\n"
+                ),
+                self.root,
+            )
 
     def test_flow_list_description_fails(self):
         with self.assertRaises(catalog.CatalogError):

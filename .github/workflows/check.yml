@@ -28,4 +28,7 @@ jobs:
         run: ./scripts/list-skills.sh
 
       - name: Smoke test skills CLI discovery
-        run: npx skills@latest add ./ --list
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx skills@latest add ./ --list 2>&1 | python3 scripts/check_discovery.py

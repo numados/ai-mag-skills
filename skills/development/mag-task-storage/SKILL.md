@@ -1,6 +1,7 @@
 ---
 name: mag-task-storage
 description: Use optional persistent memory for reusable project knowledge and development-task tracking. Apply when asked to find, read, save or update knowledge; recover or record task state; or when an available MAG task skill delegates its memory handoff. Select each operation by actual MCP capabilities, supplying missing semantics through authorized record tools or files. Not a requirement for ordinary chat work, a replacement for the requested workflow, or permission to write.
+compatibility: Persistence requires an authorized task or knowledge store; ordinary chat and read-only work remain usable without one.
 ---
 
 # Knowledge and task memory

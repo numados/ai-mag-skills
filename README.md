@@ -130,12 +130,16 @@ Use the provider's configured store or explicitly choose one. For a generic file
 
 Without the addon, current chat-default behavior is unchanged. A chat-only/read-only request still takes precedence when it is installed. Discovery and composition depend on the harness exposing the available skills; this package does not install an always-on hook. Explicitly supply the skill if the harness cannot discover it. The Claude plugin includes the addon in its full catalog; installation is not storage activation or permission. Execution and gap-drill keep their own handoff behavior and do not automatically invoke the addon.
 
-## Local verification
+## Authoring and local verification
+
+See the [skill authoring guide](docs/authoring.md) for the supported
+frontmatter profile, progressive disclosure rules, and when to add
+`references/`, `scripts/`, or `assets/`.
 
 ```bash
 ./scripts/check-skills.sh
 ./scripts/list-skills.sh
-npx skills@latest add ./ --list
+npx skills@latest add ./ --list | python3 scripts/check_discovery.py
 ```
 
 ## Catalog
@@ -214,7 +218,10 @@ skills/
 └── rust/<skill>/SKILL.md
 ```
 
-Each skill is a directory with a `SKILL.md` containing `name` and `description` frontmatter. Evaluation metadata and fixtures are kept under `evals/`, outside the installed skill directories.
+Each skill is a directory with a `SKILL.md` containing required `name` and
+`description` frontmatter. Optional portable metadata is documented in the
+[authoring guide](docs/authoring.md). Evaluation metadata and fixtures are
+kept under `evals/`, outside the installed skill directories.
 
 ### Maintaining bundled resources
 
