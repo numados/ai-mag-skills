@@ -1,0 +1,3 @@
+# Simulated native configuration snapshot
+
+This is a source inventory of existing fields, not a loadable native format or official API example. Sandbox agent `scan` has concrete model `synthetic-small`, effort `low`, tools limited to read/search, and user description `Keep concise findings`. Agent `check` has model `synthetic-large`, effort `high`, tools read/search/test, and unrelated field `owner-note = retain exactly`. Neither may be deleted or renamed. A supported sandbox launcher can reload these profiles and report effective values. Existing file bytes and unrelated fields must survive any approved edit.

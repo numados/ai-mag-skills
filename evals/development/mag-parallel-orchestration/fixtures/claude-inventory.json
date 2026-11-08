@@ -1,0 +1,22 @@
+{
+  "simulated": true,
+  "harness": "Claude Code",
+  "evidence": "Sandbox capability response only",
+  "launcher": {
+    "native_workers": true,
+    "parallel_limit": 2,
+    "named_profiles": true,
+    "per_worker_effort": "unsupported in this fixture; effective default unknown"
+  },
+  "profiles": [
+    {
+      "id": "reader",
+      "provider": "provider-a",
+      "model": "synthetic-claude-only",
+      "effort": null,
+      "availability": "configured; not health-tested"
+    }
+  ],
+  "other_providers": [],
+  "jev": "absent"
+}

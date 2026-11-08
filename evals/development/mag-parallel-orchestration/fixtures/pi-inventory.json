@@ -1,0 +1,35 @@
+{
+  "simulated": true,
+  "harness": "Pi",
+  "evidence": "Sandbox capability response, not official API documentation",
+  "launcher": {
+    "native_workers": true,
+    "parallel_limit": 2,
+    "named_profiles": true,
+    "per_worker_effort": "profile-defined only"
+  },
+  "profiles": [
+    {
+      "id": "scan",
+      "provider": "provider-a",
+      "model": "synthetic-small",
+      "effort": "low",
+      "availability": "credentialed; no inference probe"
+    },
+    {
+      "id": "check",
+      "provider": "provider-b",
+      "model": "synthetic-large",
+      "effort": "high",
+      "availability": "credentialed; no inference probe"
+    },
+    {
+      "id": "catalog-only",
+      "provider": "provider-c",
+      "model": "synthetic-unverified",
+      "effort": null,
+      "availability": "catalog only; no credential evidence"
+    }
+  ],
+  "jev": "optional simulated classifier; disabled unless enabled by user"
+}

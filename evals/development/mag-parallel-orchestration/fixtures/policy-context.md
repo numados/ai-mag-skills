@@ -1,0 +1,3 @@
+# Simulated configured-session facts
+
+The project policy is local-only and valid for Pi unless a case overrides this fact. Roles evidence and independent-check reference native agents scan and check. Maximum concurrency is two. Automatic selection is enabled. The approved fallback for disabled check is scan, for read-only work only. No external-agent execution is authorized. Jev is off. Native provider-a and provider-b may receive these synthetic public project files unless a case narrows this permission. Native profiles own all concrete model and effort values; policy references them, not copies of their model tables. No policy edits are authorized during task execution.

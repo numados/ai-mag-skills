@@ -1,0 +1,75 @@
+{
+  "skill_name": "mag-parallel-orchestration",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Orchestrate two independent read-only reviews of pricing and access, then reconcile the evidence.",
+      "expected_skill": "mag-parallel-orchestration",
+      "should_trigger": true,
+      "notes": "Explicit orchestration with independent bounded work."
+    },
+    {
+      "id": 2,
+      "prompt": "Compare the API contract against source while independently checking access logic. Return confirmed risks only.",
+      "expected_skill": "mag-parallel-orchestration",
+      "should_trigger": true,
+      "notes": "Implicit useful independent research; assess before native dispatch."
+    },
+    {
+      "id": 3,
+      "prompt": "Help me set up native agents for this project; inspect available capabilities before proposing changes.",
+      "expected_skill": "mag-parallel-orchestration",
+      "should_trigger": true,
+      "notes": "Explicit setup branch; discovery is not write approval."
+    },
+    {
+      "id": 4,
+      "prompt": "My saved reviewer model is unavailable. Inspect the native routes and help repair orchestration without changing files yet.",
+      "expected_skill": "mag-parallel-orchestration",
+      "should_trigger": true,
+      "notes": "Missing-model recovery branch with approval boundary."
+    },
+    {
+      "id": 5,
+      "prompt": "Plan only: gather contract and security evidence in parallel if useful, but do not implement or change the approved planning workflow.",
+      "expected_skill": "mag-parallel-orchestration",
+      "should_trigger": true,
+      "notes": "Mixed intent: orchestration assists evidence gathering without owning or bypassing plan-only scope."
+    },
+    {
+      "id": 6,
+      "prompt": "Fix the single typo recieve to receive in the README.",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Trivial correction does not justify fan-out or setup dialogue."
+    },
+    {
+      "id": 7,
+      "prompt": "First read the migration output, then use that result to choose the next single migration step. Each step depends on the previous one.",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Sequential dependency chain alone is not useful parallelism."
+    },
+    {
+      "id": 8,
+      "prompt": "Explain how to limit concurrency in this application parallel loop.",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Application concurrency is not agent orchestration."
+    },
+    {
+      "id": 9,
+      "prompt": "What is an agent, and how does it differ from a normal function call?",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Conceptual explanation needs no orchestration."
+    },
+    {
+      "id": 10,
+      "prompt": "Inspect pricing and security yourself. Do not delegate or call any other agents.",
+      "expected_skill": "none",
+      "should_trigger": false,
+      "notes": "Explicit no-delegation constraint wins despite independent subjects."
+    }
+  ]
+}

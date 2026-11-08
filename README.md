@@ -98,6 +98,7 @@ npx skills@latest add ./ --list
 | [`mag-code-design`](skills/development/mag-code-design/SKILL.md) | Design internal code structure and interfaces. |
 | [`mag-code-review`](skills/development/mag-code-review/SKILL.md) | Review changes and verify review findings. |
 | [`mag-discuss-changes`](skills/development/mag-discuss-changes/SKILL.md) | Explain changes interactively, one idea at a time. |
+| [`mag-parallel-orchestration`](skills/development/mag-parallel-orchestration/SKILL.md) | Coordinate native agents with integrated setup, model/effort discovery, and verified synthesis. |
 | [`mag-pr-replies`](skills/development/mag-pr-replies/SKILL.md) | Prepare evidence-based replies to review comments. |
 | [`mag-task-execution`](skills/development/mag-task-execution/SKILL.md) | Execute an authorized development plan and verify it. |
 | [`mag-task-gap-drill`](skills/development/mag-task-gap-drill/SKILL.md) | Investigate a consequential uncertainty in a task. |
