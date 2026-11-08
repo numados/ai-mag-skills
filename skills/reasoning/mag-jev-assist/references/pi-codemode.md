@@ -2,6 +2,14 @@
 
 Use only when Pi codemode and a permitted Jev classifier are available. Consult the environment's current `codemode` documentation if its API differs. `searchTools()` ranks tool descriptions; `describeTool()` supplies the declaration. Neither establishes that a tool is accessible or suitable.
 
+## Prerequisites
+
+This is an integration example, not a Jev installer. The host must expose codemode's model API. Its provider configuration must already supply Jev access and any required credentials. This catalog does not distribute a classifier runtime or define a universal provisioning command.
+
+For a setup request, establish the user's actual host and provider. Then consult their supported configuration documentation. Do not guess an endpoint or ask the user to paste credentials into chat. If no permitted Jev classifier is available, use ordinary reasoning or tools instead. Report the limitation if it affects the task. The rest of the catalog does not require Jev.
+
+## Classification example
+
 The example is a bounded relevance decision, not a generic prompt for unrestricted reasoning. Replace the synthetic state and criteria with the minimum permitted task context:
 
 ```js

@@ -9,6 +9,9 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- MIT license, included in each independently installable skill directory.
+- First-use examples, invocation guidance, and runtime requirements in the README.
+- Bundled shared references with a single editable owner, deterministic synchronization, and isolation regression checks.
 - `mag-task-storage`: optional reusable knowledge and task memory, capability-driven MCP/record/file access, provider-format preservation and conditional research/planning/history integration.
 - `mag-parallel-orchestration`: native-agent coordination with integrated capability-driven setup, project-local routing preferences, optional Jev assistance, and explicit-user-direction-only external agent execution; synthetic behavioral and routing evaluation inputs.
 - Five Phase 2 C#/.NET skills: `mag-aspnet-core` (request pipeline, auth/resource authorization, DI lifetimes, caching tenancy, HTTP resilience, observability), `mag-dotnet-testing-quality` (test seams, WebApplicationFactory/Testcontainers, TimeProvider, VSTest vs MTP/TUnit detection), `mag-csharp-refactor` (behavior-preserving refactoring with compatibility contracts), `mag-csharp-explain` (code explanation without editing), and `mag-ef-core` (translation, tracking, pooling, transactions, concurrency, migrations, provider realism).
@@ -17,6 +20,7 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Make construction and C# reference paths local to each skill instead of requiring neighboring skills or a source checkout.
 - Clarify `mag-task-research` as problem understanding, evidence gathering and justified solution direction, not implementation planning. Extend `mag-task-planning` with proportionate architecture/code design, available-skill composition and version-applicable technology verification; add focused regression scenarios and synthetic file-backed fixtures.
 - Prefix all public skill identities with `mag-` to avoid collisions after installation.
 - Document migration from unprefixed skill names.

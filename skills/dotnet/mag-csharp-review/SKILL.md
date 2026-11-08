@@ -41,7 +41,7 @@ Investigate the risk surface in this order and trace each suspicion through call
 - **Concurrency:** shared/static state without synchronization, lock scope and ordering, sync-over-async (`.Result`, `.Wait()`, `.GetAwaiter().GetResult()`) and deadlock/thread-pool starvation, `async void` outside event handlers, races, `volatile`/`Interlocked`/`ConcurrentDictionary` misuse.
 - **Performance:** flag only reachable, material costs — hot-path allocations, deferred/multiple LINQ enumeration, string concatenation in loops, boxing, unbounded collections — and only when scale or evidence makes it consequential. Route measured optimization to `mag-dotnet-performance`.
 - **Maintainability:** actionable only — a violated repository rule, or a concrete coupling/co-change consequence across named locations. Never report formatting or naming taste as a defect.
-- **Design / anti-patterns:** flag a God Object, premature abstraction, pattern overuse, or a DRY violation only with a concrete co-change consequence, and only against the file's own maintainability standard (verification checklists: `skills/development/mag-code-design/references/principles.md`). In existing code, report only when the reviewed change activates or worsens it — follow the attribution rules under Findings.
+- **Design / anti-patterns:** flag a God Object, premature abstraction, pattern overuse, or a DRY violation only with a concrete co-change consequence, and only against the file's own maintainability standard (bundled [verification checklists](references/principles.md)). In existing code, report only when the reviewed change activates or worsens it — follow the attribution rules under Findings.
 
 ## Verify each candidate
 

@@ -72,6 +72,50 @@ claude plugin install numados-skills@numados
 
 Use one channel per installation target; do not install both the universal skills package and the Claude plugin into the same target.
 
+## First use
+
+A skill supplies instructions and bundled references, not a new executable tool. After installation, start a new agent session or use the host's reload mechanism. Work from the repository or directory that contains the material for your task.
+
+### Invoke a skill explicitly
+
+In Pi, use `/reload` after installing into an active session, then enter:
+
+```text
+/skill:mag-code-review Review the current local diff. Do not modify files or post comments. Return only verified findings with file locations and impact.
+```
+
+For a standalone Claude Code skill, use `/mag-code-review`. For the Claude plugin channel above, use `/numados-skills:mag-code-review`. Append the same task description after the command. Command names and explicit-invocation syntax depend on the host; other supported agents can also select skills from a natural-language request.
+
+The result is a read-only review with verified findings, or a statement that no actionable findings were found. It also identifies important verification limits. If you do not mean the current local diff, supply the intended base/head or files.
+
+To check loading, inspect the host's tool trace for the requested `SKILL.md` read or its explicit skill-loading event. A mention of the skill name in the answer is not proof that it was loaded. If it is missing, check the installed skill name and scope, reload the session, and use the host's explicit invocation. If the host cannot discover skills, supply the installed `SKILL.md` path and ask the agent to read it before the task.
+
+### Other example requests
+
+Use these task descriptions with your host's skill invocation, or name the skill in a normal request:
+
+| Skill | Example request | Expected result |
+|---|---|---|
+| `mag-task-research` | Investigate why invoice totals differ from the supplied example. Read the example and relevant code. Do not edit files or produce an implementation plan. | Evidence, current behavior, a supported solution direction, and open questions. |
+| `mag-task-planning` | Plan the supplied invoice-rounding fix in this repository. Identify files, integration points, tests, and unresolved decisions. Do not implement it. | An actionable plan with scope, acceptance checks, and unresolved choices. |
+| `mag-code-construction` | Implement the approved rounding plan above, including its tests. Stay within the approved files and behavior. Do not install dependencies, commit, or deploy. | The authorized changes and actual verification results, including checks that could not run. |
+
+These are separate requests, not a mandatory pipeline. Start with the skill matching your goal. Installing a skill or obtaining a plan does not authorize implementation; approve the actual plan before using the implementation example. If the plan is not in the current conversation, supply it explicitly.
+
+## Requirements and optional capabilities
+
+Each skill can be installed on its own. Its required reference files and license are inside its directory. Names of other skills indicate optional alternatives or specialist guidance, not installation dependencies. No source checkout or resource-generation step is needed to use an installed skill.
+
+| Capability | What must already be available |
+|---|---|
+| Installation through `skills` | Node.js and npm/npx. The CLI currently requires Node.js 22.20 or later. Git and network access are needed for GitHub sources. See the [CLI documentation](https://github.com/vercel-labs/skills). |
+| Reading, editing, or verifying project code | The host agent's permitted file, shell, and documentation tools. Builds and tests need the target project's toolchain, such as .NET or Rust, when those checks are requested. |
+| `mag-parallel-orchestration` | A native subagent launcher exposed by the host. Pi requires an installed subagent extension; the skill does not install one. See its [runtime guides](skills/development/mag-parallel-orchestration/SKILL.md). |
+| `mag-jev-assist` | Externally configured Jev classifier access. Jev is an optional model for choosing among bounded alternatives, not a general reasoning replacement. This repository supplies instructions and a [Pi codemode adapter](skills/reasoning/mag-jev-assist/references/pi-codemode.md), not the classifier runtime, credentials, or provider setup. |
+| Persistent task memory | An explicitly configured and authorized store. See the optional integration below. No particular MCP server is required. |
+
+Installing these skills does not install compilers, MCP servers, agent extensions, model providers, or storage. It grants no access or write permission. Without optional capabilities, the agent uses ordinary reasoning, direct work, or chat output where suitable. It reports important capability limits. An unavailable capability is not permission to install or configure it.
+
 ## Optional knowledge and task memory
 
 Research, planning and history work without persistent storage. Install `mag-task-storage` to add optional memory integration:
@@ -84,7 +128,7 @@ The addon separates reusable knowledge from task state and history. It uses read
 
 Use the provider's configured store or explicitly choose one. For a generic file store, an existing project `.mag-storage.json` can specify `root`, `knowledgeRoot` and `taskRoot`; see the [access contract](skills/development/mag-task-storage/references/access.md). Installing the skill does not configure a store, grant write permission, migrate data or install a server. A configured and authorized store enables task handoffs; without a destination the result remains in chat and is reported as unsaved. Knowledge changes need their own authorization, not just permission to log tasks.
 
-Without the addon, current chat-default behavior is unchanged. A chat-only/read-only request still takes precedence when it is installed. Discovery and composition depend on the harness exposing the available skills; this package does not install an always-on hook. Explicitly supply the skill if the harness cannot discover it. The Claude plugin includes the addon in its full catalog; installation is not storage activation or permission. Execution and gap-drill keep their existing handoff behavior and are not automatically wired to the addon in this change.
+Without the addon, current chat-default behavior is unchanged. A chat-only/read-only request still takes precedence when it is installed. Discovery and composition depend on the harness exposing the available skills; this package does not install an always-on hook. Explicitly supply the skill if the harness cannot discover it. The Claude plugin includes the addon in its full catalog; installation is not storage activation or permission. Execution and gap-drill keep their own handoff behavior and do not automatically invoke the addon.
 
 ## Local verification
 
@@ -170,6 +214,21 @@ skills/
 ```
 
 Each skill is a directory with a `SKILL.md` containing `name` and `description` frontmatter. Evaluation metadata and fixtures are kept under `evals/`, outside the installed skill directories.
+
+### Maintaining bundled resources
+
+Shared reference text has one editable owner, recorded in `scripts/sync-skill-resources.py`. Other skills receive committed local copies, marked as generated. The root `LICENSE` owns the license text included in every skill directory. Edit the owner. Then regenerate the copies and run the checks:
+
+```bash
+python3 scripts/sync-skill-resources.py
+./scripts/check-skills.sh
+```
+
+Do not edit generated copies. `check-skills.sh` checks synchronization without rewriting files and runs resource regression tests. It rejects local reference links that leave the individual skill directory or point to missing files. This is a maintainer step, not an installation requirement. Local checks require Bash and Python 3.9 or later; the resource script uses only the Python standard library.
+
+## License
+
+[MIT](LICENSE). Each independently installable skill includes the same license notice. Third-party sources linked by the skills retain their own terms; a link does not relicense the source material.
 
 ## Versioning
 

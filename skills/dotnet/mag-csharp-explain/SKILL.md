@@ -33,7 +33,7 @@ A short, clearly labelled closing note may mention an obvious risk or behavior w
 
 When the code uses an API, syntax, or compiler feature whose availability depends on the target framework (TFM) or language version, name that floor instead of assuming the newest release. Examples: `TimeProvider`/`ITimer` is in-box from .NET 8; `Task.WhenEach` is .NET 9+; a record, pattern, or `allows ref struct` syntax is gated by the language version. If the project's TFM is not visible, state that the fact is conditional and say what a confirming project file would establish.
 
-For an unfamiliar or version-sensitive construct, verify it against current official Microsoft/.NET documentation for the effective TFM and language version (see `mag-csharp-implementation`'s `references/version-and-docs.md` for the official routing). When documentation is unreachable, report the uncertainty — never assert an API signature or behavior from memory.
+For an unfamiliar or version-sensitive construct, verify it against current official Microsoft/.NET documentation for the effective TFM and language version (see the bundled [version and documentation reference](references/version-and-docs.md) for the official routing). When documentation is unreachable, report the uncertainty — never assert an API signature or behavior from memory.
 
 ## Output
 

@@ -1,6 +1,7 @@
 {
   "name": "numados-skills",
   "version": "0.1.0",
+  "license": "MIT",
   "description": "Numados agent skills for communication, development, reasoning, Rust, and C#/.NET engineering.",
   "author": {
     "name": "Numados",

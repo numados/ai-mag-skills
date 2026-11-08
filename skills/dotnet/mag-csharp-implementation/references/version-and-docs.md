@@ -1,6 +1,6 @@
 # Version detection and documentation routing
 
-Load this reference only when a change uses an unfamiliar or version-sensitive API, syntax, compiler option, or analyzer, or when the effective versions are unclear.
+Load this reference only when the code under discussion uses an unfamiliar or version-sensitive API, syntax, compiler option, or analyzer, or when the effective versions are unclear.
 
 ## Detecting versions separately
 
@@ -19,7 +19,7 @@ Check order: repository source and generated types first; then resolved package 
 
 ## When to consult official documentation
 
-Before using an unfamiliar or version-sensitive construct, confirm its syntax, signature, availability, nullability, and runtime behavior for the effective TFM and language version. Build the smallest affected target soon after introducing the construct and treat compiler/analyzer diagnostics as evidence.
+Before using an unfamiliar or version-sensitive construct, confirm its syntax, signature, availability, nullability, and runtime behavior for the effective TFM and language version. During authorized implementation, build the smallest affected target soon after introducing the construct and treat compiler/analyzer diagnostics as evidence. A read-only explanation or review does not authorize restore, build, or test execution.
 
 ## Focused official references
 
