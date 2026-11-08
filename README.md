@@ -117,8 +117,8 @@ npx skills@latest add ./ --list
 | [`mag-task-execution`](skills/development/mag-task-execution/SKILL.md) | Execute an authorized development plan and verify it. |
 | [`mag-task-gap-drill`](skills/development/mag-task-gap-drill/SKILL.md) | Investigate a consequential uncertainty in a task. |
 | [`mag-task-history`](skills/development/mag-task-history/SKILL.md) | Recover task state, decisions, and remaining work. |
-| [`mag-task-planning`](skills/development/mag-task-planning/SKILL.md) | Create an actionable implementation plan. |
-| [`mag-task-research`](skills/development/mag-task-research/SKILL.md) | Research a development task before planning or implementation. |
+| [`mag-task-planning`](skills/development/mag-task-planning/SKILL.md) | Plan clean implementation and correct integration; preserve existing architecture unless redesign is explicitly requested. |
+| [`mag-task-research`](skills/development/mag-task-research/SKILL.md) | Understand a problem and establish an evidence-based solution direction, without implementation planning. |
 | [`mag-task-storage`](skills/development/mag-task-storage/SKILL.md) | Add optional reusable knowledge and task memory through available MCP capabilities or compatible files. |
 | [`mag-tdd`](skills/development/mag-tdd/SKILL.md) | Develop behavior test-first with red-green-refactor cycles. |
 

@@ -17,6 +17,7 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Clarify `mag-task-research` as problem understanding, evidence gathering and justified solution direction, not implementation planning. Extend `mag-task-planning` with proportionate architecture/code design, available-skill composition and version-applicable technology verification; add focused regression scenarios and synthetic file-backed fixtures.
 - Prefix all public skill identities with `mag-` to avoid collisions after installation.
 - Document migration from unprefixed skill names.
 

@@ -1,0 +1,6 @@
+{
+  "name": "tier-cache-fixture",
+  "private": true,
+  "type": "module",
+  "dependencies": {"@fixture/memo-cache": "2.4.0"}
+}
