@@ -20,6 +20,8 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Correct repository URLs and installation sources, remove the unavailable skills.sh catalog link, and replace the nonexistent release-tag example with a published commit.
+- Clarify shared installation directories, migration scope, AI-writing assessment boundaries, and outcome-specific .NET environment checks.
 - Make construction and C# reference paths local to each skill instead of requiring neighboring skills or a source checkout.
 - Clarify `mag-task-research` as problem understanding, evidence gathering and justified solution direction, not implementation planning. Extend `mag-task-planning` with proportionate architecture/code design, available-skill composition and version-applicable technology verification; add focused regression scenarios and synthetic file-backed fixtures.
 - Prefix all public skill identities with `mag-` to avoid collisions after installation.

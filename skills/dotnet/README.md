@@ -23,7 +23,7 @@ For mixed requests, preserve explicit read-only, output, and file boundaries. An
 
 ## Shared contract
 
-- Detect the repository's SDK, language version, target frameworks, runtime, package graph, analyzers, and CI rather than assuming a current release.
+- Establish the repository and version facts relevant to the requested outcome. These can include the SDK, language version, target frameworks, runtime, packages, analyzers, and CI. Do not assume the newest release or require an unrelated environment inventory.
 - Preserve source, binary, wire, resource-lifetime, and behavioral contracts within the authorized scope.
 - Load a skill's references only for the problem at hand. No skill requires another skill, tracker, harness, or storage backend.
 - Treat restore, build, tests, profiling, and publishing as operations with effects. Respect repository trust, user authority, and dependency-installation boundaries.

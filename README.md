@@ -1,6 +1,6 @@
 # Numados Skills
 
-[![skills.sh](https://skills.sh/b/numados/skills)](https://skills.sh/numados/skills)
+[GitHub repository](https://github.com/numados/ai-mag-skills)
 
 A maintained catalog of agent skills for communication, development, reasoning, Rust, and C#/.NET engineering.
 
@@ -15,29 +15,31 @@ The standard [`skills`](https://github.com/vercel-labs/skills) CLI supports pi, 
 Interactive installation:
 
 ```bash
-npx skills@latest add numados/skills
+npx skills@latest add numados/ai-mag-skills
 ```
 
-Non-interactive installation for pi only:
+Non-interactive installation targeting Pi:
 
 ```bash
 # Project scope
-npx skills@latest add numados/skills -a pi -y
+npx skills@latest add numados/ai-mag-skills -a pi -y
 
 # Global scope
-npx skills@latest add numados/skills -a pi -g -y
+npx skills@latest add numados/ai-mag-skills -a pi -g -y
 ```
+
+The CLI uses `.agents/skills/` for project installation and `~/.agents/skills/` for global installation targeting Pi. Other agents that read these shared directories can discover the same skills. The `-a pi` flag does not isolate them from those agents.
 
 Non-interactive installation for all supported agents:
 
 ```bash
-npx skills@latest add numados/skills -a '*' -g -y
+npx skills@latest add numados/ai-mag-skills -a '*' -g -y
 ```
 
 Install one skill:
 
 ```bash
-npx skills@latest add numados/skills -s mag-code-review -a pi -g -y
+npx skills@latest add numados/ai-mag-skills -s mag-code-review -a pi -g -y
 ```
 
 Update installed skills:
@@ -48,25 +50,23 @@ npx skills@latest update
 
 ### Migration from unprefixed names
 
-The catalog uses the `mag-` prefix to avoid collisions with skills from other repositories. Existing installations keep the old directories; remove each old skill name you installed, then install the catalog again.
+The catalog uses the `mag-` prefix to avoid collisions with skills from other repositories. A new name does not remove an old installation. Before removal, identify the old skills from this catalog and their installation scope. Do not remove same-named skills from other sources.
+
+For an old global installation targeting Pi, remove each confirmed old name, then install this catalog:
 
 ```bash
-npx skills@latest remove rust-review --global --agent '*'
-npx skills@latest add numados/skills -a pi -g -y
+npx skills@latest remove rust-review --global --agent pi
+npx skills@latest add numados/ai-mag-skills -a pi -g -y
 ```
 
-Pin an installation to a stable Git tag:
-
-```bash
-npx skills@latest add numados/skills#v0.1.0
-```
+For a project installation, omit `--global` and `-g`. For a fixed catalog revision, see [Versioning](#versioning).
 
 ### Claude Code plugin
 
 This repository also contains Claude Code plugin manifests:
 
 ```bash
-claude plugin marketplace add https://github.com/numados/skills.git
+claude plugin marketplace add https://github.com/numados/ai-mag-skills.git
 claude plugin install numados-skills@numados
 ```
 
@@ -86,7 +86,7 @@ In Pi, use `/reload` after installing into an active session, then enter:
 
 For a standalone Claude Code skill, use `/mag-code-review`. For the Claude plugin channel above, use `/numados-skills:mag-code-review`. Append the same task description after the command. Command names and explicit-invocation syntax depend on the host; other supported agents can also select skills from a natural-language request.
 
-The result is a read-only review with verified findings, or a statement that no actionable findings were found. It also identifies important verification limits. If you do not mean the current local diff, supply the intended base/head or files.
+This request asks for a read-only review with verified findings and important verification limits. The skill directs the agent to state when it finds no actionable issues. If you do not mean the current local diff, supply the intended base/head or files.
 
 To check loading, inspect the host's tool trace for the requested `SKILL.md` read or its explicit skill-loading event. A mention of the skill name in the answer is not proof that it was loaded. If it is missing, check the installed skill name and scope, reload the session, and use the host's explicit invocation. If the host cannot discover skills, supply the installed `SKILL.md` path and ask the agent to read it before the task.
 
@@ -121,7 +121,7 @@ Installing these skills does not install compilers, MCP servers, agent extension
 Research, planning and history work without persistent storage. Install `mag-task-storage` to add optional memory integration:
 
 ```bash
-npx skills@latest add numados/skills -s mag-task-storage -a pi -g -y
+npx skills@latest add numados/ai-mag-skills -s mag-task-storage -a pi -g -y
 ```
 
 The addon separates reusable knowledge from task state and history. It uses ready MCP domain operations first, supplies missing semantics through record tools, or uses compatible authorized files. It selects access per operation, not merely by MCP presence. An access denial never authorizes a filesystem bypass.
@@ -144,7 +144,7 @@ npx skills@latest add ./ --list
 
 | Skill | Purpose |
 |---|---|
-| [`mag-ai-writing`](skills/communication/mag-ai-writing/SKILL.md) | Audit and improve prose for factual, evidentiary, structural, and stylistic quality. |
+| [`mag-ai-writing`](skills/communication/mag-ai-writing/SKILL.md) | Assess AI-like writing patterns and write or edit clear, natural prose without inferring authorship. |
 | [`mag-clear-report`](skills/communication/mag-clear-report/SKILL.md) | Produce a clear, structured report for a named reader. |
 | [`mag-minto-pyramid`](skills/communication/mag-minto-pyramid/SKILL.md) | Structure answers with the conclusion first and grouped supporting points. |
 
@@ -232,4 +232,10 @@ Do not edit generated copies. `check-skills.sh` checks synchronization without r
 
 ## Versioning
 
-`main` contains the latest development version. Stable snapshots are published as Git tags such as `v0.1.0`; use a tag when reproducible installations are required. Changes are documented in [`CHANGELOG.md`](CHANGELOG.md).
+`main` is the development branch. No Git release tags are currently published. To fix the catalog revision, install from a full commit SHA:
+
+```bash
+npx skills@latest add numados/ai-mag-skills#57bb6ca7a63431c192e026351315903faef18b5e
+```
+
+This example points to a published commit. It fixes the skill source revision, not the installer or host version. The plugin manifest's `0.1.0` version does not imply a published Git tag. Changes are documented in [`CHANGELOG.md`](CHANGELOG.md).
