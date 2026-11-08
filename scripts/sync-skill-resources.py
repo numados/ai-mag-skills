@@ -8,6 +8,19 @@ from urllib.parse import unquote, urlsplit
 
 # Each reference has one editable owner. Destinations are committed distribution copies.
 SHARED_REFERENCES = {
+    "skills/rust/mag-rust-implementation/references/api-contracts.md": (
+        "skills/rust/mag-rust-project/references/api-contracts.md",
+        "skills/rust/mag-rust-review/references/api-contracts.md",
+        "skills/rust/mag-rust-refactor/references/api-contracts.md",
+    ),
+    "skills/rust/mag-rust-async-reliability/references/lifecycle.md": (
+        "skills/rust/mag-rust-implementation/references/lifecycle.md",
+    ),
+    "skills/rust/mag-rust-async-reliability/references/concurrency-model.md": (
+        "skills/rust/mag-rust-unsafe-review/references/concurrency-model.md",
+        "skills/rust/mag-rust-review/references/concurrency-model.md",
+        "skills/rust/mag-rust-testing-quality/references/concurrency-model.md",
+    ),
     "skills/development/mag-code-design/references/principles.md": (
         "skills/development/mag-code-construction/references/principles.md",
         "skills/dotnet/mag-csharp-review/references/principles.md",
@@ -84,11 +97,36 @@ def validate_local_references(root):
     return errors
 
 
-def main():
+def validate_ownership(root):
+    """Every reference has one owner; owners are never generated copies."""
+    errors = []
+    destinations = {}
+    for source, targets in SHARED_REFERENCES.items():
+        for destination in targets:
+            if destination in destinations:
+                errors.append(
+                    f"duplicate generated destination: {destination} "
+                    f"({destinations[destination]} and {source})"
+                )
+            destinations[destination] = source
+    for source in SHARED_REFERENCES:
+        if source in destinations:
+            errors.append(f"owner is also a generated copy: {source}")
+    return errors
+
+
+def main(argv=None, root=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="report drift without writing files")
-    args = parser.parse_args()
-    root = Path(__file__).resolve().parent.parent
+    args = parser.parse_args(argv)
+    if root is None:
+        root = Path(__file__).resolve().parent.parent
+    ownership_errors = validate_ownership(root)
+    if ownership_errors:
+        for error in ownership_errors:
+            print(f"FAIL {error}")
+        print("FAIL refusing to synchronize an invalid reference ownership map")
+        return 1
     errors = sync_resources(root, check=args.check) + validate_local_references(root)
     if errors:
         for error in errors:

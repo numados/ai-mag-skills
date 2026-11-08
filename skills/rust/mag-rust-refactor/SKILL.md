@@ -26,8 +26,8 @@ Behavior includes outputs, errors, panics, side effects, evaluation order, alloc
 Classify every move:
 
 - Mechanical: local syntax or representation change only after proving evaluation order, ownership, panic and error behavior are unchanged.
-- Structural: module visibility, crate boundaries, public signatures, derives, error types, feature contracts or test seams. Confirm separately.
-- Semantic-risk: algorithm, data structure, eager/lazy evaluation, caching, concurrency, allocation, or performance change. Require a benchmark, invariant proof, or explicit user decision.
+- Structural: module visibility, crate boundaries, public signatures, trait methods, derives, error types, feature contracts or test seams. Load `references/api-contracts.md` for public type and trait compatibility. Confirm separately.
+- Semantic-risk: algorithm, data structure, eager/lazy evaluation, ownership model, generic/`dyn` dispatch, caching, concurrency, allocation, or performance change. Require a benchmark, invariant proof, or explicit user decision.
 
 Examples:
 

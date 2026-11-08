@@ -7,6 +7,17 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Rust skills: add book-informed references with single owners and generated distribution copies — `api-contracts.md` (implementation; copies in project/review/refactor), `lifecycle.md` (async-reliability; copy in implementation), and `concurrency-model.md` (async-reliability; copies in unsafe-review/review/testing-quality). Core skills gained conditional decision rules for conversions, fallible release versus `Drop`, feature unification, wake/cancellation contracts, capacity ownership, publication/CAS/wait-predicate analysis, and Send/Sync/'static distinctions.
+- Correct `mag-rust-project` lockfile guidance: the lockfile records one resolved dependency graph; reproduction also depends on toolchain, target, features, command, environment and services.
+- Route unsafe review by requested outcome rather than any occurrence of unsafe code; explanation-only unsafe requests stay with `mag-rust-explain`.
+
+### Fixed
+
+- Rust eval fixtures that did not contain the behavior their prompts referenced (`mag-rust-async-reliability` worker, `mag-rust-explain` async shutdown), plus an implementation routing label and new domain-type, unsafe-guard, and feature-unification eval cases with fixtures.
+- Eval validation now rejects non-boolean `should_trigger` values and files where the label is present on only some entries.
+
 ### Added
 
 - `scripts/check_discovery.py` and a CI gate that fails when a client skips a skill or lists a different set than the repository publishes.

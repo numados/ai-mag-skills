@@ -10,8 +10,8 @@
     },
     {
       "id": 2,
-      "prompt": "Explain this async module and how shutdown reaches its workers. Some callers are unavailable.",
-      "expected_output": "Bounded data-flow explanation with explicit limits.",
+      "prompt": "Explain what run does in this module and how shutdown is supposed to reach the workers. Some callers are unavailable.",
+      "expected_output": "Bounded data-flow explanation: abort does not await completion, ownership lives in Supervisor, run does not itself stop admission (receiver and callers unavailable, sends can fail after receiver closure); explicit limits on untraced callers.",
       "should_trigger": true,
       "files": [
         "fixtures/explain.rs"

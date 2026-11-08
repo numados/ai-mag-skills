@@ -7,7 +7,9 @@ description: Be the primary reviewer for unsafe Rust, raw pointers, FFI, unsafe 
 
 ## When to Use
 
-Use whenever the scope contains unsafe blocks or functions, raw pointers, unions, transmute, FFI, unsafe traits, unsafe impl Send/Sync, custom allocators, pinning invariants, or a safe abstraction over unsafe code.
+Use when the requested outcome is an unsafe or soundness audit and the scope contains unsafe blocks or functions, raw pointers, unions, transmute, FFI, unsafe traits, unsafe impl Send/Sync, custom allocators, pinning invariants, or a safe abstraction over unsafe code. Explanation-only requests remain explanation tasks even when the code contains unsafe.
+
+When the code contains atomics, custom synchronization, or reclamation, load `references/concurrency-model.md` and trace its state and lifetime invariants.
 
 This skill is read-only unless the user separately authorizes a fix.
 

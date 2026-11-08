@@ -21,6 +21,8 @@ Do not edit source, format files, install dependencies, commit, or post review c
 
 ## Review lenses
 
+When the code contains public type or trait boundaries, load `references/api-contracts.md`. When it contains custom atomics, locks, channels, condition variables, or unsafe synchronization, load `references/concurrency-model.md`.
+
 Check:
 
 - unsafe validity, alignment, initialization, aliasing, provenance and safety contracts;
@@ -28,6 +30,7 @@ Check:
 - preserved error sources, context, retry semantics and cancellation behavior;
 - public API, semver, feature, MSRV, serialization and dependency contracts;
 - clones, allocations, blocking work, lock scope, task lifetime and queue bounds;
+- publication, happens-before edges, compare-exchange success/failure orderings, wait predicates, reclamation and auto-trait bounds when concurrency requires them;
 - state transitions, cleanup, restart, shutdown and recovery;
 - tests for changed behavior, failure paths, feature combinations and public docs;
 - formatting and lint policy only when it affects the repository contract.

@@ -24,10 +24,12 @@ Do not use this skill to refactor an existing project without a concrete structu
 Separate three facts:
 
 - The manifest range is the compatibility promise to downstream users.
-- Cargo.lock is the locally resolved graph and is authoritative for reproducing this checkout.
+- Cargo.lock records the dependency graph resolved for this checkout. Reproduction also depends on the toolchain, target, enabled features and command, relevant environment, and external services.
 - MSRV is the minimum compiler version the package promises, not the compiler currently installed.
 
-For a library, verify new syntax and dependency APIs against the declared MSRV and the supported dependency range. For an application, the lockfile may be the main reproducibility contract, but still respect the repository's stated policy. If the lower bound matters, use the repository's minimal-version or MSRV job; do not invent a command that the project does not support.
+For a library, verify new syntax and dependency APIs against the declared MSRV and the supported dependency range. For an application, the lockfile may be the main dependency-reproducibility contract, but still respect the repository's stated policy. If the lower bound matters, use the repository's minimal-version or MSRV job; do not invent a command that the project does not support.
+
+Cargo features unify additively within one dependency graph. `default-features = false` does not isolate a dependency from features requested elsewhere. Avoid feature-gating public fields or required trait methods. Inspect duplicate dependency versions and types exposed through public signatures. For public type and trait boundaries, load `references/api-contracts.md`.
 
 Before using an unfamiliar API, check local dependency source or generated docs, then the exact resolved docs.rs version and authoritative Rust/Cargo documentation. State any unverified stabilization or feature assumption.
 

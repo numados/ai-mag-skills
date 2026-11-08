@@ -535,7 +535,7 @@ class EvalValidationTests(unittest.TestCase):
         data = {
             "skill_name": "mag-foo",
             "evals": [
-                {"id": 1, "prompt": "Do it.", "expected_output": "Done.", "files": []},
+                {"id": 1, "prompt": "Do it.", "expected_output": "Done.", "should_trigger": True, "files": []},
             ],
         }
         data.update(overrides)
@@ -610,6 +610,28 @@ class EvalValidationTests(unittest.TestCase):
         ]))
         errors = catalog.validate_evals(self.root)
         self.assertTrue(any("duplicate id" in e for e in errors), errors)
+
+    def test_eval_missing_should_trigger_is_allowed_but_consistent(self):
+        self.write_skill()
+        self.write_eval(self.make_eval(evals=[
+            {"id": 1, "prompt": "p", "expected_output": "e", "files": []},
+            {"id": 2, "prompt": "q", "expected_output": "f", "files": []},
+        ]))
+        self.assertEqual([], catalog.validate_evals(self.root))
+        self.write_eval(self.make_eval(evals=[
+            {"id": 1, "prompt": "p", "expected_output": "e", "should_trigger": True, "files": []},
+            {"id": 2, "prompt": "q", "expected_output": "f", "files": []},
+        ]))
+        errors = catalog.validate_evals(self.root)
+        self.assertTrue(any("every eval or none" in e for e in errors), errors)
+
+    def test_eval_non_boolean_should_trigger_reported(self):
+        self.write_skill()
+        self.write_eval(self.make_eval(evals=[
+            {"id": 1, "prompt": "p", "expected_output": "e", "should_trigger": "yes", "files": []},
+        ]))
+        errors = catalog.validate_evals(self.root)
+        self.assertTrue(any("should_trigger" in e for e in errors), errors)
 
     def test_eval_missing_prompt_reported(self):
         self.write_skill()

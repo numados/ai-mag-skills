@@ -18,6 +18,15 @@
       "files": []
     },
     {
+      "id": 5,
+      "prompt": "Audit this unsafe lock guard read-only: its unsafe impl Sync uses T: Send while the guard exposes a shared reference. Assume lock/unlock orderings are correct. Give the concrete shared-guard failure path, the narrow fix, and classify independent Relaxed counters in the same module. Do not edit.",
+      "expected_output": "Distinguishes T:Send from T:Sync (Cell<u8> is Send but not Sync; a shared Guard exposes unsynchronized mutation); correct orderings do not fix auto-trait bounds; narrow fix is Sync requiring T:Sync; independent counters may stay Relaxed; tests do not prove soundness.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/guard.rs"
+      ]
+    },
+    {
       "id": 3,
       "prompt": "Miri passes the unsafe test suite. Can I call the abstraction sound?",
       "expected_output": "Explains coverage and tool limitations; no proof claim.",

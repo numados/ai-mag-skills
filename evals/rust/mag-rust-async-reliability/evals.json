@@ -3,8 +3,8 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Review a tokio::select! loop with a cancellable mutex acquisition, an unbounded input channel and detached worker tasks.",
-      "expected_output": "Analyzes cancellation safety, queue bounds and task ownership.",
+      "prompt": "Review read-only whether the bounded ingress in this Tokio module really bounds concurrent work, where permits must be acquired for the bound to hold, and whether bump's mutex usage is a defect. Do not edit or build.",
+      "expected_output": "Spawning before acquiring leaves the spawned-task count unbounded even though the channel and semaphore are bounded; while wrappers run, permits cap submitted blocking work at four, but if a wrapper is cancelled or aborted after its blocking closure starts, the permit releases while that work continues, so capacity must stay with the actual work (permit moved into the closure) or a fixed worker pool is used; started spawn_blocking work is not cancellable and shutdown needs ownership/join; bump is a valid short critical section; no edits.",
       "should_trigger": true,
       "files": [
         "fixtures/worker.rs"

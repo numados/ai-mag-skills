@@ -7,7 +7,7 @@ description: Be the primary reviewer or designer for Rust async and concurrent s
 
 ## When to Use
 
-Use for Tokio or other async runtimes, channels, spawned tasks, cancellation, select!, locks, streams, timeouts, retries, shutdown, or shared state across tasks.
+Use for Tokio or other async runtimes, channels, spawned tasks, cancellation, select!, locks, streams, timeouts, retries, shutdown, or shared state across tasks. Load `references/lifecycle.md` for poll/wake, task ownership, cancellation, bounded work, and shutdown analysis. Load `references/concurrency-model.md` for atomics, custom locks or channels, publication, and wait predicates.
 
 Do not apply generic “never hold a lock across await” rules without checking the lock type and actual wait path.
 
@@ -34,8 +34,8 @@ Check streams, mutex acquisition, channel send/receive, timers, framed IO, retri
 ## Tasks, queues and backpressure
 
 - Keep task ownership explicit with JoinHandle/JoinSet or an equivalent supervisor.
-- Bound queues fed by external or untrusted input.
-- Define what happens when a receiver is dropped, a send is cancelled, or a worker fails.
+- Bound queues fed by external or untrusted input. If task count or blocking work must be bounded, acquire capacity at the boundary that owns the actual work, not only inside an already-spawned waiter.
+- Define what happens when a receiver is dropped, a send is cancelled, or a worker fails. If an async wrapper can stop while started blocking work continues, keep capacity ownership with that work or use a worker pool/cooperative stop mechanism.
 - Avoid holding a lock while awaiting a slow, unbounded, or reentrant operation.
 - Separate blocking CPU or synchronous IO from runtime worker threads using the repository's approved mechanism.
 - Make retry budgets, timeouts, jitter and idempotency explicit.
@@ -45,6 +45,8 @@ Check streams, mutex acquisition, channel send/receive, timers, framed IO, retri
 Identify lock type, scope, acquisition order, fairness, poisoning behavior and every await or callback while held. Tokio's async mutex is designed for guards held across await, but that does not make arbitrary critical sections safe: check deadlocks, starvation, reentrancy and latency. A standard mutex may be preferable when no await is needed.
 
 ## Shutdown design
+
+Treat wakeups as hints: re-check the readiness predicate after every wake. A dropped future, dropped handle, abort, timeout, and runtime shutdown have different contracts; verify each operation instead of assuming cleanup.
 
 Prefer an explicit shutdown signal plus ownership of all workers. Shutdown should stop admission, notify workers, drain or discard queued work by policy, await task completion, and report failures. Sleeping for a fixed duration is not proof that shutdown completed.
 

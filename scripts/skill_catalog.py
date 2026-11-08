@@ -623,6 +623,7 @@ def validate_evals(root):
             errors.append(f"{rel}: 'evals' must be a list")
             continue
         seen_ids = set()
+        should_trigger_values = []
         for position, entry in enumerate(evals):
             where = f"{rel}: eval #{position}"
             if not isinstance(entry, dict):
@@ -639,6 +640,9 @@ def validate_evals(root):
                 value = entry.get(field)
                 if not isinstance(value, str) or not value.strip():
                     errors.append(f"{where}: missing or empty {field}")
+            if "should_trigger" in entry and not isinstance(entry["should_trigger"], bool):
+                errors.append(f"{where}: non-boolean should_trigger")
+            should_trigger_values.append(entry.get("should_trigger"))
             files = entry.get("files", [])
             if not isinstance(files, list):
                 errors.append(f"{where}: 'files' must be a list")
@@ -648,6 +652,9 @@ def validate_evals(root):
                     resolve_eval_file(root, evals_path.parent, file_entry)
                 except EvalFileError as exc:
                     errors.append(f"{where}: {exc}")
+        present = [v for v in should_trigger_values if v is not None]
+        if present and len(present) != len(should_trigger_values):
+            errors.append(f"{rel}: should_trigger must be present on every eval or none")
     return errors
 
 

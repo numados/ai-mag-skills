@@ -7,7 +7,7 @@ description: Design or assess Rust test strategy and quality gates at behavior s
 
 ## When to Use
 
-Use when adding tests, assessing coverage, designing a test strategy, introducing property tests or fuzzing, checking feature combinations, or defining Rust CI quality gates.
+Use when adding tests, assessing coverage, designing a test strategy, introducing property tests or fuzzing, checking feature combinations, or defining Rust CI quality gates. Load `references/concurrency-model.md` when the tested invariant concerns atomics, publication, waits, locks, or reclamation.
 
 Do not equate line coverage, one passing example, or a tool's green result with proof of correctness.
 
@@ -18,7 +18,7 @@ Do not equate line coverage, one passing example, or a tool's green result with 
 3. Include success, boundary, invalid, error, cancellation, concurrency and recovery cases relevant to the behavior.
 4. Preserve deterministic fixtures and explain tests that depend on time, network, filesystem, randomness or external services.
 
-Use unit tests for private invariants, integration tests for public contracts, doc tests for documented usage, and end-to-end tests only where integration behavior matters.
+Use unit tests for private invariants, integration tests for public contracts, doc tests for documented usage, compile-fail or UI tests for type-system and diagnostic contracts, and end-to-end tests only where integration behavior matters. Run examples and promised `no_std` targets when they are part of the project contract, and check generated-code drift where applicable.
 
 ## Property and fuzz testing
 

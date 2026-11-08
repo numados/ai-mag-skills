@@ -1,9 +1,15 @@
-pub fn parse(raw: &str) -> Result<u16, std::num::ParseIntError> {
-    let n = raw.parse()?;
-    Ok(n)
+use std::sync::Arc;
+use tokio::sync::{mpsc, Mutex};
+
+pub struct Supervisor {
+    workers: Mutex<Vec<tokio::task::JoinHandle<()>>>,
+    queue: mpsc::UnboundedSender<Job>,
 }
 
-pub fn first(raw: Option<&str>) -> Option<u16> {
-    let text = raw?;
-    text.parse().ok()
+pub async fn run(supervisor: Arc<Supervisor>, shutdown: tokio::sync::watch::Receiver<bool>) {
+    let mut workers = supervisor.workers.lock().await;
+    while let Some(worker) = workers.pop() {
+        worker.abort();
+    }
+    drop(shutdown);
 }

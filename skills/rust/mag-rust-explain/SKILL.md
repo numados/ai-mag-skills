@@ -16,7 +16,7 @@ Do not turn an explanation into a code review or implementation unless the user 
 1. Read the supplied target completely.
 2. Trace imports, direct callers and callees only as far as needed to explain integration. If context is unavailable, say so.
 3. Separate facts proven by code from inferred intent. Say “the code guarantees” versus “this appears intended to”.
-4. Explain Rust machinery in context: ownership, borrowing, lifetimes, traits, generics, macros, unsafe, futures, await, Send/Sync and error propagation.
+4. Explain Rust machinery in context: ownership, borrowing, lifetimes, traits, generics, macros, unsafe, futures, await, Send/Sync and error propagation. Distinguish `Send` transfer, `Sync` shared-reference access, and `'static` lifetime bounds, which do not by themselves imply ownership. Distinguish composed futures from separately owned spawned tasks without inferring runtime cancellation behavior.
 5. Keep standard Rust terms in English when answering another language.
 
 ## Output

@@ -22,13 +22,14 @@ Do not silently broaden a behavior change into a refactor, dependency upgrade, w
 ## Design and implementation
 
 - Prefer the smallest change that fits established boundaries.
-- Make invalid states difficult to represent with enums, newtypes, validated constructors, and private fields where justified.
-- Preserve error sources and context; do not replace structured errors with strings merely to simplify control flow.
-- Make ownership visible. Choose borrow, move, clone, Arc, or interior mutability for a stated lifetime or concurrency reason.
+- Make invalid states difficult to represent with enums, newtypes, validated constructors, and private fields where justified. For public API, load `references/api-contracts.md` for conversion, dispatch, error, release, and ownership decisions.
+- Preserve error sources and context; use `Option` for absence and `Result` when callers need failure information. Use `From` for infallible conversion and `TryFrom` when validation or loss can occur.
+- Make ownership visible. Start with ownership before adding lifetimes, `Cow`, `Arc`, or interior mutability. Choose borrow, move, clone, or shared state for a stated lifetime, allocation, or concurrency reason.
+- If cleanup can fail, expose an explicit fallible close or release operation. Do not rely on `Drop` to report an error.
 - Bound external input, queues, retries, recursion, allocations, and resource lifetimes where untrusted input can grow them.
 - Treat public signatures, feature behavior, MSRV, serialization, and persistence as compatibility surfaces.
 - Do not add unsafe for convenience. If unsafe or FFI is required, record validity, aliasing, initialization, lifetime, ABI and unwind obligations in the implementation plan; a separate unsafe review can provide an additional lens but is not a prerequisite.
-- In async code, design cancellation, shutdown, task ownership, backpressure, and blocking boundaries before writing the happy path.
+- In async code, load `references/lifecycle.md` and design cancellation, shutdown, task ownership, backpressure, and blocking boundaries before writing the happy path.
 
 ## Tests and verification
 

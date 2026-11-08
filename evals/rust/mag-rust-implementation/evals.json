@@ -3,8 +3,8 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Implement a Rust parser change in an existing workspace. Preserve unrelated edits, add error-path tests, and report every command actually run.",
-      "expected_output": "Scoped implementation with tests and verified commands.",
+      "prompt": "In a fresh copy of evals/rust/mag-rust-implementation/fixtures/src/lib.rs, keep parse_port unchanged. Add pub struct Port valid for 1..=65535 with TryFrom<u16> and TryFrom<&str>, get() -> u16, and a structured PortError implementing Display and Error that preserves the parse error as source(). Add focused tests. No new dependencies, unsafe, or unnecessary allocation; report every command actually run.",
+      "expected_output": "Constructor enforces the range; text conversion is fallible and preserves source; public behavior preserved; tests pass; actual commands disclosed.",
       "should_trigger": true,
       "files": [
         "fixtures/src/lib.rs"
@@ -19,9 +19,9 @@
     },
     {
       "id": 3,
-      "prompt": "Review this async feature request and identify what must be decided about cancellation and shutdown before implementation.",
-      "expected_output": "Explicit lifecycle questions and bounded implementation scope.",
-      "should_trigger": true,
+      "prompt": "Before we implement this async feature, review the request and tell me what must be decided about cancellation and shutdown.",
+      "expected_output": "This is a pre-implementation lifecycle review; implementation only after authorization.",
+      "should_trigger": false,
       "files": []
     },
     {

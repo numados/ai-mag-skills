@@ -22,10 +22,14 @@
     },
     {
       "id": 3,
-      "prompt": "Add a cargo-fuzz target as a normal member of my parent workspace because that is cleaner.",
-      "expected_output": "Checks existing convention and warns that cargo-fuzz commonly has a separate workspace root.",
+      "prompt": "format-core has valid json and yaml features but compile_error! when both are enabled. report-json enables json with default-features = false, report-yaml enables yaml the same way. A top-level app depends on both crates. Planning only, do not edit or build: explain the collision and the smallest compatibility-aware fix, and how lockfile, MSRV and ranges relate.",
+      "expected_output": "Feature union across one graph defeats per-consumer exclusion; recommend genuinely additive backends or distinct package identities rather than adapter wrappers or a workspace redesign; lockfile, manifest ranges and MSRV remain separate checks; no build claimed.",
       "should_trigger": true,
-      "files": []
+      "files": [
+        "fixtures/feature-unification/format-core.Cargo.toml",
+        "fixtures/feature-unification/report-json.Cargo.toml",
+        "fixtures/feature-unification/report-yaml.Cargo.toml"
+      ]
     },
     {
       "id": 4,
