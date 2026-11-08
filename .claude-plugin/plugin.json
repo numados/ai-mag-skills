@@ -30,6 +30,7 @@
     "./skills/development/mag-task-history",
     "./skills/development/mag-task-planning",
     "./skills/development/mag-task-research",
+    "./skills/development/mag-task-storage",
     "./skills/development/mag-tdd",
     "./skills/dotnet/mag-csharp-implementation",
     "./skills/dotnet/mag-csharp-review",

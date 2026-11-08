@@ -5,7 +5,11 @@ description: Create an actionable implementation plan for a development task fro
 
 # Task planning
 
-Produce a plan that someone can execute and verify, without implementing it. Planning is read-only: do not modify product files, trackers, or remote state. Reply in chat by default; write a plan file only when requested or permitted by the surrounding workflow. A request for a plan does not authorize implementation.
+Produce a plan that someone can execute and verify, without implementing it. Planning does not authorize product-file changes or tracker updates. Memory-record writes are allowed only through the optional integration below or an otherwise authorized handoff destination; they do not permit other remote mutations. Reply in chat by default; persist the plan only when requested or permitted by the surrounding workflow. A request for a plan does not authorize implementation.
+
+## Optional memory
+
+If `mag-task-storage` is available in the harness skill catalog or explicitly supplied, read and apply it to restore the task's relevant research, decisions and useful knowledge, then preserve the plan and its actual approval status within its destination and permission rules. Missing stored research does not require a separate research stage. Without the storage skill, keep the existing chat-default behavior and optional handoff; do not require storage or invent a replacement protocol.
 
 ## Establish the task and evidence
 
@@ -24,4 +28,4 @@ Produce a plan that someone can execute and verify, without implementing it. Pla
 
 Right-size the response to the task: state the outcome and scope, relevant evidence and current integration, ordered steps, acceptance criteria and verification, and material risks or open decisions. Separate authorized requirements from proposed choices and note inaccessible sources and unverified assumptions. For a small change, a compact list may be sufficient; for a blocked decision, provide the useful partial plan and focused question rather than false precision.
 
-When the user or surrounding workflow expects task tracking, prepare a plan handoff with task identity, scope and approval status, evidence, phases and dependencies, checks, open decisions and next action. Save it locally only when the destination and write are authorized; otherwise provide it in chat for the surrounding workflow. Do not invent a destination or write to remote state. If persistence is expected but no suitable destination is known, ask; report any failed write. A saved plan does not authorize implementation.
+When the user or surrounding workflow expects task tracking, prepare a plan handoff with task identity, scope and approval status, evidence, phases and dependencies, checks, open decisions and next action. Use the optional memory integration when available; otherwise save locally only when the destination and write are authorized, or provide it in chat. Do not invent a destination; a remote memory write requires the integration's explicit permission boundary and does not authorize tracker or other remote changes. If persistence is expected but no suitable destination is known, ask; report any failed write. A saved plan does not authorize implementation.

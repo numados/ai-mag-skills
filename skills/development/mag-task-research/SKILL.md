@@ -5,7 +5,11 @@ description: Investigate a development task before implementation or planning us
 
 # Task research
 
-Establish what is known, what is requested and what remains undecided. Scale the investigation to the task and its risks. Research is read-only: do not implement, change product files or modify tracker or other remote state. Respond in chat unless a file is requested or the surrounding workflow permits one.
+Establish what is known, what is requested and what remains undecided. Scale the investigation to the task and its risks. Research does not authorize implementation, product-file changes or tracker updates. Memory-record writes are allowed only through the optional integration below or an otherwise authorized handoff destination; they do not permit other remote mutations. Respond in chat unless persistence is requested or permitted by the surrounding workflow.
+
+## Optional memory
+
+If `mag-task-storage` is available in the harness skill catalog or explicitly supplied, read and apply it to recover this task, find useful existing knowledge and preserve the research handoff within its destination and permission rules. Its presence enables this integration, not automatic knowledge promotion. Without it, keep the existing chat-default behavior and optional handoff; do not require storage or invent a replacement protocol.
 
 ## Establish the sources
 
@@ -24,4 +28,4 @@ Establish what is known, what is requested and what remains undecided. Scale the
 
 Summarize the task and its evidenced scope, relevant current behavior and affected areas, constraints or risks, and material open questions. Cite evidence beside claims, distinguish proposals from decisions, and disclose inaccessible sources and investigation limits. Do not imply a complete understanding or guarantee correctness beyond the evidence.
 
-When the user or surrounding workflow expects task tracking, prepare a research handoff with task identity, evidence and sources, decisions, unresolved questions and next action. Save it locally only when the destination and write are authorized; otherwise provide it in chat for the surrounding workflow. Do not invent a destination or write to remote state. If persistence is expected but no suitable destination is known, ask; report any failed write.
+When the user or surrounding workflow expects task tracking, prepare a research handoff with task identity, evidence and sources, decisions, unresolved questions and next action. Use the optional memory integration when available; otherwise save locally only when the destination and write are authorized, or provide it in chat. Do not invent a destination; a remote memory write requires the integration's explicit permission boundary and does not authorize tracker or other remote changes. If persistence is expected but no suitable destination is known, ask; report any failed write.

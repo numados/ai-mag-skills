@@ -7,6 +7,10 @@ description: Recover and explain the current state, decisions, progress or remai
 
 Answer the user's question from evidence, without changing the task, repository or remote state. Do not assume a tracker, storage format, MCP server or other specific tool.
 
+## Optional memory
+
+If `mag-task-storage` is available in the harness skill catalog or explicitly supplied, read and apply its read-only recovery and knowledge lookup for this question. Do not create events, repair records or promote knowledge during a history request. Without it, use the available records and chat context as before; storage is not a prerequisite.
+
 ## Resolve and recover
 
 - Identify the task from the supplied context, link or ID using authorized read-only capabilities. If multiple tasks or sources remain plausible, ask which one is intended. If a necessary source is inaccessible, say so and request the smallest useful reference or excerpt; do not invent its contents.

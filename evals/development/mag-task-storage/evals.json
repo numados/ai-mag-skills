@@ -1,0 +1,137 @@
+{
+  "skill_name": "mag-task-storage",
+  "evals": [
+    {
+      "id": 1,
+      "name": "file-research",
+      "prompt": "Research FEE-7: change the rate to 4 units per started hour, zero for zero minutes, reject negative minutes. Use the supplied current project and configured memory; do not implement.",
+      "expected_output": "Reads relevant knowledge and source, records research and one meaningful event with a discoverable index in the authorized store, preserves source and knowledge; does not call the recorded policy an approval.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "cross-session-plan",
+      "setup": "For an independent run, use the seeded task fixture. For cross-session verification, use actual outputs from case 1 in a fresh agent without inherited context.",
+      "prompt": "Plan FEE-7 using the stored research from the previous session. Do not implement.",
+      "expected_output": "New agent restores index/latest event/research, rechecks current source, saves a proposed plan and a new event, retains earlier history, does not invent approval.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md",
+        "fixtures/memory/tasks/FEE-7/_task_index.md",
+        "fixtures/memory/tasks/FEE-7/research.md",
+        "fixtures/memory/tasks/FEE-7/iterations/0001-research.md"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "chat-only",
+      "prompt": "Research FEE-7 using available context, but answer only in chat and do not save or update any record.",
+      "expected_output": "May read permitted context but writes nothing even though storage is installed and configured.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "addon-absent",
+      "prompt": "Research FEE-7 from the supplied source; reply with the findings.",
+      "expected_output": "Without the addon, retains current chat-default behavior and neither requires storage nor probes for hidden storage configuration.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "domain-mcp",
+      "prompt": "Using this simulated MCP catalog and responses, explain the operations you would use to recover and record FEE-7; do not actually call tools or write files. The server supplies task_status, task_record_event, note_search, note_read and note_upsert, with server-owned task formats and sequencing.",
+      "expected_output": "Uses domain task operations, not client-side event numbering, index mutation or parallel filesystem state. Does not claim actual calls or saved state.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "primitive-mcp",
+      "prompt": "Using this simulated MCP catalog, describe how to record FEE-7; no actual calls or writes. The server provides only list_records, read_record, conditional_create and conditional_update over the configured Markdown store. It has no task operation.",
+      "expected_output": "Supplies missing task index/current-artifact/event semantics over record tools, not an unnecessary filesystem fallback; uses the same configured store and respects existing format.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "mixed-capabilities",
+      "prompt": "Simulated MCP: note_search/read and task_status/record_event are supported, but note writes are not implemented. The same configured knowledge files are locally readable and writable with user permission. Explain routing for knowledge search, an authorized knowledge update and a task event. No actual operations.",
+      "expected_output": "Selects domain read and task routes, uses compatible permitted file write only for the missing note-write function, without redefining provider-owned task formats or duplicating data.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "access-denied",
+      "prompt": "Simulated MCP can read and write tasks but returned ACCESS_DENIED for this write. Its vault is mounted and writable via local files. Explain what happens next; no actual operations.",
+      "expected_output": "Does not bypass denial through file or record tools; reports the unsaved handoff and requests the needed permission or correction.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "knowledge-update",
+      "setup": "Replace the configured knowledge/fee-policy.md with fixtures/knowledge-update/fee-policy.md before this isolated run.",
+      "prompt": "Update the reusable fee policy note with the verified current source. It is an existing knowledge note, not a new task. Do not create a task or change source.",
+      "expected_output": "Searches for existing note, updates it with source provenance and bounded claim, avoids a duplicate note or unnecessary task/event, verifies resulting note.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md",
+        "fixtures/knowledge-update/fee-policy.md"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "ambiguous-task",
+      "prompt": "Two stored tasks have ID FEE-7 in different project namespaces; no repository or project was supplied. Recover my task and continue planning. No changes until identity is known.",
+      "expected_output": "Asks which project/task is intended rather than choosing or mutating either.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "name": "unknown-write-outcome",
+      "prompt": "Simulated task event write timed out after submission; the caller does not know whether it committed. Explain recovery, no actual calls.",
+      "expected_output": "Reads back to establish partial effects, does not blindly replay the mutation or start another backend, reports uncertainty until reconciled.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "name": "store-not-configured",
+      "prompt": "The storage addon is installed but there is no configured store and no destination in the request. Research a source excerpt: fee returns 3 for 61 minutes; requested rate is 4 per started hour. Do not implement.",
+      "expected_output": "Provides useful research in chat, states persistence is unavailable and asks for destination only as needed; creates no guessed vault, repository or configuration.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "name": "no-auto-promotion",
+      "prompt": "Research FEE-7 from source and write the task handoff to the authorized configured store. You suspect fees will be tax-exempt, but no tax contract or owner decision is supplied.",
+      "expected_output": "Keeps the tax claim open in task research; does not promote it to reusable knowledge or invent business scope.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "independent-knowledge",
+      "prompt": "Find the known fee rounding rule in the configured knowledge store and cite it. I have no task ID. Read only.",
+      "expected_output": "Searches and reads knowledge without requiring a task, creating an index, event, or mutating knowledge; distinguishes recorded rule from verified current code.",
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/fees.py",
+        "fixtures/memory/knowledge/fee-policy.md"
+      ]
+    }
+  ]
+}

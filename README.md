@@ -72,6 +72,20 @@ claude plugin install numados-skills@numados
 
 Use one channel per installation target; do not install both the universal skills package and the Claude plugin into the same target.
 
+## Optional knowledge and task memory
+
+Research, planning and history work without persistent storage. Install `mag-task-storage` to add optional memory integration:
+
+```bash
+npx skills@latest add numados/skills -s mag-task-storage -a pi -g -y
+```
+
+The addon separates reusable knowledge from task state and history. It uses ready MCP domain operations first, supplies missing semantics through record tools, or uses compatible authorized files. It selects access per operation, not merely by MCP presence. An access denial never authorizes a filesystem bypass.
+
+Use the provider's configured store or explicitly choose one. For a generic file store, an existing project `.mag-storage.json` can specify `root`, `knowledgeRoot` and `taskRoot`; see the [access contract](skills/development/mag-task-storage/references/access.md). Installing the skill does not configure a store, grant write permission, migrate data or install a server. A configured and authorized store enables task handoffs; without a destination the result remains in chat and is reported as unsaved. Knowledge changes need their own authorization, not just permission to log tasks.
+
+Without the addon, current chat-default behavior is unchanged. A chat-only/read-only request still takes precedence when it is installed. Discovery and composition depend on the harness exposing the available skills; this package does not install an always-on hook. Explicitly supply the skill if the harness cannot discover it. The Claude plugin includes the addon in its full catalog; installation is not storage activation or permission. Execution and gap-drill keep their existing handoff behavior and are not automatically wired to the addon in this change.
+
 ## Local verification
 
 ```bash
@@ -105,6 +119,7 @@ npx skills@latest add ./ --list
 | [`mag-task-history`](skills/development/mag-task-history/SKILL.md) | Recover task state, decisions, and remaining work. |
 | [`mag-task-planning`](skills/development/mag-task-planning/SKILL.md) | Create an actionable implementation plan. |
 | [`mag-task-research`](skills/development/mag-task-research/SKILL.md) | Research a development task before planning or implementation. |
+| [`mag-task-storage`](skills/development/mag-task-storage/SKILL.md) | Add optional reusable knowledge and task memory through available MCP capabilities or compatible files. |
 | [`mag-tdd`](skills/development/mag-tdd/SKILL.md) | Develop behavior test-first with red-green-refactor cycles. |
 
 ### C# and .NET
