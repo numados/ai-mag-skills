@@ -155,6 +155,7 @@ npx skills@latest add ./ --list
 | [`mag-code-construction`](skills/development/mag-code-construction/SKILL.md) | Design and construct code that fits the project. |
 | [`mag-code-design`](skills/development/mag-code-design/SKILL.md) | Design internal code structure and interfaces. |
 | [`mag-code-review`](skills/development/mag-code-review/SKILL.md) | Review changes and verify review findings. |
+| [`mag-commit-message`](skills/development/mag-commit-message/SKILL.md) | Draft repository-aligned commit messages without touching Git state. |
 | [`mag-discuss-changes`](skills/development/mag-discuss-changes/SKILL.md) | Explain changes interactively, one idea at a time. |
 | [`mag-parallel-orchestration`](skills/development/mag-parallel-orchestration/SKILL.md) | Coordinate native agents with integrated setup, model/effort discovery, and verified synthesis. |
 | [`mag-pr-replies`](skills/development/mag-pr-replies/SKILL.md) | Prepare evidence-based replies to review comments. |

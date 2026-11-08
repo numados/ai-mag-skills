@@ -9,6 +9,7 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `mag-commit-message`: repository-aligned commit-message drafting with scope detection, format precedence, a body decision gate, and artifact hygiene; it never stages, commits, or pushes.
 - MIT license, included in each independently installable skill directory.
 - First-use examples, invocation guidance, and runtime requirements in the README.
 - Bundled shared references with a single editable owner, deterministic synchronization, and isolation regression checks.

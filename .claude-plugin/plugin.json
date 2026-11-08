@@ -23,6 +23,7 @@
     "./skills/development/mag-code-construction",
     "./skills/development/mag-code-design",
     "./skills/development/mag-code-review",
+    "./skills/development/mag-commit-message",
     "./skills/development/mag-discuss-changes",
     "./skills/development/mag-parallel-orchestration",
     "./skills/development/mag-pr-replies",
