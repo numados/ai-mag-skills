@@ -4,7 +4,7 @@ Load this reference when choosing or justifying a .NET test boundary. A "seam" i
 
 ## In-process host: WebApplicationFactory / TestServer
 
-`WebApplicationFactory<TEntryPoint>` (package `Microsoft.AspNetCore.Mvc.Testing`, namespace `Microsoft.AspNetCore.Mvc.Testing`) bootstraps the SUT on an **in-memory `TestServer`** — it does not open a real socket, so it does not exercise real networking, TLS, or external hosting. It is fast and stable, and it is the right default for exercising an ASP.NET Core request pipeline in-process.
+`WebApplicationFactory<TEntryPoint>` (package `Microsoft.AspNetCore.Mvc.Testing`, namespace `Microsoft.AspNetCore.Mvc.Testing`) uses an in-memory `TestServer` by default. In that default mode it does not open a real socket, so it does not exercise real networking, TLS, or external hosting. On framework versions that expose `UseKestrel()`, the same factory can be configured to use Kestrel; that is a different seam and must be checked against the project's package/framework version. The default TestServer mode is fast and stable for an ASP.NET Core request pipeline.
 
 Detection and traps:
 
@@ -14,7 +14,7 @@ Detection and traps:
 - Service replacement happens in `ConfigureWebHost` → `IWebHostBuilder.ConfigureServices`, which runs **after** the app's `Program.cs` executes; that is where you swap a real `DbContext`/service for a test double.
 - Content-root inference (static files/views not found) is driven by `WebApplicationFactoryContentRootAttribute` keyed on the entry-point assembly name, with a `.sln`-based fallback — a mismatch there produces "content root not found", not a code error.
 
-What it does **not** prove: real sockets, TLS termination, a reverse proxy or hosting layer, or a real external database.
+What the default TestServer mode does **not** prove: real sockets, TLS termination, a reverse proxy or hosting layer, or a real external database. A Kestrel-configured factory can cover socket-level behavior, but still does not by itself prove a production reverse proxy, deployment or external database.
 
 ## Real provider: Testcontainers
 
@@ -37,7 +37,7 @@ The two seams are complementary, not interchangeable: `TestServer` is a fast in-
 
 - Inject `System.TimeProvider` (in-box from .NET 8) into the code under test instead of reading the wall clock, so tests control time. `System.Threading.ITimer` is the timer abstraction paired with it.
 - `FakeTimeProvider` (namespace `Microsoft.Extensions.Time.Testing`) drives the injected provider deterministically: `Advance(TimeSpan)`, `SetUtcNow(DateTimeOffset)`, `AutoAdvanceAmount`, `GetUtcNow()`. Use these instead of sleep-based time travel.
-- **Package/tfm trap:** the package id is `Microsoft.Extensions.TimeProvider.Testing` (the `System.TimeProvider` docs page references a stale `Microsoft.Extensions.Time.Testing` id that 404s on NuGet). Current package versions target the modern .NET TFMs plus net462 — they have **no net6.0/net7.0 asset** (read the resolved version's targets rather than assuming a fixed list). For older TFMs, the `Microsoft.Bcl.TimeProvider` backport supplies the `TimeProvider` abstraction, but `FakeTimeProvider` still needs a compatible target. When the test project targets net6.0/net7.0, report the mismatch and propose a TFM bump or a manual clock abstraction — do not emit non-compiling code.
+- **Package/TFM trap:** the package id is `Microsoft.Extensions.TimeProvider.Testing` (some framework documentation has shown the older namespace `Microsoft.Extensions.Time.Testing`). Check the resolved package version and its assets: for example, package 8.0.0 includes a `net6.0` asset and depends on `Microsoft.Bcl.TimeProvider`, while later package lines may have different target frameworks. `System.TimeProvider` is in-box from .NET 8; older TFMs may use the backport package. Do not reject or emit code based on the TFM alone: verify the exact package/version compatibility, namespace and project references, then choose `FakeTimeProvider`, a compatible package line, a TFM change, or a small clock abstraction.
 
 ## Fixture lifetime and disposal
 

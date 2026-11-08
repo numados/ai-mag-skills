@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "We have fixtures/webapi/. Our integration tests must exercise the full request path. Should we use WebApplicationFactory/TestServer or spin up a real host? What does each cover and miss?",
-      "expected_output": "Explains that WebApplicationFactory bootstraps an in-memory TestServer (no real socket, network, TLS, or hosting) and is fast but does not exercise real networking, while a real host exercises real networking/TLS/hosting at higher cost. Names the Program visibility requirement for TEntryPoint (public partial class Program) and the service-replacement point in ConfigureWebHost, and leaves the choice to the caller's goal rather than mandating one.",
+      "expected_output": "Explains that WebApplicationFactory uses an in-memory TestServer by default (no real socket, network, TLS, or hosting) and is fast, while a real host or a version-supported UseKestrel configuration exercises a different network seam at higher cost. Names the Program visibility requirement for TEntryPoint (public partial class Program) and the service-replacement point in ConfigureWebHost, and leaves the choice to the caller's goal rather than mandating one.",
       "should_trigger": true,
       "files": [
         "fixtures/webapi/WebApi.csproj",
@@ -28,7 +28,7 @@
     {
       "id": 4,
       "prompt": "Add deterministic tests for fixtures/time-service/TimeService.cs. The tests must not depend on wall-clock time.",
-      "expected_output": "Keeps the TimeProvider injection seam, proposes FakeTimeProvider with Advance/SetUtcNow (never sleep-based time travel), and gates the Microsoft.Extensions.TimeProvider.Testing package on the net8.0+ TFM. Adds tests that exercise both sides of the expiry boundary deterministically.",
+      "expected_output": "Keeps the TimeProvider injection seam, proposes FakeTimeProvider with Advance/SetUtcNow (never sleep-based time travel), and checks the resolved Microsoft.Extensions.TimeProvider.Testing version, compatible assets, namespace and TFM before choosing the package or a clock abstraction. Adds tests that exercise both sides of the expiry boundary deterministically.",
       "should_trigger": true,
       "files": [
         "fixtures/time-service/TimeService.cs",
@@ -38,7 +38,7 @@
     {
       "id": 5,
       "prompt": "Use FakeTimeProvider in our net6.0 test project so we can fast-forward time.",
-      "expected_output": "Reports that Microsoft.Extensions.TimeProvider.Testing has no net6.0 asset (net8.0+/net462 only), so FakeTimeProvider is a version mismatch on net6.0. Proposes either a net8.0 bump or a manual clock abstraction, and does not emit code that cannot compile.",
+      "expected_output": "Does not infer compatibility from net6.0 alone. Checks the resolved Microsoft.Extensions.TimeProvider.Testing version and assets; for example, package 8.0.0 includes a net6.0 asset while later versions may differ. Proposes the compatible package line, a TFM change, or a manual clock abstraction only when the repository evidence requires it, and does not emit code that cannot compile.",
       "should_trigger": true,
       "files": []
     },

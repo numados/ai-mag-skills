@@ -21,6 +21,10 @@ SHARED_REFERENCES = {
     "skills/dotnet/mag-csharp-implementation/references/version-and-docs.md": (
         "skills/dotnet/mag-csharp-explain/references/version-and-docs.md",
     ),
+    "skills/development/mag-code-construction/references/technology-evidence.md": (
+        "skills/development/mag-task-planning/references/technology-evidence.md",
+        "skills/dotnet/mag-dotnet-testing-quality/references/technology-evidence.md",
+    ),
 }
 
 

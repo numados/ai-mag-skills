@@ -7,7 +7,8 @@
       "expected_output": "Finds the size contract defect and does not call the async mutex automatically wrong.",
       "should_trigger": true,
       "files": [
-        "fixtures/unsafe.rs"
+        "fixtures/unsafe.rs",
+        "fixtures/async.rs"
       ]
     },
     {

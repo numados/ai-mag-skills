@@ -16,7 +16,8 @@
       "expected_output": "Read-only project orientation and a bounded proposed layout.",
       "should_trigger": true,
       "files": [
-        "fixtures/project/Cargo.toml"
+        "fixtures/project/Cargo.toml",
+        "fixtures/project/src/main.rs"
       ]
     },
     {

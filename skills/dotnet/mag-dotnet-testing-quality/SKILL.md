@@ -20,7 +20,7 @@ Compose with the generic TDD skill for red-green-refactor discipline; this skill
 3. Include success, boundary, invalid, error, cancellation, concurrency, and recovery cases relevant to the behavior — not all of them unconditionally.
 4. Make fixtures deterministic: name how the test controls time, network, filesystem, randomness, and external services, and mark any test that still depends on the wall clock or a live service as environmental.
 
-The seam decision and its tradeoffs — in-process `TestServer`/`WebApplicationFactory<TEntryPoint>` versus a real provider via Testcontainers, in-memory databases versus real engines, `TimeProvider` injection with `FakeTimeProvider` — live in `references/test-seams.md`. Load it when choosing or justifying a boundary.
+The seam decision and its tradeoffs — in-process `TestServer`/`WebApplicationFactory<TEntryPoint>` versus a selected real host or provider, in-memory databases versus real engines, and `TimeProvider` injection with `FakeTimeProvider` — live in `references/test-seams.md`. Load it when choosing or justifying a boundary. For unfamiliar or version-sensitive APIs and packages, use `references/technology-evidence.md` as well.
 
 ## Detect the test platform
 
@@ -40,7 +40,7 @@ Do not reach for a run command until you know which platform the test project ta
 
 ## Boundaries and honest commands
 
-- **Do not impose a framework or package.** Use the repository's configured runner and its existing test packages. `FakeTimeProvider`, Testcontainers, and a Web SDK test project are *options* whose compatibility you detect, not defaults to mandate; say when the detected TFM or environment cannot support them (e.g. `FakeTimeProvider` has no `net6.0`/`net7.0` asset; Testcontainers needs a Docker-API-compatible runtime).
+- **Do not impose a framework or package.** Use the repository's configured runner and its existing test packages. `FakeTimeProvider`, Testcontainers, and a Web SDK test project are *options* whose compatibility you detect, not defaults to mandate. Check the effective package version and compatible assets; do not turn a remembered TFM rule into a universal prohibition. Testcontainers still needs a Docker-API-compatible runtime.
 - **Do not equate one green run or a coverage percentage with correctness.**
 - **Treat restore/build/test as effect-bearing.** Restore downloads packages; build/test execute analyzers, source generators, and test code. State the exact command you would run and what it does, and never claim a test passed, failed, or was measured from a command you did not run. Read-only inspection (`dotnet --version`, `--list-sdks`, reading project files) is safe.
 
