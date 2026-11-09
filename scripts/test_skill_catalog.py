@@ -437,7 +437,7 @@ class FrontmatterParsingTests(unittest.TestCase):
 class CatalogTests(unittest.TestCase):
     def test_all_current_skills_have_nonempty_normalized_descriptions(self):
         rows = catalog.catalog_rows(REPO)
-        self.assertEqual(39, len(rows))
+        self.assertEqual(40, len(rows))
         for name, rel, description in rows:
             with self.subTest(name=name):
                 self.assertTrue(name.startswith("mag-"), name)

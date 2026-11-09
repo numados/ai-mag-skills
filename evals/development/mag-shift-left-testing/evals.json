@@ -1,0 +1,40 @@
+{
+  "skill_name": "mag-shift-left-testing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We are adding a feature where a .NET API calls a Rust service and records the result in Postgres. Before we write any code, tell me what could go wrong and how and when we should verify it. Do not implement anything.",
+      "expected_output": "Produces a risk inventory and a verification matrix before implementation, separating distinct risks (business rule, cross-service wiring/contract, database semantics, data integrity, failure/concurrency) and assigning the earliest reliable seam per risk rather than a single blanket test. Does not force TDD, a coverage percentage, a test pyramid, live network calls, or all test categories. Names gaps (e.g., anything only verifiable in a shared environment) and hands per-stack seam mechanics to the .NET and Rust testing-quality skills without re-implementing them.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We want to catch problems as early as possible on a new checkout flow that spans several components. Walk me through what to verify and where, before implementation. We are not doing red-green test-first.",
+      "expected_output": "Treats the request as cross-cutting quality orchestration, not TDD: identifies risks, chooses the earliest reliable seam for each, and builds a verification matrix. Explicitly does not impose red-green cycles or require writing tests first, and does not route to the TDD skill. Notes that test-first order is a separate choice owned by mag-tdd only when requested.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Our new code calls an external payments provider whose timeout and retry behavior we do not fully know, then writes a local order record. Decide how and when to verify this before and after implementation, without making live calls.",
+      "expected_output": "Separates the external-dependency risk from the local data-integrity risk. Proposes a contract or recorded fake as the earliest reliable seam for the provider (not a live network test), chooses a real-or-equivalent store for the data-integrity risk, and marks the unknown provider contract as a gap rather than inventing retry or idempotency guarantees. Does not force a live network test or all categories.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Fix the rounding bug in the invoice total. Add a regression test next to the existing ones and run the suite.",
+      "expected_output": "Routes away from shift-left orchestration: this is an ordinary fix with established conventions, not a cross-cutting orchestration need. It does not produce a lifecycle verification matrix or a risk-to-seam analysis, and does not force TDD or new test categories.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Add deterministic tests for this .NET time service so they do not depend on wall-clock time.",
+      "expected_output": "Routes to the single-stack test-strategy skill (mag-dotnet-testing-quality) for the seam and fixture decision rather than treating it as cross-stack shift-left orchestration. Produces no lifecycle verification matrix.",
+      "should_trigger": false,
+      "files": []
+    }
+  ]
+}

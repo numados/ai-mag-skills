@@ -170,6 +170,7 @@ npx skills@latest add ./ --list | python3 scripts/check_discovery.py
 | [`mag-obsidian-markdown`](skills/development/mag-obsidian-markdown/SKILL.md) | Prepare Obsidian-compatible knowledge and progress notes with typed properties, evidence and unambiguous links; leave storage to the writer. |
 | [`mag-parallel-orchestration`](skills/development/mag-parallel-orchestration/SKILL.md) | Coordinate native agents with integrated setup, model/effort discovery, and verified synthesis. |
 | [`mag-pr-replies`](skills/development/mag-pr-replies/SKILL.md) | Prepare evidence-based replies to review comments. |
+| [`mag-shift-left-testing`](skills/development/mag-shift-left-testing/SKILL.md) | Orchestrate cross-stack quality from requirements through CI: choose the earliest reliable verification seam per risk and hand per-stack work to specialized skills. |
 | [`mag-task-execution`](skills/development/mag-task-execution/SKILL.md) | Execute an authorized development plan and verify it. |
 | [`mag-task-gap-drill`](skills/development/mag-task-gap-drill/SKILL.md) | Investigate a consequential uncertainty in a task. |
 | [`mag-task-history`](skills/development/mag-task-history/SKILL.md) | Recover task state, decisions, and remaining work. |
