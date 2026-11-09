@@ -20,6 +20,7 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `mag-clear-explainer`: plain-language explanations at a B2/ELI12 reading level, with topic-fitted structure, English correction before the answer, evidence-grounded code and change walkthroughs, and an explicit boundary against implementation and review.
 - `scripts/check_discovery.py` and a CI gate that fails when a client skips a skill or lists a different set than the repository publishes.
 - `docs/authoring.md` with the supported frontmatter profile, progressive-disclosure rules, and when to add `references/`, `scripts/`, or `assets/`.
 - Optional `license`, `compatibility`, and flat `metadata` frontmatter in the catalog validator, with the specification's length limits and YAML-ambiguity rejection.

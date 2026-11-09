@@ -115,7 +115,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual([], discovery.validate(text, self.root))
 
     def test_repository_skills_are_counted_from_disk(self):
-        self.assertEqual(36, len(discovery.disk_skills(REPO)))
+        self.assertEqual(37, len(discovery.disk_skills(REPO)))
 
 
 if __name__ == "__main__":

@@ -149,6 +149,7 @@ npx skills@latest add ./ --list | python3 scripts/check_discovery.py
 | Skill | Purpose |
 |---|---|
 | [`mag-ai-writing`](skills/communication/mag-ai-writing/SKILL.md) | Assess AI-like writing patterns and write or edit clear, natural prose without inferring authorship. |
+| [`mag-clear-explainer`](skills/communication/mag-clear-explainer/SKILL.md) | Explain any topic in plain language at a B2/ELI12 level, choosing the structure that fits. |
 | [`mag-clear-report`](skills/communication/mag-clear-report/SKILL.md) | Produce a clear, structured report for a named reader. |
 | [`mag-minto-pyramid`](skills/communication/mag-minto-pyramid/SKILL.md) | Structure answers with the conclusion first and grouped supporting points. |
 

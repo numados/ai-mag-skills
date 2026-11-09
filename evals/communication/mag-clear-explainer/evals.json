@@ -1,0 +1,53 @@
+{
+  "skill_name": "mag-clear-explainer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Объясни простыми словами, что такое event-driven архитектура и как проходит одно событие.",
+      "expected_output": "Отвечает по-русски, начинает с главной мысли, выбирает компактную структуру, объясняет ключевой термин и сохраняет точность без детской аналогии.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Can you explain why this code uses a queue? I don't understand the word idempotent.",
+      "expected_output": "Сначала показывает исправленный английский и кратко объясняет важные исправления, затем отвечает на вопрос на понятном английском уровня B2 и объясняет только нужный термин.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Объясни выполненную задачу по diff: раньше обработчик записывал заказ сразу, теперь сначала проверяет статус, сохраняет только Pending и отправляет событие после commit. Что было, что изменилось, зачем и результат?",
+      "expected_output": "Использует порядок: что было, что изменилось, зачем, результат; отделяет данные из diff от предположений и не превращает объяснение в code review.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Объясни, почему наш код помогает бизнесу увеличить retention клиентов.",
+      "expected_output": "Задает один уточняющий вопрос, потому что не хватает информации о коде и бизнес-механике; не придумывает связь между кодом и retention.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Explain this topic in simple words, but keep the important technical limitation: retries can create duplicate payments.",
+      "expected_output": "Сохраняет важное ограничение, объясняет его простым B2 English и не скрывает риск ради краткости.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Объясни этот код и скажи, есть ли очевидный риск. Не исправляй его: `return cache[key] ?? Load(key);`",
+      "expected_output": "Дает объяснение, затем коротко и отдельно отмечает очевидный риск, если он доказуем; не предлагает исправление без просьбы.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Implement the missing retry logic in this method and add tests.",
+      "expected_output": "Не использует этот explanatory skill как основной: запрос требует изменения кода и тестов.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Review this PR and list every bug with severity and line numbers.",
+      "expected_output": "Не использует этот explanatory skill как основной: запрос требует code review.",
+      "files": []
+    }
+  ]
+}
