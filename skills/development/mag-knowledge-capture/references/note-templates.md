@@ -1,22 +1,18 @@
-# Note templates
+# Knowledge content profiles
 
-Defaults for generic Markdown stores and the `.mag/knowledge/` default. When the destination has an established format, metadata or naming convention, follow it instead; these templates fill the gap only. One topic per file; derive the filename from the topic, kebab-case, and keep it stable.
+These profiles own knowledge-specific content and lifecycle fields. Apply the bundled [Obsidian note format](obsidian-note-format.md) for the common envelope, property types, filenames and links. Combine that envelope with the profile below for a new generic note. Preserve an established provider/vault schema; this is not a migration instruction. Keep one reusable topic per file.
 
-## Shared frontmatter
+## Knowledge-specific fields
 
 ```yaml
 format: mag-knowledge-note-v1
 kind: domain
-title: Charges are per started hour
-scope: billing service, staging and production
 status: active
-updated: 2026-01-15T00:00:00Z
-source: src/billing.py@41af2c3 verified by regression test
 ```
 
 - `kind` is one of `domain`, `architecture`, `debugging`, `access`, `environment`, `workflow`.
-- `source` cites evidence — file and revision, command output, owner decision — not a conversation.
-- `status` is `active`, or `superseded` with an added `superseded-by: <file>` line, or `disputed` with the open conflict stated in the body. Superseded and disputed notes keep their content; they are resolved by an owner decision or newer verified evidence, never silently deleted.
+- The shared envelope's `sources` list cites evidence, not a conversation. Preserve an existing `source` text field rather than renaming it or maintaining a duplicate provenance field.
+- `status` is `active`, or `superseded` with an added `superseded-by` text property pointing to the replacement, or `disputed` with the open conflict stated in the body. Preserve an existing replacement-pointer convention; a new generic note uses a quoted, verified vault-relative wikilink when the vault base is known. Superseded and disputed notes keep their content; they are resolved by an owner decision or newer verified evidence, never silently deleted.
 
 ## Bodies per kind
 

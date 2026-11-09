@@ -2,19 +2,7 @@
 
 ## Resolve one store
 
-Use an explicit user-supplied destination first, then the applicable provider's project mapping/configuration, or an existing project `.mag-storage.json`. A filename match or a writable directory alone is not an authorized destination. If explicit and configured locations conflict, explain the conflict; do not silently fork the record.
-
-The optional project configuration for generic record/file stores is:
-
-```json
-{
-  "root": "../engineering-memory",
-  "knowledgeRoot": "knowledge",
-  "taskRoot": "tasks"
-}
-```
-
-Resolve `root` relative to this configuration file (or use its explicit absolute path); resolve the two section roots inside it. They are relative subdirectories, not traversal paths or symlinks escaping the resolved store. Preserve an established layout. For a new, explicitly chosen store without a layout, these two subdirectories are defaults, created only as needed and with write permission. Reading a configuration is not permission to create or edit it. Missing configuration is not permission to choose a repository-local fallback. Knowledge and task access can be configured independently by a provider; an unavailable section need not block a permitted operation on the other.
+Apply [storage configuration and setup](storage-configuration.md), the owner of explicit/project/global precedence, generic configuration fields and first-use setup. A filename match or writable directory alone is not an authorized destination. Preserve one resolved store and namespace; setup proposals are not writes or permission to bypass a refusal. Knowledge and task access can be configured independently by a provider; an unavailable section need not block a permitted operation on the other.
 
 Resolve the task's store-wide identity and repository/project association. Do not pick a bare ticket match shared by several namespaces. Derive a stable slug from a task without an ID only when creating its authorized record; validate it as a path component, and check existing records before creating another. Ask when identity or destination remains materially ambiguous.
 
@@ -27,7 +15,7 @@ Route knowledge search/read/write and task recover/record independently:
 | Available capability for this operation | Route |
 |---|---|
 | Ready domain operation, such as a task-state or knowledge-note API | Use it; let the server own its format, event sequencing, validation and supported search. |
-| No suitable domain operation, but authorized generic record/list/search/read/write primitives | Supply only the missing knowledge or task semantics through those primitives in the same store. |
+| No suitable domain operation, but authorized generic record/list/search/read/write primitives | Supply only the missing knowledge or task semantics through those primitives in the same store, optionally following a discovered compatible writer skill. |
 | Missing operation and direct access to compatible, authorized store files | Use the files for that operation only. |
 | No permitted compatible route | Report unavailable/unsaved state; retain the useful chat result. |
 

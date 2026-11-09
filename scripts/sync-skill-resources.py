@@ -8,6 +8,13 @@ from urllib.parse import unquote, urlsplit
 
 # Each reference has one editable owner. Destinations are committed distribution copies.
 SHARED_REFERENCES = {
+    "skills/development/mag-obsidian-markdown/references/note-format.md": (
+        "skills/development/mag-knowledge-capture/references/obsidian-note-format.md",
+        "skills/development/mag-task-storage/references/obsidian-note-format.md",
+    ),
+    "skills/development/mag-task-storage/references/storage-configuration.md": (
+        "skills/development/mag-knowledge-capture/references/storage-configuration.md",
+    ),
     "skills/rust/mag-rust-implementation/references/api-contracts.md": (
         "skills/rust/mag-rust-project/references/api-contracts.md",
         "skills/rust/mag-rust-review/references/api-contracts.md",

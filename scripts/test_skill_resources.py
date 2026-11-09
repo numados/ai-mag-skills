@@ -106,6 +106,30 @@ class SkillResourcesTests(unittest.TestCase):
         self.assertTrue(resources.sync_resources(self.root, check=True))
         self.assertFalse((skill / "LICENSE").exists())
 
+    def test_memory_skills_share_one_format_owner(self):
+        owner = "skills/development/mag-obsidian-markdown/references/note-format.md"
+        consumers = ("mag-knowledge-capture", "mag-task-storage")
+        expected = {
+            f"skills/development/{name}/references/obsidian-note-format.md"
+            for name in consumers
+        }
+        self.assertEqual(expected, set(resources.SHARED_REFERENCES[owner]))
+        self.assertEqual([], resources.sync_resources(self.root))
+        for name in consumers:
+            entrypoint = self.root / f"skills/development/{name}/SKILL.md"
+            self.assertIn("references/obsidian-note-format.md", entrypoint.read_text())
+
+    def test_capture_bundles_the_storage_configuration_owner(self):
+        owner = "skills/development/mag-task-storage/references/storage-configuration.md"
+        destination = "skills/development/mag-knowledge-capture/references/storage-configuration.md"
+        self.assertEqual((destination,), resources.SHARED_REFERENCES[owner])
+        self.assertEqual([], resources.sync_resources(self.root))
+        copied = (self.root / destination).read_text()
+        self.assertTrue(copied.endswith((self.root / owner).read_text()))
+        for name in ("mag-knowledge-capture", "mag-task-storage"):
+            entrypoint = self.root / f"skills/development/{name}/SKILL.md"
+            self.assertIn("references/storage-configuration.md", entrypoint.read_text())
+
     def test_sync_is_idempotent(self):
         resources.sync_resources(self.root)
         before = {dest: dest.stat().st_mtime_ns for _, dest in resources.resource_copies(self.root)}

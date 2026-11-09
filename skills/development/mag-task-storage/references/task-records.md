@@ -20,6 +20,8 @@ Correct conclusions with a later event, not an edited old event. Events must ret
 
 ## Default only for a new generic store
 
+Knowledge and task progress use the bundled [Obsidian note format](obsidian-note-format.md) for their representation, but retain different content and lifecycle rules. For new generic task files, combine its common envelope with the task fields below. Preserve existing/server-owned schemas and events; do not retroactively add properties or convert history merely to share a format.
+
 Use this layout only when no provider or existing record protocol owns it:
 
 ```text
@@ -33,23 +35,20 @@ Use this layout only when no provider or existing record protocol owns it:
     0002-planning.md
 ```
 
-The index uses YAML frontmatter:
+The index adds these task fields to the shared envelope:
 
 ```yaml
 format: mag-task-index-v1
 task_id: <store-wide-id>
-title: <short title>
-repositories: [<repository-or-project>]
 stage: research
 status: active
 current_phase: null
 latest_iteration: iterations/0001-research.md
-updated: <timestamp>
 ```
 
-Its body contains current state, next action, blocker and existing artifact links. Resolve `latest_iteration` and each event's `previous` from the task directory. Resolve ordinary Markdown links from their containing file. `stage` describes the work; `status` is its outcome (`active`, `ready`, `blocked`, `done`), not permission to execute a plan.
+Its body contains current state, next action, blocker and existing artifact links. Include the repository/project association through the shared envelope. Resolve `latest_iteration` and each event's `previous` from the task directory; they remain plain protocol paths. Resolve ordinary Markdown links from their containing file, and wikilinks from the actual vault root. Repeated task filenames require unambiguous vault-relative wikilinks, not an assumed `[[plan]]` target. `stage` describes the work; `status` is its outcome (`active`, `ready`, `blocked`, `done`), not permission to execute a plan.
 
-Each new event uses `format: mag-task-event-v1`, the same `task_id`, `sequence`, `stage`, `status`, `created` timestamp and `previous` link (null for the first), plus the event content above. Use exclusive creation and the existing ordering; do not overwrite a colliding event. A domain server may own a different format and sequencing; do not add these tags to its records.
+Each new event uses the common envelope plus `format: mag-task-event-v1`, the same `task_id`, a quoted zero-padded text `sequence`, `stage`, `status` and `previous` pointer (null for the first), plus the event content above. Its creation timestamp is immutable; a later correction is another event, not an `updated` rewrite. Use exclusive creation and the existing ordering; do not overwrite a colliding event. A domain server may own a different format and sequencing; do not add these tags to its records.
 
 ## Persist and verify
 

@@ -177,6 +177,30 @@
         "fixtures/project/.mag-storage.json",
         "fixtures/memory/knowledge/charge-policy.md"
       ]
+    },
+    {
+      "id": 17,
+      "name": "shared-obsidian-envelope",
+      "prompt": "Capture the verified billing rounding rule as a new generic note in the explicitly chosen Markdown store. Use Obsidian-compatible properties and link the task plan, but do not change task progress or source. The vault has two plan.md files; the correct one is tasks/FEE-7/plan.md.",
+      "expected_output": "Applies the bundled shared format and knowledge-specific domain profile, uses flat stable property types, meaningful tags, evidence and an unambiguous vault-relative plan link; leaves task lifecycle and source unchanged, searches before writing and verifies the saved note.",
+      "should_trigger": true,
+      "files": ["fixtures/project/.mag-storage.json", "fixtures/project/src/billing.py", "fixtures/memory/tasks/FEE-7/plan.md", "fixtures/memory/other/FEE-7/plan.md"]
+    },
+    {
+      "id": 18,
+      "name": "first-use-writer-discovery",
+      "prompt": "Save the verified domain rule for future tasks. No destination is configured. Simulated catalog: a ready knowledge MCP can resolve a team vault and an available writer skill can arrange Markdown in local folders. Explain setup only, no actual calls or writes. I have not chosen project-local versus global scope.",
+      "expected_output": "Discovers and distinguishes available MCP/writer capabilities before a focused destination/scope question, proposes rather than creates configuration, does not silently select .mag/knowledge or assume skill tools/access, and preserves the unsaved content.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 19,
+      "name": "provider-arranges-content",
+      "prompt": "Simulated writer MCP accepts body, supported metadata and a namespace and chooses filenames itself. Prepare a verified architecture note for that writer; explain the handoff only. Do not create local notes or force mag-knowledge-note-v1 on its server-owned schema.",
+      "expected_output": "Hands off supported content, evidence, scope and link context for the same chosen namespace, lets the provider place/serialize it, reports required mapping gaps rather than dropping metadata or creating a mirror, and claims no persistence.",
+      "should_trigger": true,
+      "files": []
     }
   ]
 }

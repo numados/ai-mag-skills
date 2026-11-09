@@ -1,0 +1,119 @@
+{
+  "skill_name": "mag-obsidian-markdown",
+  "evals": [
+    {
+      "id": 1,
+      "name": "knowledge-output-only",
+      "prompt": "Prepare the supplied draft as an Obsidian-compatible knowledge note. Return only the complete Markdown, without an outer code fence. Read fixtures/draft.md and relevant files in fixtures/vault to resolve links. The vault root is fixtures/vault. Use actual file targets, not aliases as targets. Preserve what is verified versus suspected. Do not save, configure storage or claim you ran the referenced checks.",
+      "expected_output": "Returns one flat YAML-frontmatter note with useful typed list properties, quoted verified vault-relative links and a specific title. Preserves the reported check versus an unverified tax hypothesis; no invented approval, check execution, save or configuration. Fixes the ambiguous plan link using Tasks/FEE-7/plan, not Other/FEE-7/plan; renders alias display text against the actual charge-policy file.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/draft.md",
+        "fixtures/vault/Knowledge/charge-policy.md",
+        "fixtures/vault/Tasks/FEE-7/plan.md",
+        "fixtures/vault/Other/FEE-7/plan.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "task-event-same-format",
+      "prompt": "Format the supplied event as Obsidian Markdown. Keep mag-task-event-v1, task_id billing/FEE-7, sequence '0003', stage implementation, status ready and previous iterations/0002-planning.md. The vault contains two plan.md files; link the billing task plan under Tasks/FEE-7, not Other/FEE-7. Return only the note. Do not persist, approve the plan or modify prior events.",
+      "expected_output": "Applies the common representation to a task event without promoting it to knowledge. Keeps the quoted text sequence and plain task-relative previous pointer, uses the full vault-relative plan link, includes actual check limits and next action, leaves old history unchanged.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/event.md",
+        "fixtures/vault/Tasks/FEE-7/plan.md",
+        "fixtures/vault/Other/FEE-7/plan.md"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "existing-schema-bounded-edit",
+      "prompt": "Repair only the malformed related link in fixtures/existing.md; show the replacement line only. Keep all other properties, dates and prose unchanged. Vault root is fixtures/vault; the related target is Knowledge/charge-policy.md.",
+      "expected_output": "Returns only the corrected line with a quoted canonical wikilink; does not impose the generic envelope, rename source or change custom fields, dates or body.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/existing.md",
+        "fixtures/vault/Knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "unknown-vault-root",
+      "prompt": "Create an Obsidian note linking my billing plan. I only know that both teams have plan.md and I cannot provide the vault layout yet. Return the useful draft in chat, no file or storage changes.",
+      "expected_output": "Does not claim an ambiguous [[plan]] link resolves. Leaves the relationship as an explicit open item or asks the smallest path question; provides useful supported content, no guessed vault or setup.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "property-types",
+      "prompt": "Correct this note metadata for a new generic Obsidian note: tags: billing; aliases: Fee rounding; related: [[Knowledge/charge-policy]]; status: active; sequence: 0003. Keep 0003 as an identifier, and use the linked fixture. Return only valid frontmatter, no body or save.",
+      "expected_output": "Uses flat unique YAML keys, list-valued tags and aliases, a quoted wikilink inside the related list, quoted text sequence preserving zeros; follows output constraints and does not add invented lifecycle semantics.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/vault/Knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "valid-digit-leading-tag",
+      "prompt": "Review only the tags syntax: tags: [3d-rendering, 1984, billing/rounding]. Explain which tag is invalid under official Obsidian syntax; do not rewrite files or start storage setup.",
+      "expected_output": "Identifies all-numeric 1984 as invalid, accepts 3d-rendering and billing/rounding; does not repeat a blanket no-leading-digits rule.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "provider-owned-task",
+      "prompt": "A simulated task MCP owns numados-task-iteration-v1, event numbering and previous links. It accepts intent, verified, changes, verification and handoff strings, not raw note frontmatter. Format a handoff where the unit suite passed and integration tests did not run. Describe the supported payload only; no actual tools or writes.",
+      "expected_output": "Formats supported Markdown body strings without adding MAG frontmatter, allocating an event ID, overriding schema or claiming persistence/integration success; preserves missing verification.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "mixed-authoring-storage",
+      "prompt": "Prepare the knowledge note from fixtures/draft.md in Obsidian Markdown, but do not save it yet. Tell me separately what you still need to choose storage. Do not inspect machine configuration.",
+      "expected_output": "Produces the note and a brief destination/scope question without probing configuration, invoking storage mutations or treating note preparation as authorization to save.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/draft.md"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "ordinary-readme",
+      "prompt": "Fix the grammar in my README paragraph about task scheduling. Keep standard GitHub Markdown; do not convert it into a note or add metadata.",
+      "expected_output": "Routes to prose editing, not Obsidian note authoring; no YAML, vault inspection, wikilinks or storage workflow.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "pure-knowledge-lookup",
+      "prompt": "Find the existing fee rounding rule in the configured vault and cite it. Read only; do not format, repair or create notes.",
+      "expected_output": "Routes to knowledge retrieval; does not activate note authoring merely because a vault is mentioned.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 11,
+      "name": "task-history-only",
+      "prompt": "What remains in FEE-7 according to the task record? Do not edit it or create a progress note.",
+      "expected_output": "Routes to task recovery/history; reads rather than reformatting a note or updating metadata.",
+      "should_trigger": false,
+      "files": []
+    },
+    {
+      "id": 12,
+      "name": "no-plugin-dependency",
+      "prompt": "Prepare a portable Obsidian progress note from fixtures/event.md. I have no Obsidian app, Dataview, Bases, or MCP installed. Return the Markdown only; do not install anything.",
+      "expected_output": "Creates useful flat properties and ordinary Markdown with supported Obsidian syntax; needs no application/plugin/server and performs no installation or setup.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/event.md"
+      ]
+    }
+  ]
+}

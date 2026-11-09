@@ -8,7 +8,7 @@ Load this only when the provider's actual tools are discovered in the callable c
 - `knowledge_search`, `knowledge_read`: search candidates for reconciliation, then bounded metadata, outline, section or body reads. Read only the best candidates and the needed sections.
 - `knowledge_write`: create, update, retire or supersede notes. The current interface is two-phase — a call without `confirm: true` returns a preview and persists nothing; review the preview against the curated candidate; obtain the needed approval; then call with confirmation. A preview is not a write, and `confirm` transports an obtained approval, it is not the approval itself.
 
-The server's own note formats, tags, identifiers and supersede mechanism are authoritative. Do not impose the generic note templates on it, and do not rewrite its metadata conventions.
+The server's own note formats, tags, identifiers and supersede mechanism are authoritative. Prepare compatible Markdown, then pass content and metadata through the actual supported write arguments; let the server choose placement and serialization. Do not impose the generic envelope or rewrite its metadata conventions. Check that required provenance, scope and relationships survive the preview/readback; if the schema cannot represent them, report the gap before executing rather than dropping fields or creating local mirrors.
 
 ## Verification
 

@@ -9,7 +9,7 @@ Load only when these actual provider tools are discovered. This is an adapter to
 - `knowledge_write`: create/update/retire/supersede notes. The current interface previews without `confirm: true`, then executes and validates with confirmation. Follow its approval process; a preview is not persistence.
 - `knowledge_task`: use `status` for recovery; `init`, `iteration`, `update` for authorized task records. The server owns event numbering, previous links and index projection. It does not replace writing a detailed research/plan note when needed; use `knowledge_write` for those artifacts, then the task operation to record/link the handoff. Do not call the task API for a knowledge-only request.
 
-Do not require all tools for a supported partial operation. For missing functions, follow the main access contract with the provider's actual primitives or compatible files. Honor each write preview/confirmation process and permission; `confirm` transports obtained approval, not permission on its own.
+Prepare compatible Obsidian Markdown for supported content/body fields and submit metadata only through actual accepted arguments. The server controls placement and serialization. Verify that required scope, evidence and relationships survive its preview/readback; an unsupported mapping needs clarification, not silent loss or a second file writer. Do not require all tools for a supported partial operation. For missing functions, follow the main access contract with the provider's actual primitives or compatible files. Honor each write preview/confirmation process and permission; `confirm` transports obtained approval, not permission on its own.
 
 ## Provider-owned task protocol
 

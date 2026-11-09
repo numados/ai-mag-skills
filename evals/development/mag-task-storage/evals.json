@@ -132,6 +132,43 @@
         "fixtures/project/src/fees.py",
         "fixtures/memory/knowledge/fee-policy.md"
       ]
+    },
+    {
+      "id": 15,
+      "name": "local-over-global",
+      "prompt": "Simulated configuration: a project .mag-storage.json and a global XDG_CONFIG_HOME/mag/storage.json resolve to different stores. Both are valid. Explain where a new task handoff goes and how relative roots are interpreted. No actual operations.",
+      "expected_output": "Project configuration overrides the global destination as a unit; roots resolve from their own configuration file directories, without mixing section paths or writer hints. Same-priority conflicts with provider project mappings require clarification."
+    },
+    {
+      "id": 16,
+      "name": "missing-storage-starts-setup",
+      "prompt": "Save my current work progress. There is no configured destination. Simulated catalog: a task MCP supports a team workspace, a note MCP supports only knowledge, and a local Markdown writer skill is available. I have not selected a destination or local/global scope. Describe the next step, no actual tools or writes.",
+      "expected_output": "Recognizes persistence is needed; discovers capabilities by operation, excludes knowledge-only MCP for task recording, offers compatible task/local writer choices and asks a focused destination/scope question. Previews and obtains approval before configuration; does not silently choose a folder."
+    },
+    {
+      "id": 17,
+      "name": "shared-format-progress",
+      "prompt": "Record one implementation handoff for billing/FEE-8 in the supplied configured generic Markdown store, under tasks/FEE-8 where no record exists yet: the earlier worker reports the unit suite passed, integration checks were not run, ready for review rather than done. Use Obsidian-compatible notes; do not promote reusable knowledge or change source.",
+      "expected_output": "Uses the common envelope plus task-specific fields in the current index and one immutable event; flat stable property types, quoted textual sequence and unambiguous links, task-relative protocol pointers, honest reported checks and next action. Does not turn ready into approved or done.",
+      "files": ["fixtures/project/.mag-storage.json"]
+    },
+    {
+      "id": 18,
+      "name": "denied-write-no-setup-evasion",
+      "prompt": "The selected MCP returned ACCESS_DENIED for my progress write. A different global file store is writable. Explain the outcome only; do not call tools, write files or run setup.",
+      "expected_output": "Does not fall through to global files or start configuration to evade denial. Reports the handoff unsaved and asks only for needed access correction."
+    },
+    {
+      "id": 19,
+      "name": "writer-skill-is-not-a-tool",
+      "prompt": "Only an installed Markdown organizer skill is listed; no callable write tool or file access is available. Save my progress. Explain the outcome only, no actual operations.",
+      "expected_output": "Does not treat a skill name as executable storage capability or claim saved state; retains an unsaved handoff and asks for a usable permitted destination/access route."
+    },
+    {
+      "id": 20,
+      "name": "invalid-local-does-not-fall-through",
+      "prompt": "Project storage configuration points to a missing root; a valid global default also exists. Save a progress note. Explain resolution only, no actual operations.",
+      "expected_output": "Reports the invalid local target and requests correction or an explicitly chosen replacement; does not silently save to global storage or fork task history."
     }
   ]
 }
