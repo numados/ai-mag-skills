@@ -130,6 +130,8 @@ Use the provider's configured store or explicitly choose one. For a generic file
 
 Without the addon, current chat-default behavior is unchanged. A chat-only/read-only request still takes precedence when it is installed. Discovery and composition depend on the harness exposing the available skills; this package does not install an always-on hook. Explicitly supply the skill if the harness cannot discover it. The Claude plugin includes the addon in its full catalog; installation is not storage activation or permission. Execution and gap-drill keep their own handoff behavior and do not automatically invoke the addon.
 
+`mag-knowledge-capture` adds proactive capture at explicit checkpoints: it triages work products into reusable notes, reconciles them with existing knowledge, and routes each write through the same access discipline — MCP domain operations first, no bypass of an access denial. When no store is resolvable at all, it can propose a first-use-confirmed `.mag/knowledge/` default; that default is never used after a denial or write gate. The two skills compose without depending on each other: capture owns the triage, storage owns persistence routing for its own workflows.
+
 ## Authoring and local verification
 
 See the [skill authoring guide](docs/authoring.md) for the supported
@@ -162,6 +164,7 @@ npx skills@latest add ./ --list | python3 scripts/check_discovery.py
 | [`mag-code-review`](skills/development/mag-code-review/SKILL.md) | Review changes and verify review findings. |
 | [`mag-commit-message`](skills/development/mag-commit-message/SKILL.md) | Draft repository-aligned commit messages without touching Git state. |
 | [`mag-discuss-changes`](skills/development/mag-discuss-changes/SKILL.md) | Explain changes interactively, one idea at a time. |
+| [`mag-knowledge-capture`](skills/development/mag-knowledge-capture/SKILL.md) | Curate reusable knowledge at explicit checkpoints: triage candidates, reconcile with existing notes, and persist through available MCP operations, record tools, or authorized files. |
 | [`mag-parallel-orchestration`](skills/development/mag-parallel-orchestration/SKILL.md) | Coordinate native agents with integrated setup, model/effort discovery, and verified synthesis. |
 | [`mag-pr-replies`](skills/development/mag-pr-replies/SKILL.md) | Prepare evidence-based replies to review comments. |
 | [`mag-task-execution`](skills/development/mag-task-execution/SKILL.md) | Execute an authorized development plan and verify it. |

@@ -8,7 +8,7 @@ compatibility: Persistence requires an authorized task or knowledge store; ordin
 
 Keep two kinds of memory distinct: **knowledge** explains a system for reuse across tasks; **task tracking** preserves the intent, decisions, work, checks and next action of one task. They may share a repository, but a task event is not automatically reusable knowledge. Neither requires the other.
 
-This is an optional instruction skill, not a storage server or an always-on hook. It requires callable read/write tools or file access for persistence, but no particular harness, MCP, tracker or other skill. Its presence enables memory integration; it does not grant access, establish a destination or authorize a mutation. Honor chat-only, read-only and output constraints before doing storage work.
+This is an optional instruction skill, not a storage server or an always-on hook. It requires callable read/write tools or file access for persistence, but no particular harness, MCP, tracker or other skill. Its presence enables memory integration; it does not grant access, establish a destination or authorize a mutation. Honor chat-only, read-only and output constraints before doing storage work. Proactive capture and curation of reusable knowledge from work products is owned by `mag-knowledge-capture` when that skill is available; this skill then serves as the persistence routing for its authorized writes.
 
 ## Resolve the request and access
 

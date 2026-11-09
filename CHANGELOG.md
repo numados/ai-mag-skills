@@ -22,6 +22,7 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - `mag-clear-explainer`: plain-language explanations at a B2/ELI12 reading level, with topic-fitted structure, English correction before the answer, evidence-grounded code and change walkthroughs, and an explicit boundary against implementation and review.
 - `scripts/check_discovery.py` and a CI gate that fails when a client skips a skill or lists a different set than the repository publishes.
+- `mag-knowledge-capture`: proactive reusable-knowledge capture at explicit checkpoints — candidate triage across domain, architecture, debugging, access, environment and workflow kinds; search-before-write reconciliation (new, duplicate, incomplete, stale, contradictory); per-operation storage routing with MCP domain operations first, denial and unknown-outcome handling, an optional knowledge-mcp two-phase adapter, and a first-use-confirmed `.mag/knowledge/` default when no store is resolvable.
 - `docs/authoring.md` with the supported frontmatter profile, progressive-disclosure rules, and when to add `references/`, `scripts/`, or `assets/`.
 - Optional `license`, `compatibility`, and flat `metadata` frontmatter in the catalog validator, with the specification's length limits and YAML-ambiguity rejection.
 - One-line `compatibility` metadata for `mag-jev-assist`, `mag-task-storage`, and `mag-parallel-orchestration`.

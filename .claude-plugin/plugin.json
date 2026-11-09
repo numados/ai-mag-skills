@@ -26,6 +26,7 @@
     "./skills/development/mag-code-review",
     "./skills/development/mag-commit-message",
     "./skills/development/mag-discuss-changes",
+    "./skills/development/mag-knowledge-capture",
     "./skills/development/mag-parallel-orchestration",
     "./skills/development/mag-pr-replies",
     "./skills/development/mag-task-execution",

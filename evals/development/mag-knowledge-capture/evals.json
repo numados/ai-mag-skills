@@ -1,0 +1,182 @@
+{
+  "skill_name": "mag-knowledge-capture",
+  "evals": [
+    {
+      "id": 1,
+      "name": "checkpoint-capture",
+      "prompt": "We finished the billing fix: charges are now 4 units per started hour, the regression test is green, and we confirmed the rounding history in git commit 41af2c3. Capture what is worth keeping into the configured store. Do not change source files.",
+      "expected_output": "Runs a bounded triage of the change and verification results; captures the billing rule with its verification provenance — 4 units per started hour against src/billing.py, regression test green, rounding history confirmed in git 41af2c3; reconciles against the stored charge-policy note as a duplicate (link or refresh provenance, no second copy); records no debugging note, since this checkpoint establishes no symptom or root cause, and no session history; stays inside the configured store; reports each decision as captured, proposed, skipped, disputed or unsaved.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/billing.py",
+        "fixtures/memory/knowledge/charge-policy.md",
+        "fixtures/memory/knowledge/refund-handling.md",
+        "fixtures/memory/knowledge/worker-runtime.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ordinary-work-no-capture",
+      "prompt": "Add a list-invoices endpoint to the billing API and its tests.",
+      "expected_output": "Routes away from knowledge capture: ordinary implementation work proceeds without a capture pass, a knowledge checkpoint or storage probing, even though a store is configured.",
+      "should_trigger": false,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/billing.py"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "mixed-intent-logs-excluded",
+      "prompt": "Investigate why staging billing responses got slow, fix it if it is small, and save what we learned to memory afterwards. Do not store the profiling logs themselves — only the reusable conclusions.",
+      "expected_output": "Separates the fix work from the capture pass; stores only distilled conclusions such as a verified cause and its check; excludes raw profiling logs and session history as skipped items; respects the configured store and reports decisions with reasons.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/billing.py",
+        "fixtures/project/ops/staging.md"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "domain-model-new",
+      "setup": "For this isolated run, use a copy of the store without refund-handling.md.",
+      "prompt": "During this task the billing owner confirmed: a shipped order is immutable, and every refund appends a reversing entry; there is no in-place amount edit anywhere. Capture this as domain knowledge. Do not change code.",
+      "expected_output": "Creates a domain-model note with the rule, the entities it binds and the owner decision as provenance; searches the store first and finds no existing claim in scope; grades the evidence; verifies the note and its rediscovery; reports captured with the note reference.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/orders.py",
+        "fixtures/memory/knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "debugging-root-cause",
+      "prompt": "We spent the morning on the charge bug: the symptom was 90 minutes billed as 6; the root cause, verified in git 41af2c3, was completed-hour rounding with an old rate; the fix and its regression test are in. Capture the debugging knowledge, not the morning chat.",
+      "expected_output": "Captures one debugging note: observable symptom, verified root cause with evidence, fix, regression check and applicability; skips eliminated hypotheses and chat history; reconciles against the existing charge-policy note instead of duplicating the rate rule; no raw transcript stored.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/billing.py",
+        "fixtures/memory/knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "access-environment",
+      "prompt": "Staging finally works: the database is reachable only via the bastion host ops-bastion on jump port 2222 using scripts/tunnel.sh, which prompts for the vault token; and the worker now runs on Python 3.12 — a fresh 3.12 checkout was verified green today. Capture the access and environment knowledge to the configured store.",
+      "expected_output": "Writes an access note (host, protocol, jump host, credential location and rotation — no token value) and an environment note scoped to the verified observation — the worker ran green on a fresh Python 3.12 checkout today, with provenance — without claiming 3.12 is required or universally supported; handles the stored worker-runtime note carefully: its 3.11+-fails claim is contradicted by the verified 3.12 run, so it is marked stale or superseded with the evidence cited and its history kept, while asserting neither that 3.9 was retested nor that it now fails; reports both notes and the reconciliation.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/ops/staging.md",
+        "fixtures/memory/knowledge/worker-runtime.md"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "duplicate-skip",
+      "prompt": "Capture that billing charges 4 units per started hour — we re-verified it against src/billing.py today.",
+      "expected_output": "Searches first, finds charge-policy.md making the same claim for the same scope, and skips creating a duplicate; at most refreshes verification provenance or adds a link to the existing note; reports skipped-duplicate (or extended) with the stored note reference.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/billing.py",
+        "fixtures/memory/knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "contradiction-disputed",
+      "prompt": "Capture the refund rule: shipped orders are immutable and refunds append reversing entries — verified in src/orders.py and confirmed by the billing owner. The stored refund-handling note says refunds edit the order amount in place; it records no scope or version.",
+      "expected_output": "Classifies the pair as contradictory after a scope check; does not overwrite the stored note; marks the item disputed, presents both claims with their evidence, and asks the owner which scope applies; no silent supersede without verified same-scope evidence.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/orders.py",
+        "fixtures/memory/knowledge/refund-handling.md"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "secret-redaction",
+      "prompt": "Here is the debug transcript (fixtures/transcript.md); it contains a staging password that we will rotate. Capture the reusable knowledge, making sure nothing secret is stored.",
+      "expected_output": "Distills the verified root cause and the staging access procedure into notes; stores no password or credential value — the transcript's PGPASSWORD line and token references are redacted, keeping only the vault location and rotation note; reports the redaction and the rotation reminder; verifies the stored notes do not contain the fixture secret.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/transcript.md",
+        "fixtures/memory/knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "mcp-absent-default",
+      "prompt": "No MCP server is configured in this environment and no store exists. We just verified the per-started-hour fix and its regression test. Capture the root-cause knowledge. Use your default destination if you have one, but confirm with me before creating anything.",
+      "expected_output": "Proposes the first-use .mag/knowledge/ default, explains it as a deliberate bounded policy, shows the single note it would create with its provenance, and waits for explicit confirmation; reports the note as proposed — pending default confirmation, neither saved nor unsaved — and creates no directory or note before confirmation; invents no vault, server or configuration.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/src/billing.py"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "mcp-access-denied",
+      "prompt": "Simulated MCP: knowledge_search and knowledge_read work, but knowledge_write returned ACCESS_DENIED for this vault; the vault directory is also locally writable. Explain the capture outcome for a verified root-cause note; do not actually call tools or write files.",
+      "expected_output": "Treats the denial as final for the write: no filesystem bypass even though the files are writable, and no retry loop; keeps the curated note in chat as unsaved with the denial reported; notes reads remain usable; asks for permission or a correction rather than switching writers.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 12,
+      "name": "unknown-write-outcome",
+      "prompt": "Simulated MCP: the confirmed knowledge_write call timed out after submission; the outcome is unknown. Explain recovery for this capture; do not actually call tools or write files.",
+      "expected_output": "Reads back (search and read) to establish whether the note persisted before any retry; does not replay the write and does not start a filesystem writer in parallel; reports uncertainty until reconciled, then completes or corrects only within existing permission.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 13,
+      "name": "chat-only-no-write",
+      "prompt": "Summarize what from this session is worth remembering for future debugging. Write nothing anywhere — no files, no store, no notes.",
+      "expected_output": "Performs triage on the transcript and presents the curated items in chat, reported unsaved — the constraint permits no route — with evidence grades and reasons; performs no writes and does not propose creating the default store; keeps the summary small and excludes secrets.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/transcript.md"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "hypothesis-not-promoted",
+      "prompt": "We suspect the tax module will become exempt for EU customers next quarter, but nothing is confirmed. Capture what we know from this session.",
+      "expected_output": "Excludes the unconfirmed tax hypothesis from knowledge — reported skipped as a hypothesis, or stored only as an explicitly marked proposal if the user asked for one; captures only verified items with their evidence; does not present the suspicion as a rule.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/project/src/billing.py",
+        "fixtures/memory/knowledge/charge-policy.md"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "no-always-on-hook",
+      "prompt": "I will run the implementation workflow myself next. When would knowledge capture happen — automatically as I work, or only if I ask? Do not run anything now.",
+      "expected_output": "Explains there is no always-on hook: capture runs only on an explicit request or a checkpoint step composed into the owning workflow's instructions; the skill's presence grants no automatic logging, background watching or write permission; points to the explicit invocation options.",
+      "should_trigger": true,
+      "files": []
+    },
+    {
+      "id": 16,
+      "name": "partial-capability-routing",
+      "prompt": "Simulated MCP: knowledge_search and knowledge_read are available for the configured vault, but no knowledge_write operation exists. Authorized record tools can list, read and conditionally update the vault's plain Markdown files under the configured knowledgeRoot. Explain how the verified charge-policy refresh from this checkpoint would be routed and persisted; do not actually call tools or write files.",
+      "expected_output": "Routes search and read through the domain operations and the write through the record tools only after verifying they address the same vault and namespace and preserve its format, identifiers, links, and conditional-write guarantees; keeps the store's established layout instead of imposing note templates; if any of that cannot be verified, keeps the item unsaved with the reason rather than writing through an unproven substitute; reports the split routing per operation and does not treat the covered reads as proof that the write was covered.",
+      "should_trigger": true,
+      "files": [
+        "fixtures/project/.mag-storage.json",
+        "fixtures/memory/knowledge/charge-policy.md"
+      ]
+    }
+  ]
+}
