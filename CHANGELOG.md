@@ -18,6 +18,8 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Rust eval fixtures that did not contain the behavior their prompts referenced (`mag-rust-async-reliability` worker, `mag-rust-explain` async shutdown), plus an implementation routing label and new domain-type, unsafe-guard, and feature-unification eval cases with fixtures.
 - Eval validation now rejects non-boolean `should_trigger` values and files where the label is present on only some entries.
 
+- CI discovery smoke test: parse only the client's listing section, so the non-agent intro banner (`┌  skills`) is no longer reported as a skill with no `SKILL.md`; pin the `skills` CLI, run `npx --yes`, and print the listing before judging it; report an unparseable listing as a client-format change rather than one failure per entry, and match skip notices case-insensitively.
+
 ### Added
 
 - `mag-clear-explainer`: plain-language explanations at a B2/ELI12 reading level, with topic-fitted structure, English correction before the answer, evidence-grounded code and change walkthroughs, and an explicit boundary against implementation and review.

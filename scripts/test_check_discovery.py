@@ -114,6 +114,40 @@ class DiscoveryTests(unittest.TestCase):
         text = "\x1b[?25l" + listing("mag-one", "mag-two") + "\x1b[?25h"
         self.assertEqual([], discovery.validate(text, self.root))
 
+    def test_intro_banner_is_not_read_as_a_skill(self):
+        # Non-agent runs print `┌  skills` before the listing; the word is
+        # name-shaped and used to be reported as an unknown skill.
+        text = "\n".join(
+            [
+                "┌  skills",
+                "│",
+                "◇  Found 2 skills",
+                "│",
+                "◇  Available Skills",
+                "│",
+                "│    mag-one",
+                "│",
+                "│      First description.",
+                "│",
+                "│    mag-two",
+                "│",
+                "│      Second description.",
+                "│",
+                "└  Use --skill <name> to install specific skills",
+            ]
+        )
+        self.assertEqual([], discovery.validate(text, self.root))
+
+    def test_unparseable_listing_is_reported_as_a_format_problem(self):
+        text = "│ ✗ Source: /repo/ai-mag-skills\n│ Found 2 skills\n"
+        errors = discovery.validate(text, self.root)
+        self.assertTrue(any("could not parse any skill names" in e for e in errors), errors)
+
+    def test_lowercase_skip_notice_is_reported(self):
+        text = listing("mag-one", "mag-two") + "⚠ skipped skills/mag-two/SKILL.md — bad\n"
+        errors = discovery.validate(text, self.root)
+        self.assertTrue(any("skipped" in e for e in errors), errors)
+
     def test_repository_skills_are_counted_from_disk(self):
         self.assertEqual(38, len(discovery.disk_skills(REPO)))
 

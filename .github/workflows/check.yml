@@ -29,6 +29,20 @@ jobs:
 
       - name: Smoke test skills CLI discovery
         shell: bash
+        env:
+          # Pinned deliberately: unpinned @latest turned an upstream CLI change
+          # into a red build with no repository change behind it.  Bump on purpose.
+          SKILLS_CLI_VERSION: "1.7.6"
         run: |
-          set -euo pipefail
-          npx skills@latest add ./ --list 2>&1 | python3 scripts/check_discovery.py
+          set -uo pipefail
+          output="$(mktemp)"
+          # --yes: npm without a TTY otherwise aborts at the install prompt, which
+          # surfaces here as an unexplained exit-1 step instead of a real check.
+          npx --yes "skills@${SKILLS_CLI_VERSION}" add ./ --list >"$output" 2>&1
+          status=$?
+          cat "$output"
+          if [ "$status" -ne 0 ]; then
+            echo "skills CLI failed with exit $status; listing above." >&2
+            exit "$status"
+          fi
+          python3 scripts/check_discovery.py <"$output"
