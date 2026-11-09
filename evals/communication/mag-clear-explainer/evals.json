@@ -3,50 +3,50 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Объясни простыми словами, что такое event-driven архитектура и как проходит одно событие.",
-      "expected_output": "Отвечает по-русски, начинает с главной мысли, выбирает компактную структуру, объясняет ключевой термин и сохраняет точность без детской аналогии.",
+      "prompt": "Explain in simple words what event-driven architecture is and how one event flows through the system.",
+      "expected_output": "Answers in English, starts with the main point, chooses a compact structure, explains the key term, and preserves accuracy without a childish analogy.",
       "files": []
     },
     {
       "id": 2,
       "prompt": "Can you explain why this code uses a queue? I don't understand the word idempotent.",
-      "expected_output": "Сначала показывает исправленный английский и кратко объясняет важные исправления, затем отвечает на вопрос на понятном английском уровня B2 и объясняет только нужный термин.",
+      "expected_output": "First shows corrected English and briefly explains the important corrections, then answers in clear B2-level English and explains only the needed term.",
       "files": []
     },
     {
       "id": 3,
-      "prompt": "Объясни выполненную задачу по diff: раньше обработчик записывал заказ сразу, теперь сначала проверяет статус, сохраняет только Pending и отправляет событие после commit. Что было, что изменилось, зачем и результат?",
-      "expected_output": "Использует порядок: что было, что изменилось, зачем, результат; отделяет данные из diff от предположений и не превращает объяснение в code review.",
+      "prompt": "Explain the completed task from the diff: previously the handler wrote the order immediately; now it checks the status first, saves only Pending orders, and sends an event after commit. What was there, what changed, why, and what was the result?",
+      "expected_output": "Uses the order what was there, what changed, why, and result; separates facts from the diff from assumptions and does not turn the explanation into a code review.",
       "files": []
     },
     {
       "id": 4,
-      "prompt": "Объясни, почему наш код помогает бизнесу увеличить retention клиентов.",
-      "expected_output": "Задает один уточняющий вопрос, потому что не хватает информации о коде и бизнес-механике; не придумывает связь между кодом и retention.",
+      "prompt": "Explain why our code helps the business increase customer retention.",
+      "expected_output": "Asks one focused question because information about the code and business mechanism is missing; does not invent a connection between the code and retention.",
       "files": []
     },
     {
       "id": 5,
       "prompt": "Explain this topic in simple words, but keep the important technical limitation: retries can create duplicate payments.",
-      "expected_output": "Сохраняет важное ограничение, объясняет его простым B2 English и не скрывает риск ради краткости.",
+      "expected_output": "Preserves the important limitation, explains it in simple B2-level English, and does not hide the risk for brevity.",
       "files": []
     },
     {
       "id": 6,
-      "prompt": "Объясни этот код и скажи, есть ли очевидный риск. Не исправляй его: `return cache[key] ?? Load(key);`",
-      "expected_output": "Дает объяснение, затем коротко и отдельно отмечает очевидный риск, если он доказуем; не предлагает исправление без просьбы.",
+      "prompt": "Explain this code and say whether there is an obvious risk. Do not fix it: `return cache[key] ?? Load(key);`",
+      "expected_output": "Gives the explanation, then briefly and separately notes an obvious risk if one can be established; does not propose a fix without being asked.",
       "files": []
     },
     {
       "id": 7,
       "prompt": "Implement the missing retry logic in this method and add tests.",
-      "expected_output": "Не использует этот explanatory skill как основной: запрос требует изменения кода и тестов.",
+      "expected_output": "Does not use this explanatory skill as the primary skill: the request requires code and test changes.",
       "files": []
     },
     {
       "id": 8,
       "prompt": "Review this PR and list every bug with severity and line numbers.",
-      "expected_output": "Не использует этот explanatory skill как основной: запрос требует code review.",
+      "expected_output": "Does not use this explanatory skill as the primary skill: the request requires a code review.",
       "files": []
     }
   ]

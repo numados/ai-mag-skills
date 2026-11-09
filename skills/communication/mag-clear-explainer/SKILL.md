@@ -74,12 +74,12 @@ Do not edit files as part of an explanation. Route implementation requests to an
 
 Honor direct requests such as:
 
-- “короче” / “shorter”;
-- “подробнее” / “more detail”;
-- “объясни проще” / “make it simpler”;
-- “на примере” / “use an example”;
-- “только техническая часть” / “technical part only”;
-- “покажи бизнес-смысл” / “show the business meaning”.
+- “shorter”;
+- “more detail”;
+- “make it simpler”;
+- “use an example”;
+- “technical part only”;
+- “show the business meaning”.
 
 Keep the same accuracy standard when changing the length or angle.
 

@@ -3,8 +3,8 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Объясни по-русски только поведение ? в этих функциях, не делай ревью:\nfn parse(raw: &str) -> Result<u16, std::num::ParseIntError> { let n = raw.parse()?; Ok(n) }\nfn first(raw: Option<&str>) -> Option<u16> { let text = raw?; text.parse().ok() }",
-      "expected_output": "Accurate Russian explanation; ? does not change declared return type.",
+      "prompt": "Explain in English only the behavior of ? in these functions; do not review them:\nfn parse(raw: &str) -> Result<u16, std::num::ParseIntError> { let n = raw.parse()?; Ok(n) }\nfn first(raw: Option<&str>) -> Option<u16> { let text = raw?; text.parse().ok() }",
+      "expected_output": "Accurate English explanation; ? does not change the declared return type.",
       "should_trigger": true,
       "files": []
     },
