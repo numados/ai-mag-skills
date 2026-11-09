@@ -20,10 +20,10 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - CI discovery smoke test: parse only the client's listing section, so the non-agent intro banner (`┌  skills`) is no longer reported as a skill with no `SKILL.md`; pin the `skills` CLI, run `npx --yes`, and print the listing before judging it; report an unparseable listing as a client-format change rather than one failure per entry, and match skip notices case-insensitively.
 
-- `mag-obsidian-markdown`: shared Obsidian-compatible representation for knowledge and progress notes, with flat typed properties, evidence references and unambiguous links; independently usable without Obsidian, a storage server or sibling skills.
-- Shared local/global storage configuration and first-use setup for capture and task storage, including MCP/writer-skill discovery, approved configuration previews and provider-schema-preserving handoffs. Common format and configuration references have one editable owner and generated standalone distribution copies.
 ### Added
 
+- `mag-obsidian-markdown`: shared Obsidian-compatible representation for knowledge and progress notes, with flat typed properties, evidence references and unambiguous links; independently usable without Obsidian, a storage server or sibling skills.
+- Shared local/global storage configuration and first-use setup for capture and task storage, including MCP/writer-skill discovery, approved configuration previews and provider-schema-preserving handoffs. Common format and configuration references have one editable owner and generated standalone distribution copies.
 - `mag-clear-explainer`: plain-language explanations at a B2/ELI12 reading level, with topic-fitted structure, English correction before the answer, evidence-grounded code and change walkthroughs, and an explicit boundary against implementation and review.
 - `scripts/check_discovery.py` and a CI gate that fails when a client skips a skill or lists a different set than the repository publishes.
 - `mag-knowledge-capture`: proactive reusable-knowledge capture at explicit checkpoints — candidate triage across domain, architecture, debugging, access, environment and workflow kinds; search-before-write reconciliation (new, duplicate, incomplete, stale, contradictory); per-operation storage routing with MCP domain operations first, denial and unknown-outcome handling, an optional knowledge-mcp two-phase adapter, and a first-use-confirmed `.mag/knowledge/` default when no store is resolvable.
