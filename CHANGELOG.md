@@ -22,6 +22,7 @@ and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `mag-branch`: task-branch naming and creation guidance — base-branch discovery from the remote default or tracking branch, tracker-based names (Jira key only; Azure DevOps number plus kebab-case description), and a commands-only boundary that never creates, pushes, or mutates without authorization.
 - `mag-obsidian-markdown`: shared Obsidian-compatible representation for knowledge and progress notes, with flat typed properties, evidence references and unambiguous links; independently usable without Obsidian, a storage server or sibling skills.
 - Shared local/global storage configuration and first-use setup for capture and task storage, including MCP/writer-skill discovery, approved configuration previews and provider-schema-preserving handoffs. Common format and configuration references have one editable owner and generated standalone distribution copies.
 - `mag-clear-explainer`: plain-language explanations at a B2/ELI12 reading level, with topic-fitted structure, English correction before the answer, evidence-grounded code and change walkthroughs, and an explicit boundary against implementation and review.
