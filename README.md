@@ -161,6 +161,7 @@ npx skills@latest add ./ --list | python3 scripts/check_discovery.py
 
 | Skill | Purpose |
 |---|---|
+| [`mag-branch`](skills/development/mag-branch/SKILL.md) | Produce a repository-aligned branch name and creation commands without changing Git state. |
 | [`mag-code-construction`](skills/development/mag-code-construction/SKILL.md) | Design and construct code that fits the project. |
 | [`mag-code-design`](skills/development/mag-code-design/SKILL.md) | Design internal code structure and interfaces. |
 | [`mag-code-review`](skills/development/mag-code-review/SKILL.md) | Review changes and verify review findings. |

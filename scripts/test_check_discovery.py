@@ -149,7 +149,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertTrue(any("skipped" in e for e in errors), errors)
 
     def test_repository_skills_are_counted_from_disk(self):
-        self.assertEqual(40, len(discovery.disk_skills(REPO)))
+        self.assertEqual(41, len(discovery.disk_skills(REPO)))
 
 
 if __name__ == "__main__":
